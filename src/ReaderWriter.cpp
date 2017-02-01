@@ -1,13 +1,15 @@
 
+#include <Arduino.h>
 #include <Wire.h>
 #include <SPI.h>
 #include <Adafruit_PN532.h>
+
 
 #define PN532_IRQ   (2)
 #define PN532_RESET (3)
 
 bool Write = true;
-char myname[] = "Nico Zuber";
+char myname[] = "Tessst";
 
 void PrintString(const byte * data);
 
