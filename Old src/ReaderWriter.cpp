@@ -81,7 +81,7 @@ void loop()
         if (Write) {
 
 
-          success = nfc.mifareclassic_WriteDataBlock (4, myname);
+          success = nfc.mifareclassic_WriteDataBlock (4, (uint8_t)myname);
           Serial.println("Information updated");
         }
 
