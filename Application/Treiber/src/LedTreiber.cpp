@@ -14,7 +14,7 @@ pixels.begin();
 setzt den zustand eines neopixels und zeigt diesen an.
 1. param: Led ID (1,2,3...)
 2. param: Farbe (aus, weiss, rot, grün, blau)*/
-void LedTreiber_LedSchalten(uint8_t ledID, GlobalLed_Farbe_t Farbe)
+void LedTreiber_LedSchalten(uint16_t ledID, GlobalLed_Farbe_t Farbe)
 {
   strip.setBrightness(255);
   switch (Farbe)
