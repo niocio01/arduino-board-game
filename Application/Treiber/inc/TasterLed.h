@@ -3,8 +3,6 @@
 
 #include "GlobalLed.h"
 
-
-
 typedef enum
 {
   ledEins,

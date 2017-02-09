@@ -32,19 +32,19 @@ void TasterLed_Setzten(GlobalLed_Spieler_t Spieler,
       switch(nummer)
       {
         case ledEins:
-          LedTreiber_LedSchalten(14, farbe)
+          LedTreiber_LedSchalten(14, farbe);
           break;
 
         case ledZwei:
-          LedTreiber_LedSchalten(15, farbe)
+          LedTreiber_LedSchalten(15, farbe);
           break;
 
         case ledDrei:
-          LedTreiber_LedSchalten(16, farbe)
+          LedTreiber_LedSchalten(16, farbe);
           break;
 
         case ledVier:
-          LedTreiber_LedSchalten(17, farbe)
+          LedTreiber_LedSchalten(17, farbe);
           break;
 
       }
