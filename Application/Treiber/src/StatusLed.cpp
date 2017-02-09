@@ -1,26 +1,26 @@
-#include <StatusLed.h>
+#include "StatusLed.h"
 
 
-void StatusLed(StatusLed_Spieler_t Spieler,
+
+void StatusLed_Setzen(StatusLed_Spieler_t Spieler,
   StatusLed_StatusLedName_t StatusledName,
   StatusLed_LedZustand_t LedZustand)
   {
-    switch (Spieler)
+    if (Spieler == eins)
     {
-    case eins:
       switch (StatusLedName)
       {
         case AmZug:
-        switch (LedZustand)
-        {
-          case ein:
-          LedTreiber_LedSchalten(1, grün);
-          break;
+          switch (LedZustand)
+          {
+            case ein:
+            LedTreiber_LedSchalten(1, grün);
+            break;
 
-          case aus:
-          LedTreiber_LedSchalten(1, aus);
-          break;
-        }
+            case aus:
+            LedTreiber_LedSchalten(1, aus);
+            break;
+          }
         break;
 
         case RFID:
@@ -50,7 +50,8 @@ void StatusLed(StatusLed_Spieler_t Spieler,
         break;
       }
     }
-    case zwei:
+    else
+    {
       switch(StatusLedName)
       {
         case AmZug:
@@ -91,5 +92,5 @@ void StatusLed(StatusLed_Spieler_t Spieler,
           break;
         }
         break;
-
+      }
   }
