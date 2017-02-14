@@ -10,11 +10,14 @@ pixels.begin();
 
 
 
-
-void LedTreiber_LedSchalten(uint8_t ledID, LedTreiber_LedFarbe_t ledFarbe)
+/* function: LedTreiber_LedSchalten:
+setzt den zustand eines neopixels und zeigt diesen an.
+1. param: Led ID (1,2,3...)
+2. param: Farbe (aus, weiss, rot, grün, blau)*/
+void LedTreiber_LedSchalten(uint16_t ledID, GlobalLed_Farbe_t Farbe)
 {
   strip.setBrightness(255);
-  switch (ledFarbe)
+  switch (Farbe)
   {
     case aus:
       pixels.setPixelColor(ledID, 0, 0, 0);
