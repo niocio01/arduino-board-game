@@ -1,13 +1,15 @@
-#include <LedTreiber_local.h>
+#include <LedTreiber.h>
 #include <Adafruit_NeoPixel.h>
 
 #define PIN 6
 #define NUMPIXELS 16
 
-
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-pixels.begin();
-
+void LedTreiber_startup(bool gestartet)
+{
+  Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+  pixels.begin();
+  gestartet = true;
+}
 
 
 /* function: LedTreiber_LedSchalten:
