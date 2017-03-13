@@ -18,7 +18,7 @@ typedef enum
 
 /* function: StatusLed_Setzen
 setzen des zustands eines Status Leds.
-1. Param: Spieler (spielerEins, spielerZwei
+1. Param: Spieler (spielerEins, spielerZwei)
 2. Param: Status Led Name (AmZug, RFID, Minigame)
 3. Param: Led Status (ein, aus) */
 void StatusLed_Setzen(GlobalLed_Spieler_t spieler,
