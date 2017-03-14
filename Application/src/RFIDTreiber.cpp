@@ -1,5 +1,6 @@
 #include <RfidTreiber.h>
 #include "Adafruit_PN532.h"
+#include <Wire.h>
 
 #define PN532_IRQ   (2)
 #define PN532_RESET (3)

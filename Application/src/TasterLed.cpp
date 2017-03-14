@@ -1,11 +1,12 @@
 #include <TasterLed.h>
+#include "LedTreiber.h"
 
 
-void TasterLed_Setzten(GlobalLed_Spieler_t Spieler,
+void TasterLed_Setzten(GlobalTypes_Spieler_t spieler,
   TasterLed_Nummer_t nummer,
-  GlobalLed_Farbe_t farbe)
+  GlobalTypes_Farbe_t farbe)
   {
-    if (Spieler == eins)
+    if (spieler == SpielerEins)
     {
       switch(nummer)
       {

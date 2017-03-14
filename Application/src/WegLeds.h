@@ -2,12 +2,7 @@
 #define WEGLEDS_H
 
 #include <inttypes.h>
-
-typedef enum
-{
-  SpielerEins,
-  SpielerZwei
-} WegLed_spieler_t;
+#include "GlobalTypes.h"
 
 typedef enum
 {
@@ -22,7 +17,7 @@ Stellt die Status Led's auf eine bestimmte spiel situation
 1. Param: spieler (SpielerEins,SpielerZwei)
 2. Param: Situation (Spielzug,Minigame)
 */
-void WegLed_LedSetzen(WegLed_spieler_t spieler,
+void WegLed_LedSetzen(GlobalTypes_Spieler_t spieler,
 WegLed_abschnitt_t abschnitt,
 uint8_t nummer);
 

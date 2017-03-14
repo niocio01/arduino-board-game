@@ -2,7 +2,7 @@
 #include <Adafruit_NeoPixel.h>
 
 #define PIN 6
-#define NUMPIXELS 16
+#define NUMPIXELS 267
 
 bool LedTreiber_Startup(void)
 {
@@ -16,13 +16,13 @@ bool LedTreiber_Startup(void)
 setzt den zustand eines neopixels und zeigt diesen an.
 1. param: Led ID (1,2,3...)
 2. param: Farbe (aus, weiss, rot, grün, blau)*/
-void LedTreiber_LedSchalten(uint16_t ledID, GlobalLed_Farbe_t Farbe)
+void LedTreiber_LedSchalten(uint16_t ledID, GlobalTypes_Farbe_t farbe)
 {
 
   strip.setBrightness(150);
-  switch (Farbe)
+  switch (farbe)
   {
-    case Aus:
+    case Schwarz:
       pixels.setPixelColor(ledID, 0, 0, 0);
       pixels.show();
       break;

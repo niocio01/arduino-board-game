@@ -2,10 +2,10 @@
 #define LEDTREIBER_H
 
 #include <inttypes.h>
-#include "GlobalLed.h"
+#include "GlobalTypes.h"
 
 
 bool LedTreiber_Startup(void);
-void LedTreiber_LedSchalten(uint16_t ledID, GlobalLed_Farbe_t ledFarbe);
+void LedTreiber_LedSchalten(uint16_t ledID, GlobalTypes_Farbe_t farbe);
 
 #endif

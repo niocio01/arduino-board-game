@@ -1,5 +1,6 @@
 #include "SpielfeldLed.h"
 #include <inttypes.h>
+#include "LedTreiber.h"
 
 // tabelle zur zuweiseung von Spielfeld Led Nr. zu Led ID
 static const uint16_t tabLedID [] =
@@ -13,7 +14,7 @@ static const uint16_t tabLedID [] =
 48  // Led ID für Spielfeld Led Nummer 7
 ;
 
-void SpielfeldLed_Setzten (uint16_t nummer, GlobalLed_Farbe_t farbe)
+void SpielfeldLed_Setzten (uint16_t nummer, GlobalTypes_Farbe_t farbe)
 {
   LedTreiber_LedSchalten(tabLedID[nummer], farbe);
 }

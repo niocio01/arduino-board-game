@@ -1,10 +1,12 @@
 #include "Startup.h"
 #include "LcdTreiber.h"
 #include "LedTreiber.h"
+#include "Messages.h"
 #include "RfidTreiber.h"
 #include "inttypes.h"
 #include "SpielfeldLed.h"
-#include "GlobalLed.h"
+#include "GlobalTypes.h"
+
 
 static bool ledGestartet;
 static bool lcdGestartet;
@@ -23,8 +25,6 @@ void Startup(void)
 
   if (ledGestartet == true and lcdGestartet == true and rfidGestartet == true)
   {
-    LcdTreiber_DisplayMessage(SpielerEins, alles gestartet);
-    LcdTreiber_DisplayMessage(LcdTreiber_Spieler_t SpielerZwei,
-        char zeileEins[] = "alles gestartet",);
+
   }
 }

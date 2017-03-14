@@ -1,50 +1,51 @@
 #include "StatusLed.h"
+#include "LedTreiber.h"
 
 
 
-void StatusLed_Setzen(GlobalLed_Spieler_t Spieler,
-  StatusLed_StatusLedName_t StatusledName,
-  StatusLed_LedZustand_t LedZustand)
+void StatusLed_Setzen(GlobalTypes_Spieler_t spieler,
+  StatusLed_Name_t name,
+  StatusLed_Zustand_t zustand)
   {
-    if (Spieler == spielerEins)
+    if (spieler == SpielerEins)
     {
-      switch (StatusLedName)
+      switch (name)
       {
         case AmZug:
-          switch (LedZustand)
-          {
-            case ein:
-            LedTreiber_LedSchalten(1, Gruen);
-            break;
+        switch (zustand)
+        {
+          case Ein:
+          LedTreiber_LedSchalten(1, Gruen);
+          break;
 
-            case Aus:
-            LedTreiber_LedSchalten(1, Aus);
-            break;
-          }
+          case Aus:
+          LedTreiber_LedSchalten(1, Schwarz);
+          break;
+        }
         break;
 
         case RFID:
-        switch (LedZustand)
+        switch (zustand)
         {
-          case ein:
+          case Ein:
           LedTreiber_LedSchalten(2, Gruen);
           break;
 
           case Aus:
-          LedTreiber_LedSchalten(2, Aus);
+          LedTreiber_LedSchalten(2, Schwarz);
           break;
         }
         break;
 
         case Minigame:
-        switch (LedZustand)
+        switch (zustand)
         {
-          case ein:
+          case Ein:
           LedTreiber_LedSchalten(3, Gruen);
           break;
 
           case Aus:
-          LedTreiber_LedSchalten(3, Aus);
+          LedTreiber_LedSchalten(3, Schwarz);
           break;
         }
         break;
@@ -52,45 +53,46 @@ void StatusLed_Setzen(GlobalLed_Spieler_t Spieler,
     }
     else
     {
-      switch(StatusLedName)
+      switch(name)
       {
         case AmZug:
-        switch (LedZustand)
+        switch (zustand)
         {
-          case ein:
+          case Ein:
           LedTreiber_LedSchalten(10, Gruen);
           break;
 
           case Aus:
-          LedTreiber_LedSchalten(10, Aus);
+          LedTreiber_LedSchalten(10, Schwarz);
           break;
         }
         break;
 
         case RFID:
-        switch (LedZustand)
+        switch (zustand)
         {
-          case ein:
+          case Ein:
           LedTreiber_LedSchalten(11, Gruen);
           break;
 
           case Aus:
-          LedTreiber_LedSchalten(11, Aus);
+          LedTreiber_LedSchalten(11, Schwarz);
           break;
         }
         break;
 
         case Minigame:
-        switch (LedZustand)
+        switch (zustand)
         {
-          case ein:
+          case Ein:
           LedTreiber_LedSchalten(12, Gruen);
           break;
 
           case Aus:
-          LedTreiber_LedSchalten(12, Aus);
+          LedTreiber_LedSchalten(12, Schwarz);
           break;
         }
         break;
       }
+    }
   }

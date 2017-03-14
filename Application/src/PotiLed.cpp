@@ -1,10 +1,11 @@
 #include <PotiLed.h>
+#include "LedTreiber.h"
 
 
-void PotiLed_Setzten(GlobalLed_Spieler_t Spieler,
-  GlobalLed_Farbe_t farbe)
+void PotiLed_Setzten(GlobalTypes_Spieler_t spieler,
+  GlobalTypes_Farbe_t farbe)
   {
-    if (Spieler == eins)
+    if (spieler == SpielerEins)
     {
       LedTreiber_LedSchalten(8, farbe);
     }

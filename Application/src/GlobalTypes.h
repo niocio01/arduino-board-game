@@ -1,21 +1,21 @@
-#ifndef GLOBALLED_H
-#define GLOBALLED_H
+#ifndef GLOBALTypes_H
+#define GLOBALTypes_H
 
 typedef enum
 {
   SpielerEins,
   SpielerZwei
-} GlobalLed_Spieler_t;
+} GlobalTypes_Spieler_t;
 
 typedef enum
 {
-  Aus,
+  Schwarz,
   Weiss,
   Rot,
   Gruen,
   Blau,
   Gelb,
   Violett
-} GlobalLed_Farbe_t;
+} GlobalTypes_Farbe_t;
 
 #endif

@@ -33,7 +33,7 @@ bool LcdTreiber_Startup(void)
   return (true);
 }
 
-void LcdTreiber_DisplayMessage(LcdTreiber_Spieler_t spieler,
+void LcdTreiber_DisplayMessage(GlobalTypes_Spieler_t spieler,
 char zeileEins[],
 char zeileZwei[])
 {
@@ -51,3 +51,4 @@ char zeileZwei[])
     lcd2.setCursor(0,1);
     lcd2.print(zeileZwei);
   }
+}
