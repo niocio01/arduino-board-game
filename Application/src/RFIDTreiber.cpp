@@ -5,10 +5,11 @@
 #define PN532_IRQ   (2)
 #define PN532_RESET (3)
 
+Adafruit_PN532 nfc(PN532_IRQ, PN532_RESET);
+
 static bool rfidGestartet = false;
 bool RfidTreiber_Startup(void)
 {
-  Adafruit_PN532 nfc(PN532_IRQ, PN532_RESET);
   nfc.begin();
   uint32_t versiondata = nfc.getFirmwareVersion();
   if (! versiondata)
