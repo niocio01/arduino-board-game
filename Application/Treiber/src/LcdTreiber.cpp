@@ -37,7 +37,7 @@ void LcdTreiber_DisplayMessage(LcdTreiber_Spieler_t spieler,
 char zeileEins[],
 char zeileZwei[])
 {
-  if (spieler == eins)
+  if (spieler == SpielerEins)
   {
     lcd1.clear();
     lcd1.print(zeileEins);

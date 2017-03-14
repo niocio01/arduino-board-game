@@ -4,7 +4,7 @@
 #define PIN 6
 #define NUMPIXELS 16
 
-void LedTreiber_startup(bool gestartet)
+void LedTreiber_Startup(bool gestartet)
 {
   Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
   pixels.begin();
@@ -21,27 +21,27 @@ void LedTreiber_LedSchalten(uint16_t ledID, GlobalLed_Farbe_t Farbe)
   strip.setBrightness(255);
   switch (Farbe)
   {
-    case aus:
+    case Aus:
       pixels.setPixelColor(ledID, 0, 0, 0);
       pixels.show();
       break;
 
-    case weiss:
+    case Weiss:
       pixels.setPixelColor(ledID, 255, 255, 255);
       pixels.show();
       break;
 
-    case rot:
+    case Rot:
       pixels.setPixelColor(ledID, 255, 0, 0);
       pixels.show();
       break;
 
-    case grün:
+    case Gruen:
       pixels.setPixelColor(ledID, 0, 255, 0);
       pixels.show();
       break;
 
-    case blau:
+    case Blau:
       pixels.setPixelColor(ledID, 0, 0, 255);
       pixels.show();
       break;

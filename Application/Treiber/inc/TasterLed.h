@@ -5,10 +5,10 @@
 
 typedef enum
 {
-  ledEins,
-  ledZwei,
-  ledDrei,
-  ledVier
+  LedEins,
+  LedZwei,
+  LedDrei,
+  LedVier
 } TasterLed_Nummer_t;
 
 /* function: TasterLed_Setzten

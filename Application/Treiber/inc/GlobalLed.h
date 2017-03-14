@@ -3,17 +3,17 @@
 
 typedef enum
 {
-  spielerEins,
-  spielerZwei
+  SpielerEins,
+  SpielerZwei
 } GlobalLed_Spieler_t;
 
 typedef enum
 {
-  aus,
+  Aus,
   weiss,
-  rot,
-  gruen,
-  blau
+  Rot,
+  Gruen,
+  Blau
 } GlobalLed_Farbe_t;
 
 #endif

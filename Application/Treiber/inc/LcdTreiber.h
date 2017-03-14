@@ -5,8 +5,8 @@
 
 typedef enum
 {
-  spielerEins,
-  spielerZwei
+  SpielerEins,
+  SpielerZwei
 } LcdTreiber_Spieler_t;
 
 void LcdTreiber_Startup(bool gestartet);
@@ -17,7 +17,6 @@ Zeigt text auf einem LCD an.
 2. Papam: Nachricht Zeile eins
 2. Papam: Nachricht Zeile zwei
 */
-
 void LcdTreiber_DisplayMessage(LcdTreiber_Spieler_t spieler,
 char zeileEins[],
 char zeileZwei[]);
