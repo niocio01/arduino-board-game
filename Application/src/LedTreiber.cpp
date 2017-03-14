@@ -4,11 +4,11 @@
 #define PIN 6
 #define NUMPIXELS 16
 
-void LedTreiber_Startup(bool gestartet)
+bool LedTreiber_Startup(void)
 {
   Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
   pixels.begin();
-  gestartet = true;
+  return (true);
 }
 
 
@@ -18,7 +18,8 @@ setzt den zustand eines neopixels und zeigt diesen an.
 2. param: Farbe (aus, weiss, rot, grün, blau)*/
 void LedTreiber_LedSchalten(uint16_t ledID, GlobalLed_Farbe_t Farbe)
 {
-  strip.setBrightness(255);
+
+  strip.setBrightness(150);
   switch (Farbe)
   {
     case Aus:
@@ -45,6 +46,17 @@ void LedTreiber_LedSchalten(uint16_t ledID, GlobalLed_Farbe_t Farbe)
       pixels.setPixelColor(ledID, 0, 0, 255);
       pixels.show();
       break;
+
+    case Gelb:
+      pixels.setPixelColor(ledID, 255, 255, 0);
+      pixels.show();
+      break;
+
+    case Violett:
+      pixels.setPixelColor(ledID, 255, 0, 255);
+      pixels.show();
+      break;
+
 
     default:
       break;

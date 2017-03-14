@@ -4,7 +4,7 @@
 #include <LiquidCrystal_I2C.h>
 
 
-void LcdTreiber_Startup(bool gestartet)
+bool LcdTreiber_Startup(void)
 {
   #define I2C_ADDR1    0x27
   #define I2C_ADDR2    0x26
@@ -30,7 +30,7 @@ void LcdTreiber_Startup(bool gestartet)
   lcd2.setBacklight(HIGH);
   lcd2.home (); // go home
 
-  gestartet = true;
+  return (true);
 }
 
 void LcdTreiber_DisplayMessage(LcdTreiber_Spieler_t spieler,

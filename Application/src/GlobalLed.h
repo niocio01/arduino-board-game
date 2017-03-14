@@ -10,10 +10,12 @@ typedef enum
 typedef enum
 {
   Aus,
-  weiss,
+  Weiss,
   Rot,
   Gruen,
-  Blau
+  Blau,
+  Gelb,
+  Violett
 } GlobalLed_Farbe_t;
 
 #endif

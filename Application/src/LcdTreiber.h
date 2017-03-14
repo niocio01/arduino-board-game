@@ -9,11 +9,11 @@ typedef enum
   SpielerZwei
 } LcdTreiber_Spieler_t;
 
-void LcdTreiber_Startup(bool gestartet);
+bool LcdTreiber_Startup(void);
 
 /* function: LcdTreiber_DisplayMessage
 Zeigt text auf einem LCD an.
-1. Param: spieler (spielerEins,spielerZwei)
+1. Param: spieler (SpielerEins,SpielerZwei)
 2. Papam: Nachricht Zeile eins
 2. Papam: Nachricht Zeile zwei
 */
