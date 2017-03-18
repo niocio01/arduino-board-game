@@ -3,8 +3,8 @@
 #include <Wire.h>
 #include <SPI.h>
 
-#define PN532_IRQ   (2)
-#define PN532_RESET (3)
+#define PN532_IRQ   (3)
+#define PN532_RESET (2)
 
 Adafruit_PN532 nfc(PN532_IRQ, PN532_RESET);
 
