@@ -5,9 +5,9 @@
 
 typedef enum
 {
-  AmZug,
-  RFID,
-  Minigame
+  AmZug_Led,
+  RFID_Led,
+  Minigame_Led
 } StatusLed_Name_t;
 
 typedef enum

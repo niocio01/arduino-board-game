@@ -13,7 +13,7 @@ Zeigt text auf einem LCD an.
 2. Papam: Nachricht Zeile zwei
 */
 void LcdTreiber_DisplayMessage(GlobalTypes_Spieler_t spieler,
-char zeileEins[],
-char zeileZwei[]);
+char * zeileEins,
+char * zeileZwei);
 
 #endif

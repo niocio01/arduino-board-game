@@ -1,54 +1,53 @@
 #include "StatusLedSituation.h"
 #include "Statusled.h"
 
-void StatusLedSituationSetzten(StatusLedSituation_spieler_t spieler,
-StatusLedSituation_Situation_t situation)
-{
-  if (spieler == SpielerEins)
+void StatusLedSituationSetzten(GlobalTypes_Spieler_t spieler,
+  StatusLedSituation_Situation_t situation)
   {
-    switch (situation)
+    if (spieler == SpielerEins)
     {
-      case Spielzug:
-      StatusLed_Setzen(SpielerEins,AmZug,Ein);
-      StatusLed_Setzen(SpielerEins,RFID,Ein);
-      StatusLed_Setzen(SpielerEins,Minigame,Aus);
+      switch (situation)
+      {
+        case Spielzug:
+        StatusLed_Setzen(SpielerEins,AmZug_Led,Ein);
+        StatusLed_Setzen(SpielerEins,RFID_Led,Ein);
+        StatusLed_Setzen(SpielerEins,Minigame_Led,Aus);
 
-      StatusLed_Setzen(SpielerZwei,AmZug,Aus);
-      StatusLed_Setzen(SpielerZwei,RFID,Aus);
-      StatusLed_Setzen(SpielerZwei,Minigame,Aus);
+        StatusLed_Setzen(SpielerZwei,AmZug_Led,Aus);
+        StatusLed_Setzen(SpielerZwei,RFID_Led,Aus);
+        StatusLed_Setzen(SpielerZwei,Minigame_Led,Aus);
 
-      case Minigame:
-      StatusLed_Setzen(SpielerEins,AmZug,Ein);
-      StatusLed_Setzen(SpielerEins,RFID,Aus);
-      StatusLed_Setzen(SpielerEins,Minigame,Aus);
+        case Minigame:
+        StatusLed_Setzen(SpielerEins,AmZug_Led,Ein);
+        StatusLed_Setzen(SpielerEins,RFID_Led,Aus);
+        StatusLed_Setzen(SpielerEins,Minigame_Led,Aus);
 
-      StatusLed_Setzen(SpielerZwei,AmZug,Aus);
-      StatusLed_Setzen(SpielerZwei,RFID,Aus);
-      StatusLed_Setzen(SpielerZwei,Minigame,Aus);
+        StatusLed_Setzen(SpielerZwei,AmZug_Led,Aus);
+        StatusLed_Setzen(SpielerZwei,RFID_Led,Aus);
+        StatusLed_Setzen(SpielerZwei,Minigame_Led,Aus);
+      }
     }
-  }
-  else
-  {
-    switch (situation)
+    else
     {
-      case Spielzug:
-      StatusLed_Setzen(SpielerZwei,AmZug,Ein);
-      StatusLed_Setzen(SpielerZwei,RFID,Ein);
-      StatusLed_Setzen(SpielerZwei,Minigame,Aus);
+      switch (situation)
+      {
+        case Spielzug:
+        StatusLed_Setzen(SpielerZwei,AmZug_Led,Ein);
+        StatusLed_Setzen(SpielerZwei,RFID_Led,Ein);
+        StatusLed_Setzen(SpielerZwei,Minigame_Led,Aus);
 
-      StatusLed_Setzen(SpielerEins,AmZug,Aus);
-      StatusLed_Setzen(SpielerEins,RFID,Aus);
-      StatusLed_Setzen(SpielerEins,Minigame,Aus);
+        StatusLed_Setzen(SpielerEins,AmZug_Led,Aus);
+        StatusLed_Setzen(SpielerEins,RFID_Led,Aus);
+        StatusLed_Setzen(SpielerEins,Minigame_Led,Aus);
 
-      case Minigame:
-      StatusLed_Setzen(SpielerZwei,AmZug,Ein);
-      StatusLed_Setzen(SpielerZwei,RFID,Aus);
-      StatusLed_Setzen(SpielerZwei,Minigame,Aus);
+        case Minigame:
+        StatusLed_Setzen(SpielerZwei,AmZug_Led,Ein);
+        StatusLed_Setzen(SpielerZwei,RFID_Led,Aus);
+        StatusLed_Setzen(SpielerZwei,Minigame_Led,Aus);
 
-      StatusLed_Setzen(SpielerEins,AmZug,Aus);
-      StatusLed_Setzen(SpielerEins,RFID,Aus);
-      StatusLed_Setzen(SpielerEins,Minigame,Aus);
+        StatusLed_Setzen(SpielerEins,AmZug_Led,Aus);
+        StatusLed_Setzen(SpielerEins,RFID_Led,Aus);
+        StatusLed_Setzen(SpielerEins,Minigame_Led,Aus);
       }
     }
   }
-}
