@@ -12,19 +12,17 @@ static bool ledGestartet;
 static bool lcdGestartet;
 static bool rfidGestartet;
 
-void Startup(void)
+void Startup_check(void)
 {
-  for (uint16_t i = 0; i < 251; i++)
-  {
-    LedTreiber_LedSchalten(i, Rot);
-  }
-
   ledGestartet = LedTreiber_Startup();
   lcdGestartet = LcdTreiber_Startup();
   rfidGestartet= RfidTreiber_Startup();
 
   if (ledGestartet == true and lcdGestartet == true and rfidGestartet == true)
   {
-
+    for (uint16_t i = 0; i < 2; i++)
+    {
+      LedTreiber_LedSchalten(i, Gruen);
+    }
   }
 }
