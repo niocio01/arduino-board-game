@@ -4,7 +4,7 @@
 #include <inttypes.h>
 
 bool RfidTreiber_Startup(void);
-bool RfidTreiber_ReadCard(uint8_t * kartenDaten);
+uint8_t RfidTreiber_ReadCard(void);
 
 
 #endif

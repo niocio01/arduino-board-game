@@ -9,7 +9,7 @@
 #define PN532_RESET (3)
 
 bool Write = true;
-char myname[] = "Tessst";
+uint8_t myData = 123;
 
 void PrintString(const byte * data);
 
@@ -81,7 +81,7 @@ void loop()
         if (Write) {
 
 
-          success = nfc.mifareclassic_WriteDataBlock (4, (uint8_t)myname);
+          success = nfc.mifareclassic_WriteDataBlock (4, (uint8_t)myData);
           Serial.println("Information updated");
         }
 
