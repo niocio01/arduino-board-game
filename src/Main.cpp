@@ -4,6 +4,7 @@
 #include "RfidTreiber.h"
 #include "LedTreiber.h"
 #include "inttypes.h"
+#include "KartenManager.h"
 
 void setup()
 {
@@ -16,7 +17,11 @@ void setup()
 
 void loop()
 {
-  uint8_t kartenDaten = RfidTreiber_ReadCard();
-  Serial.print((char)kartenDaten);
+  uint8_t kartenNr;
+  if(KartenManager_KarteStarten(&kartenNr))
+  {
+    LedTreiber_LedSchalten(62,Gruen);
+    Serial.println((char)kartenNr);
+  }
   delay(5);
 }

@@ -25,7 +25,7 @@ bool RfidTreiber_Startup(void)
   }
 }
 
-uint8_t RfidTreiber_ReadCard(void)
+bool RfidTreiber_ReadCard(uint8_t* kartenDaten)
 {
   uint8_t success;
   uint8_t uid[] = { 0, 0, 0, 0, 0, 0, 0 };  // Buffer to store the returned UID
@@ -36,13 +36,7 @@ uint8_t RfidTreiber_ReadCard(void)
   {
     uint8_t keya[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; // set Key
     success = nfc.mifareclassic_AuthenticateBlock(uid, uidLength, 4, 0, keya); //authenticate using Key
-    uint8_t kartenDaten;
-    success = nfc.mifareclassic_ReadDataBlock(4, &kartenDaten); // Karte lesen
-
-    return kartenDaten;
-
+    success = nfc.mifareclassic_ReadDataBlock(4, kartenDaten); // Karte lesen
   }
-  Serial.println();
-
-
+  return success;
 }
