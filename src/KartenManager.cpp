@@ -1,21 +1,25 @@
 #include "KartenManager.h"
-#include "LedTreiber.h"
-#include "RfidTreiber.h"
+#include "Treiber/LedTreiber.h"
+#include "Treiber/RfidTreiber.h"
 
+const uint8_t Speed =48;
+const uint8_t Aussetzen =49;
+const uint8_t Schild =50;
+const uint8_t MehrEinsatz =51;
+const uint8_t Lucky =52;
 
-/* enum KartenManager_Karten_t {
-Speed=0,
-Aussetzten,
-Schild,
-GewinnGarantiert
-  };
-*/
-
-bool KartenManager_KarteStarten(uint8_t* kartenNr)
+bool KartenManager_KarteStarten(void)
 {
-bool success = RfidTreiber_ReadCard(kartenNr);
-if (success) {
+  uint8_t * kartenNrRef;
+  uint8_t  kartenNrValue;
 
-}
-return success;
+  kartenNrRef = &kartenNrValue;
+  bool success = RfidTreiber_ReadCard(kartenNrRef);
+  if (success)
+  {
+    if (kartenNrValue == Speed) {
+
+    }
+  }
+  return success;
 }

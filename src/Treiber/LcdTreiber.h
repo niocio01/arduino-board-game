@@ -2,7 +2,7 @@
 #define LCDTRIBER_H
 
 #include <inttypes.h>
-#include "GlobalTypes.h"
+#include "Treiber/GlobalTypes.h"
 
 bool LcdTreiber_Startup(void);
 

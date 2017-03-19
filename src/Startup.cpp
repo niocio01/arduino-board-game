@@ -1,12 +1,12 @@
 #include "Startup.h"
-#include "LcdTreiber.h"
-#include "LedTreiber.h"
+#include "Treiber/LcdTreiber.h"
+#include "Treiber/LedTreiber.h"
 #include "Messages.h"
-#include "RfidTreiber.h"
+#include "Treiber/RfidTreiber.h"
 #include "inttypes.h"
-#include "SpielfeldLed.h"
-#include "GlobalTypes.h"
-#include "SpeakerTreiber.h"
+#include "Treiber/SpielfeldLed.h"
+#include "Treiber/GlobalTypes.h"
+#include "Treiber/SpeakerTreiber.h"
 
 
 static bool ledGestartet;

@@ -1,7 +1,7 @@
-#include "SpeakerTreiber.h"
+#include "Treiber/SpeakerTreiber.h"
 #include "pitches.h"
 #include "arduino.h"
-#include "LedTreiber.h"
+#include "Treiber/LedTreiber.h"
 
 #define SPEAKERPIN (13)
 #define MUTEPIN (45)

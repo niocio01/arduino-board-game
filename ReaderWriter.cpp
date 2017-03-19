@@ -1,15 +1,13 @@
 
-#include <Arduino.h>
 #include <Wire.h>
 #include <SPI.h>
 #include <Adafruit_PN532.h>
 
+#define PN532_IRQ   (3)
+#define PN532_RESET (2)
 
-#define PN532_IRQ   (2)
-#define PN532_RESET (3)
-
-bool Write = true;
-uint8_t myData = 123;
+bool Write = false;
+uint8_t myname = 0;
 
 void PrintString(const byte * data);
 
@@ -81,7 +79,7 @@ void loop()
         if (Write) {
 
 
-          success = nfc.mifareclassic_WriteDataBlock (4, (uint8_t)myData);
+          success = nfc.mifareclassic_WriteDataBlock (4, myname);
           Serial.println("Information updated");
         }
 

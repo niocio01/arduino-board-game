@@ -1,5 +1,5 @@
 #include "Messages.h"
-#include "LcdTreiber.h"
+#include "Treiber/LcdTreiber.h"
 
 void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler,
   Messages_Nachrichten_t nachricht)

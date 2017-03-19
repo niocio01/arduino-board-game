@@ -2,7 +2,7 @@
 #define LEDTREIBER_H
 
 #include <inttypes.h>
-#include "GlobalTypes.h"
+#include "Treiber/GlobalTypes.h"
 
 
 bool LedTreiber_Startup(void);

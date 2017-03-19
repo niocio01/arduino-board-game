@@ -3,6 +3,6 @@
 #include "inttypes.h"
 
 
-bool KartenManager_KarteStarten(uint8_t* kartenNr);
+bool KartenManager_KarteStarten(void);
 
 #endif

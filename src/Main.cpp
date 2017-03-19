@@ -1,8 +1,8 @@
 
 #include "Startup.h"
 #include <arduino.h>
-#include "RfidTreiber.h"
-#include "LedTreiber.h"
+#include "Treiber/RfidTreiber.h"
+#include "Treiber/LedTreiber.h"
 #include "inttypes.h"
 #include "KartenManager.h"
 
@@ -18,10 +18,10 @@ void setup()
 void loop()
 {
   uint8_t kartenNr;
-  if(KartenManager_KarteStarten(&kartenNr))
+  if(KartenManager_KarteStarten())
   {
     LedTreiber_LedSchalten(62,Gruen);
-    Serial.println((char)kartenNr);
+    Serial.println(kartenNr);
   }
   delay(5);
 }
