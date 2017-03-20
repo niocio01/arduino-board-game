@@ -1,4 +1,5 @@
-#include "LcdTreiber.h"
+
+#include "Treiber/LcdTreiber.h"
 #include <Wire.h>
 #include <LCD.h>
 #include <LiquidCrystal_I2C.h>
@@ -32,9 +33,7 @@ bool LcdTreiber_Startup(void)
   return (true);
 }
 
-void LcdTreiber_DisplayMessage(GlobalTypes_Spieler_t spieler,
-char zeileEins[],
-char zeileZwei[])
+void LcdTreiber_DisplayMessage(GlobalTypes_Spieler_t spieler, char * zeileEins, char * zeileZwei)
 {
   if (spieler == SpielerEins)
   {

@@ -1,7 +1,7 @@
-#include <LedTreiber.h>
+#include <Treiber/LedTreiber.h>
 #include <Adafruit_NeoPixel.h>
 
-#define PIN 6
+#define PIN 4
 #define NUMPIXELS 267
 
 
@@ -12,8 +12,6 @@ bool LedTreiber_Startup(void)
   pixels.begin();
   return (true);
 }
-
-
 
 void LedTreiber_LedSchalten(uint16_t ledID, GlobalTypes_Farbe_t farbe, uint8_t helligkeit /* = 255 */ )
 {

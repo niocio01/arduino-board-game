@@ -1,6 +1,6 @@
 #ifndef STARTUP_H
 #define STARTUP_H
 
-void Startup(void);
+void Startup_check(void);
 
 #endif

@@ -1,5 +1,5 @@
-#include "StatusLed.h"
-#include "LedTreiber.h"
+#include "Treiber/StatusLed.h"
+#include "Treiber/LedTreiber.h"
 
 
 
@@ -11,7 +11,7 @@ void StatusLed_Setzen(GlobalTypes_Spieler_t spieler,
     {
       switch (name)
       {
-        case AmZug:
+        case AmZug_Led:
         switch (zustand)
         {
           case Ein:
@@ -24,7 +24,7 @@ void StatusLed_Setzen(GlobalTypes_Spieler_t spieler,
         }
         break;
 
-        case RFID:
+        case RFID_Led:
         switch (zustand)
         {
           case Ein:
@@ -37,7 +37,7 @@ void StatusLed_Setzen(GlobalTypes_Spieler_t spieler,
         }
         break;
 
-        case Minigame:
+        case Minigame_Led:
         switch (zustand)
         {
           case Ein:
@@ -55,7 +55,7 @@ void StatusLed_Setzen(GlobalTypes_Spieler_t spieler,
     {
       switch(name)
       {
-        case AmZug:
+        case AmZug_Led:
         switch (zustand)
         {
           case Ein:
@@ -68,7 +68,7 @@ void StatusLed_Setzen(GlobalTypes_Spieler_t spieler,
         }
         break;
 
-        case RFID:
+        case RFID_Led:
         switch (zustand)
         {
           case Ein:
@@ -81,7 +81,7 @@ void StatusLed_Setzen(GlobalTypes_Spieler_t spieler,
         }
         break;
 
-        case Minigame:
+        case Minigame_Led:
         switch (zustand)
         {
           case Ein:

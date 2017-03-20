@@ -1,7 +1,7 @@
 #ifndef STATUSLEDSITUATION
 #define STATUSLEDSITUATION
 
-#include "GlobalTypes.h"
+#include "Treiber/GlobalTypes.h"
 
 typedef enum
 {

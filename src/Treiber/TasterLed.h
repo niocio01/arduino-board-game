@@ -1,7 +1,7 @@
 #ifndef TASTERLED_H
 #define TASTERLED_H
 
-#include "GlobalTypes.h"
+#include "Treiber/GlobalTypes.h"
 
 typedef enum
 {
