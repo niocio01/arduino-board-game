@@ -17,11 +17,10 @@ void setup()
 
 void loop()
 {
-  uint8_t kartenNr;
+
   if(KartenManager_KarteStarten())
   {
-    LedTreiber_LedSchalten(62,Gruen);
-    Serial.println(kartenNr);
+    //LedTreiber_LedSchalten(62,Gruen);
   }
   delay(5);
 }
