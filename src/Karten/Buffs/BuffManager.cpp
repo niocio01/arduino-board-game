@@ -1,5 +1,6 @@
 #include "Karten/Buffs/BuffManager.h"
 #include "Karten/Buffs/KarteSpeed.h"
+#include "Karten/Buffs/KarteAussetzen.h"
 
 
 const uint8_t Speed =48;
@@ -13,7 +14,7 @@ void BuffManager_BuffAnwenden(uint8_t kartenNrValue){
     KarteSpeed_BuffAnwenden();
   }
   else if (kartenNrValue == Aussetzen) {
-    /* code */
+    KarteAussetzen_BuffAnwenden();
   }
   else if (kartenNrValue == Schild) {
     /* code */
