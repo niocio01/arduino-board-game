@@ -22,6 +22,10 @@ bool RfidTreiber_Startup(void)
   }
   else
   {
+    // Set the max number of retry attempts to read from a card
+      // This prevents us from waiting forever for a card, which is
+      // the default behaviour of the PN532.
+    nfc.setPassiveActivationRetries(0x01);
     // configure board to read RFID tags
     nfc.SAMConfig();
     return (true);
@@ -33,8 +37,8 @@ bool RfidTreiber_ReadCard(uint8_t* kartenDaten)
   uint8_t success;
   uint8_t uid[] = { 0, 0, 0, 0, 0, 0, 0 };  // Buffer to store the returned UID
   uint8_t uidLength;                        // Length of the UID (4 or 7 bytes depending on ISO14443A card type)
-
   success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength);
+  LedTreiber_LedSchalten(80,Blau);
 LedTreiber_LedSchalten(81,Blau);
   if (success)
   {

@@ -3,6 +3,7 @@
 #include "inttypes.h"
 
 
+//bool KartenManager_KarteStarten(void);
 void KartenManager_Main(void);
 
 #endif

@@ -12,7 +12,7 @@ const uint8_t P2T2Pin = 48;
 const uint8_t P2T3Pin = 50;
 const uint8_t P2T4Pin = 52;
 
-const uint32_t debounceDelay = 50;
+const uint32_t debounceDelay = 5;
 static uint8_t bufferAktuell;
 static uint8_t bufferAlt;
 static uint8_t BufferEntprellt;
