@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #ifndef SPIELFELDLED_H
 #define SPIELFELDLED_H
 
@@ -19,3 +20,5 @@ Status eines Spielfeld Leds setzten
 void SpielfeldLed_Setzten (uint16_t nummer, GlobalTypes_Farbe_t farbe, GlobalTypes_Spieler_t spieler);
 
 #endif
+=======
+>>>>>>> origin/master

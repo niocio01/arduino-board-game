@@ -5,22 +5,20 @@
 #include "Treiber/LedTreiber.h"
 #include "inttypes.h"
 #include "Karten/KartenManager.h"
+#include "Treiber/TasterTreiber.h"
 
 void setup()
 {
   Startup_check();
-  Serial.begin(115200);
-  Serial.println("Hello!");
-
 
 }
 
 void loop()
 {
-
-  if(KartenManager_KarteStarten())
+  KartenManager_Main();
+  TasterTreiber_Main();
+  if (TasterTreiber_TasteGedrueckt(SPIELER1_TASTE1))
   {
-    //LedTreiber_LedSchalten(62,Gruen);
+    LedTreiber_LedSchalten(80,Rot);
   }
-  delay(5);
 }

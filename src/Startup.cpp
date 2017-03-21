@@ -7,12 +7,14 @@
 #include "Treiber/SpielfeldLed.h"
 #include "GlobalTypes.h"
 #include "Treiber/SpeakerTreiber.h"
+#include "Treiber/TasterTreiber.h"
 
 
 static bool ledGestartet;
 static bool lcdGestartet;
 static bool rfidGestartet;
 static bool tonGestartet;
+static bool tasterGestartet;
 
 void Startup_check(void)
 {
@@ -20,8 +22,10 @@ void Startup_check(void)
   lcdGestartet  = LcdTreiber_Startup();
   rfidGestartet = RfidTreiber_Startup();
   tonGestartet  = SpeakerTreiber_Startup();
+  tasterGestartet = TasterTreiber_Startup();
 
-  if (ledGestartet == true and lcdGestartet == true and rfidGestartet == true and tonGestartet == true)
+  if (ledGestartet == true and lcdGestartet == true and rfidGestartet == true
+    and tonGestartet and tasterGestartet == true)
   {
     LedTreiber_LedSchalten(192, Gruen);
     Messages_ZeigeNachricht(SpielerEins, Startup_OK);

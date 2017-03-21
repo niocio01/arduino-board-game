@@ -4,9 +4,7 @@
 #include "Karten/Minigames/MinigameManager.h"
 #include "Treiber/LedTreiber.h"
 
-
-
-bool KartenManager_KarteStarten(void)
+void KartenManager_Main(void)
 {
   uint8_t * kartenNrRef;
   uint8_t  kartenNrValue;
@@ -23,5 +21,4 @@ bool KartenManager_KarteStarten(void)
       MinigameManager_MinigameStarten(kartenNrValue);
     }
   }
-  return success;
 }
