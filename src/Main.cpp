@@ -10,15 +10,15 @@
 void setup()
 {
   Startup_check();
-
 }
 
 void loop()
 {
-  KartenManager_Main();
+  KartenManager_Main();  
   TasterTreiber_Main();
   if (TasterTreiber_TasteGedrueckt(SPIELER1_TASTE1))
   {
     LedTreiber_LedSchalten(80,Rot);
   }
+  LedTreiber_LedSchalten(81,Blau);
 }

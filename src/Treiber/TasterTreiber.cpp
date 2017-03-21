@@ -1,8 +1,7 @@
-#include "Treiber\TasterTreiber.h"
+#include "Treiber/TasterTreiber.h"
 #include <arduino.h>
 #include "inttypes.h"
 #include "Treiber/LedTreiber.h"
-#include <SPI.h>
 
 const uint8_t P1T1Pin = 47;
 const uint8_t P1T2Pin = 49;

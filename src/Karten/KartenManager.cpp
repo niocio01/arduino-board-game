@@ -13,11 +13,13 @@ void KartenManager_Main(void)
   bool success = RfidTreiber_ReadCard(kartenNrRef);
   if (success)
   {
-    if (kartenNrValue <= 60) {
+    if (kartenNrValue <= 60)
+    {
       BuffManager_BuffAnwenden(kartenNrValue);
       LedTreiber_LedSchalten(63,Rot);
     }
-    else if(kartenNrValue >= 61) {
+    else
+    {
       MinigameManager_MinigameStarten(kartenNrValue);
     }
   }
