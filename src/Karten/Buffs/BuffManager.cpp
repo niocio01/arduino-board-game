@@ -2,7 +2,6 @@
 #include "Karten/Buffs/KarteSpeed.h"
 #include "Karten/Buffs/KarteAussetzen.h"
 
-
 const uint8_t FalleStellen =48;  // hex 0
 const uint8_t EinsatzSetzen =49; // hex 1
 const uint8_t Steinschlag =50;

@@ -5,7 +5,7 @@ typedef enum
 {
   SpielerEins,
   SpielerZwei
-} GlobalTypes_Spieler_t;
+} GlobalTypes_Spieler_t; // def für Spielseite!!
 
 typedef enum
 {

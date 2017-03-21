@@ -19,7 +19,7 @@ bool KartenManager_KarteStarten(void)
       BuffManager_BuffAnwenden(kartenNrValue);
       LedTreiber_LedSchalten(63,Rot);
     }
-    else if(kartenNrValue >= 61){
+    else if(kartenNrValue >= 61) {
       MinigameManager_MinigameStarten(kartenNrValue);
     }
   }
