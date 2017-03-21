@@ -4,13 +4,8 @@
 
 
 
-void SpielfeldLed_Setzten (uint16_t nummer, GlobalTypes_Farbe_t farbe)
-{
-  LedTreiber_LedSchalten(tabLedID[nummer], farbe);
-}
-*/
-
-void SpielfeldLed_Setzten (uint16_t nummer, GlobalTypes_Farbe_t farbe)
+void SpielfeldLed_Setzten (uint16_t nummer, GlobalTypes_Farbe_t farbe, GlobalTypes_Spieler_t spieler)
 {
   LedTreiber_LedSchalten(nummer, farbe);
+
 }

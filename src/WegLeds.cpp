@@ -12,7 +12,9 @@ bool SpielerZweiVerlaengerung1 = false;
 bool SpielerZweiVerlaengerung2 = false;
 bool SpielerZweiVerlaengerung3 = false;
 
+
 void WegLeds_PosUpdate(GlobalTypes_AktiverSpieler_t aktiverSpieler,
   WegLeds_Figur_t figur, int8_t anzahl){
 
   }
+void WegLeds_MapAnzeigen(void);

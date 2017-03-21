@@ -20,6 +20,6 @@ Stellt die Status Led's auf eine bestimmte spiel situation
 void WegLeds_PosUpdate(GlobalTypes_AktiverSpieler_t aktiverSpieler,
   WegLeds_Figur_t figur, int8_t anzahl);
 
-  void WegLeds_MapAnzeigen();
+ void WegLeds_MapAnzeigen(void);
 
 #endif
