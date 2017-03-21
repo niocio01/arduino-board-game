@@ -5,7 +5,7 @@
 #include "Treiber/RfidTreiber.h"
 #include "inttypes.h"
 #include "Treiber/SpielfeldLed.h"
-#include "Treiber/GlobalTypes.h"
+#include "GlobalTypes.h"
 #include "Treiber/SpeakerTreiber.h"
 
 
