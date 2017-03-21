@@ -1,8 +1,5 @@
 #include "Karten/Minigames/MinigameManager.h"
 
-
-
-
 const uint8_t Reaktion =61;
 const uint8_t Simon =62;
 const uint8_t ToneMaster =63;
