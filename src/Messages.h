@@ -1,7 +1,7 @@
 #ifndef MESSAGES_H
 #define MESSAGES_H
 
-#include "Treiber/GlobalTypes.h"
+#include "GlobalTypes.h"
 
 typedef enum
 {

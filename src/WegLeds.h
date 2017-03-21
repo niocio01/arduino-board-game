@@ -2,7 +2,7 @@
 #define WEGLEDS_H
 
 #include <inttypes.h>
-#include "Treiber/GlobalTypes.h"
+#include "GlobalTypes.h"
 
 typedef enum
 {

@@ -1,7 +1,7 @@
 #ifndef POTILED_H
 #define POTILED_H
 
-#include "Treiber/GlobalTypes.h"
+#include "GlobalTypes.h"
 
 /* function: PotiLed_Setzten
 setzen des zustands eines Taster Leds.
