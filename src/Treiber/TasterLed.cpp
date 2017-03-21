@@ -1,27 +1,28 @@
-#include <TasterLed.h>
+#include "Treiber/TasterLed.h"
+#include "Treiber/LedTreiber.h"
 
 
-void TasterLed_Setzten(GlobalLed_Spieler_t Spieler,
+void TasterLed_Setzten(GlobalTypes_Spieler_t spieler,
   TasterLed_Nummer_t nummer,
-  GlobalLed_Farbe_t farbe)
+  GlobalTypes_Farbe_t farbe)
   {
-    if (Spieler == eins)
+    if (spieler == SpielerEins)
     {
       switch(nummer)
       {
-        case ledEins:
+        case LedEins:
           LedTreiber_LedSchalten(4, farbe);
           break;
 
-        case ledZwei:
+        case LedZwei:
           LedTreiber_LedSchalten(5, farbe);
           break;
 
-        case ledDrei:
+        case LedDrei:
           LedTreiber_LedSchalten(6, farbe);
           break;
 
-        case ledVier:
+        case LedVier:
           LedTreiber_LedSchalten(7, farbe);
           break;
 
@@ -31,19 +32,19 @@ void TasterLed_Setzten(GlobalLed_Spieler_t Spieler,
     {
       switch(nummer)
       {
-        case ledEins:
+        case LedEins:
           LedTreiber_LedSchalten(14, farbe);
           break;
 
-        case ledZwei:
+        case LedZwei:
           LedTreiber_LedSchalten(15, farbe);
           break;
 
-        case ledDrei:
+        case LedDrei:
           LedTreiber_LedSchalten(16, farbe);
           break;
 
-        case ledVier:
+        case LedVier:
           LedTreiber_LedSchalten(17, farbe);
           break;
 
