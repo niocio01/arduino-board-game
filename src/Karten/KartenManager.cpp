@@ -17,7 +17,6 @@ void KartenManager_Main(void)
     if (kartenNrValue <= 60)
     {
       BuffManager_BuffAnwenden(kartenNrValue);
-      LedTreiber_LedSchalten(63,Rot);
     }
     else
     {

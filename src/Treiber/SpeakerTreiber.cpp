@@ -19,10 +19,8 @@ bool SpeakerTreiber_Startup(void)
 {
   pinMode(MUTEPIN, OUTPUT);
   digitalWrite(MUTEPIN, HIGH);
-  LedTreiber_LedSchalten(62,Gruen);
   tone(SPEAKERPIN, NOTE_C4, 200);
   //digitalWrite(MUTEPIN, LOW);
-  LedTreiber_LedSchalten(62,Schwarz);
   return true;
 }
 

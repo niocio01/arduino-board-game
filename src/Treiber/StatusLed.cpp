@@ -15,11 +15,11 @@ void StatusLed_Setzen(GlobalTypes_Spieler_t spieler,
         switch (zustand)
         {
           case Ein:
-          LedTreiber_LedSchalten(1, Gruen);
+          LedTreiber_LedSchalten(253, Gruen, 50);
           break;
 
           case Aus:
-          LedTreiber_LedSchalten(1, Schwarz);
+          LedTreiber_LedSchalten(253, Rot, 10);
           break;
         }
         break;
@@ -28,11 +28,11 @@ void StatusLed_Setzen(GlobalTypes_Spieler_t spieler,
         switch (zustand)
         {
           case Ein:
-          LedTreiber_LedSchalten(2, Gruen);
+          LedTreiber_LedSchalten(254, Gruen, 50);
           break;
 
           case Aus:
-          LedTreiber_LedSchalten(2, Schwarz);
+          LedTreiber_LedSchalten(254, Rot, 10);
           break;
         }
         break;
@@ -41,11 +41,11 @@ void StatusLed_Setzen(GlobalTypes_Spieler_t spieler,
         switch (zustand)
         {
           case Ein:
-          LedTreiber_LedSchalten(3, Gruen);
+          LedTreiber_LedSchalten(255, Gruen, 50);
           break;
 
           case Aus:
-          LedTreiber_LedSchalten(3, Schwarz);
+          LedTreiber_LedSchalten(255, Rot, 10);
           break;
         }
         break;
@@ -59,11 +59,11 @@ void StatusLed_Setzen(GlobalTypes_Spieler_t spieler,
         switch (zustand)
         {
           case Ein:
-          LedTreiber_LedSchalten(10, Gruen);
+          LedTreiber_LedSchalten(261, Gruen, 50);
           break;
 
           case Aus:
-          LedTreiber_LedSchalten(10, Schwarz);
+          LedTreiber_LedSchalten(261, Rot, 10);
           break;
         }
         break;
@@ -72,11 +72,11 @@ void StatusLed_Setzen(GlobalTypes_Spieler_t spieler,
         switch (zustand)
         {
           case Ein:
-          LedTreiber_LedSchalten(11, Gruen);
+          LedTreiber_LedSchalten(262, Gruen, 50);
           break;
 
           case Aus:
-          LedTreiber_LedSchalten(11, Schwarz);
+          LedTreiber_LedSchalten(262, Rot, 10);
           break;
         }
         break;
@@ -85,11 +85,11 @@ void StatusLed_Setzen(GlobalTypes_Spieler_t spieler,
         switch (zustand)
         {
           case Ein:
-          LedTreiber_LedSchalten(12, Gruen);
+          LedTreiber_LedSchalten(263, Gruen, 50);
           break;
 
           case Aus:
-          LedTreiber_LedSchalten(12, Schwarz);
+          LedTreiber_LedSchalten(263, Rot, 10);
           break;
         }
         break;

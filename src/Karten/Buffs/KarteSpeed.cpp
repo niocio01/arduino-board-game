@@ -3,5 +3,5 @@
 #include "Treiber/LedTreiber.h"
 
 void KarteSpeed_BuffAnwenden(void){
-LedTreiber_LedSchalten(65,Gruen);
+
 }

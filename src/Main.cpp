@@ -6,6 +6,7 @@
 #include "inttypes.h"
 #include "Karten/KartenManager.h"
 #include "Treiber/TasterTreiber.h"
+#include "StatusLedSituation.h"
 
 
 void setup()
@@ -17,12 +18,5 @@ void loop()
 {
   KartenManager_Main();
   TasterTreiber_Main();
-  if (TasterTreiber_TasteGedrueckt(SPIELER2_TASTE1))
-  {
-    LedTreiber_LedSchalten(100,Rot);
-  }
-  else
-  {
-    LedTreiber_LedSchalten(100,Blau);
-  }
+  StatusLedSituationSetzten(SpielerEins, Minigame);
 }

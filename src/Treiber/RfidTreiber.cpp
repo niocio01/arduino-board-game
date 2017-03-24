@@ -38,8 +38,6 @@ bool RfidTreiber_ReadCard(uint8_t* kartenDaten)
   uint8_t uid[] = { 0, 0, 0, 0, 0, 0, 0 };  // Buffer to store the returned UID
   uint8_t uidLength;                        // Length of the UID (4 or 7 bytes depending on ISO14443A card type)
   success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength);
-  LedTreiber_LedSchalten(80,Blau);
-LedTreiber_LedSchalten(81,Blau);
   if (success)
   {
     uint8_t keya[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; // set Key
