@@ -9,6 +9,13 @@ typedef enum
 
 typedef enum
 {
+  FigureEins,
+  FigureZwei
+} GlobalTypes_Figur_t;
+
+
+typedef enum
+{
   Schwarz,
   Weiss,
   Rot,
