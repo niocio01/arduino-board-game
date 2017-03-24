@@ -11,19 +11,19 @@ void TasterLed_Setzten(GlobalTypes_Spieler_t spieler,
       switch(nummer)
       {
         case LedEins:
-          LedTreiber_LedSchalten(4, farbe);
+          LedTreiber_LedSchalten(257, farbe);
           break;
 
         case LedZwei:
-          LedTreiber_LedSchalten(5, farbe);
+          LedTreiber_LedSchalten(258, farbe);
           break;
 
         case LedDrei:
-          LedTreiber_LedSchalten(6, farbe);
+          LedTreiber_LedSchalten(259, farbe);
           break;
 
         case LedVier:
-          LedTreiber_LedSchalten(7, farbe);
+          LedTreiber_LedSchalten(260, farbe);
           break;
 
       }
@@ -33,19 +33,19 @@ void TasterLed_Setzten(GlobalTypes_Spieler_t spieler,
       switch(nummer)
       {
         case LedEins:
-          LedTreiber_LedSchalten(14, farbe);
+          LedTreiber_LedSchalten(265, farbe);
           break;
 
         case LedZwei:
-          LedTreiber_LedSchalten(15, farbe);
+          LedTreiber_LedSchalten(266, farbe);
           break;
 
         case LedDrei:
-          LedTreiber_LedSchalten(16, farbe);
+          LedTreiber_LedSchalten(267, farbe);
           break;
 
         case LedVier:
-          LedTreiber_LedSchalten(17, farbe);
+          LedTreiber_LedSchalten(268, farbe);
           break;
 
       }

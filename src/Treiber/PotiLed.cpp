@@ -7,11 +7,11 @@ void PotiLed_Setzten(GlobalTypes_Spieler_t spieler,
   {
     if (spieler == SpielerEins)
     {
-      LedTreiber_LedSchalten(8, farbe);
+      LedTreiber_LedSchalten(256, farbe);
     }
 
     else
     {
-      LedTreiber_LedSchalten(18, farbe);
+      LedTreiber_LedSchalten(264, farbe);
     }
   }

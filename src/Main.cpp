@@ -7,6 +7,8 @@
 #include "Karten/KartenManager.h"
 #include "Treiber/TasterTreiber.h"
 #include "StatusLedSituation.h"
+#include "Treiber/TasterLed.h"
+#include "Treiber/PotiLed.h"
 
 
 void setup()
@@ -18,5 +20,4 @@ void loop()
 {
   KartenManager_Main();
   TasterTreiber_Main();
-  StatusLedSituationSetzten(SpielerEins, Minigame);
 }
