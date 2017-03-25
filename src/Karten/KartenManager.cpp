@@ -4,6 +4,7 @@
 #include "Karten/Minigames/MinigameManager.h"
 #include "Treiber/LedTreiber.h"
 #include "arduino.h"
+#include "Karten/Minigames/MinigameManager.h"
 
 
 //bool KartenManager_KarteStarten(void)
@@ -49,6 +50,7 @@ void KartenManager_Main(void)
         MinigameManager_SetStatus(Timing);
         break;
       }
+      MinigameManager_StartNewGame();
     }
   }
 }

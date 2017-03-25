@@ -24,4 +24,10 @@ typedef enum
   PassiverSpieler
 } GlobalTypes_AktiverSpieler_t;
 
+typedef enum
+{
+  FigureEins,
+  FigureZwei
+} GlobalTypes_Figur_t;
+
 #endif
