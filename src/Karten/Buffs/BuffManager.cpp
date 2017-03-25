@@ -2,16 +2,16 @@
 #include "Karten/Buffs/KarteSpeed.h"
 #include "Karten/Buffs/KarteAussetzen.h"
 
-const uint8_t FalleStellen =48;  // hex 0
-const uint8_t EinsatzSetzen =49; // hex 1
-const uint8_t Steinschlag =50;
-const uint8_t Speed =51;
-const uint8_t GewinnGarantiert =52;
-const uint8_t Aussetzen =53;
-const uint8_t Zeitreise =54;
-const uint8_t MehrEinsatz =55;
-const uint8_t Lucky =56;
-const uint8_t Schild =57;
+const uint8_t FalleStellen =65;  // hex A
+const uint8_t EinsatzSetzen =66; // hex B
+const uint8_t Steinschlag =67;
+const uint8_t Speed =68;
+const uint8_t GewinnGarantiert =69;
+const uint8_t Aussetzen =70;
+const uint8_t Zeitreise =71;
+const uint8_t MehrEinsatz =72;
+const uint8_t Lucky =73;
+const uint8_t Schild =74;
 
 void BuffManager_BuffAnwenden(uint8_t kartenNrValue){
   if (kartenNrValue == FalleStellen) {

@@ -3,6 +3,19 @@
 
 #include <inttypes.h>
 
-    void MinigameManager_MinigameStarten(uint8_t kartenNrValue);
+typedef enum
+{
+  Reaktion,
+  Simon,
+  ToneMaster,
+  QuickFinger,
+  FastCounter,
+  Timing
+} MinigameManager_GameStatus_t;
+
+    void MinigameManager_SetStatus(MinigameManager_GameStatus_t newGameStatus);
+    void MinigameManager_Main(void);
+    void MinigameManager_StartNewGame(void);
+    void MinigameManager_EndGame(void);
 
 #endif

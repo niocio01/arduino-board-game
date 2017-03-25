@@ -9,6 +9,7 @@
 #include "StatusLedSituation.h"
 #include "Treiber/TasterLed.h"
 #include "Treiber/PotiLed.h"
+#include "Karten/Minigames/MinigameManager.h"
 
 
 void setup()
@@ -18,6 +19,8 @@ void setup()
 
 void loop()
 {
-  KartenManager_Main();
   TasterTreiber_Main();
+  KartenManager_Main();
+  MinigameManager_Main();
+  //LedTreiber_LedSchalten(70,Schwarz);
 }
