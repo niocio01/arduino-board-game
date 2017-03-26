@@ -3,19 +3,29 @@
 
 #include "GlobalTypes.h"
 
+
+#define  SF_SegmVB1     0       // Segment bis Branch 1
+#define  SF_SegmIB1     1       // Kürzeres Segment bei Branch 1
+#define  SF_SegmB1      2       // Längeres Segment bei Branch 1
+#define  SF_SegmVB2     3       // Segment bis Branch 2
+#define  SF_SegmIB2     4       // Kürzeres Segment bei Branch 2
+#define  SF_SegmB2      5       // Längeres Segment bei Branch 2
+#define  SF_SegmVB3     6       // Segment bis Branch 3
+#define  SF_SegmIB3     7       // Kürzeres Segment bei Branch 3
+#define  SF_SegmB3      8       // Längeres Segment bei Branch 3
+#define  SF_SegmVK      9       // Segment bis zum Kreis
+#define  SF_SegmK       10      // Segment im Kreis
+#define  SF_MaxSegm     11      // Anzahl der Segemente
+#define  SF_K_Steps     19      // Anzahl Schritte pro Spieler im Kreis
+#define  SF_K_StartID   192     // ID der ersten LED im Kreis
+#define  SF_K_TotSteps  60      // Anzahl Schritte Total im Kreis
+#define  SF_MAX_STEPS   100      // Maximale Anzahl Schritte bis zum Ziel
+
+
 // Daten mit den Anzahl Schritten in den Teilsegmenten
 struct SpielfeldData {
-  int StepsSegmVB1;       // Segment bis Branch 1
-  int StepsSegmIB1;       // Kürzeres Segment bei Branch 1
-  int StepsSegmB1;        // Längeres Segment bei Branch 1
-  int StepsSegmVB2;       // Segment bis Branch 2
-  int StepsSegmIB2;       // Kürzeres Segment bei Branch 2
-  int StepsSegmB2;        // Längeres Segment bei Branch 2
-  int StepsSegmVB3;       // Segment bis Branch 3
-  int StepsSegmIB3;       // Kürzeres Segment bei Branch 3
-  int StepsSegmB3;        // Längeres Segment bei Branch 3
-  int StepsSegmVK;        // Segment bis zum Kreis
-  int StepsSegmK;         // Segment im Kreis
+  int Steps;       // Schritte im Segment
+  int StartID;     // LED Start ID des Segments
 };
 
 
@@ -28,8 +38,12 @@ struct FigureData {
   bool BranchOn3;               // Branch 3 ist aktiv
 };
 
+// Funktion muss beim Start einmal aufgerufen werden
+// Funktion ist "blockierend"
+void SF_InitData(void);
 
 // Grundbeleuchtung einschalten
+// Funktion ist "blockierend"
 // Return true, wenn abgeschlossen
 // Return false, wenn noch am laufen
 bool SF_StartDim(void);
@@ -69,5 +83,8 @@ bool SF_PlayerFigureHasMoved(GlobalTypes_Spieler_t Spieler, GlobalTypes_Figur_t 
 // Die Funktion ist nicht blockierend
 void SF_OperateSpielfeld(void);
 
+// Funktion berechnet auf Grund der "FigureData" den neuen Weg
+// Die Funktion darf nur im Modul "SpielfeldLed.cpp" aufgerufen werden
+void SF_CalcPlayerWay(GlobalTypes_Spieler_t Spieler, GlobalTypes_Figur_t Figur);
 
 #endif
