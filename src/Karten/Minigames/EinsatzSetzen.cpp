@@ -2,25 +2,39 @@
 #include "Messages.h"
 #include "Treiber/TasterTreiber.h"
 #include "Treiber/LedTreiber.h"
+#include "Treiber/TasterLed.h"
 
-struct Messages_values einsatztWerte;
+extern struct Messages_values MessageVal;
 
-static bool startDone;
+
 static bool StartMsgShown;
+static bool startP1Done;
+static bool startP2Done;
 
 void EinsatzSetzen_Run(void)
 {
-  if (!startDone)
+  if (!StartMsgShown) {
+    Messages_ZeigeNachricht(SpielerEins, MSG_Einsatz_waehlen);
+    Messages_ZeigeNachricht(SpielerZwei, MSG_Einsatz_waehlen);
+    TasterLed_Setzten(SpielerEins, LedEins, Gruen);
+    TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
+    StartMsgShown = true;
+  }
+
+  if (TasterTreiber_TasteGedrueckt(SPIELER1_TASTE1))
   {
-    if (!StartMsgShown) {
-      Messages_ZeigeNachricht(SpielerEins, MSG_Einsatz_waehlen);
-      Messages_ZeigeNachricht(SpielerZwei, MSG_Einsatz_waehlen);
-      StartMsgShown = true;
-    }
-    if (TasterTreiber_TasteGedrueckt(SPIELER1_TASTE1))
-    {
-      LedTreiber_LedSchalten(70,Blau);
-      startDone = true;
-    }
+    LedTreiber_LedSchalten(70,Blau);
+    startP1Done = true;
+  }
+  if (TasterTreiber_TasteGedrueckt(SPIELER2_TASTE1))
+  {
+    LedTreiber_LedSchalten(90,Blau);
+    startP2Done = true;
+  }
+  if (startP1Done){
+    Messages_ZeigeNachricht(SpielerEins, MSG_Welcome);
+  }
+  if (startP2Done){
+    Messages_ZeigeNachricht(SpielerZwei, MSG_Welcome);
   }
 }
