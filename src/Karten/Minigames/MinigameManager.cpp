@@ -5,7 +5,7 @@
 //#include "FigurAuswahl.h"
 
 
-MinigameManager_GameStatus_t currentGameStatus;
+MinigameManager_GameStatus_t currentGame;
 static bool GameInProgress = false;
 static bool einsatzSetztenAktiv = false;
 uint8_t einsatzAktiverSpieler;
@@ -30,9 +30,9 @@ void MinigameManager_EndGame(GlobalTypes_AktiverSpieler_t gewinner)
   GameInProgress = false;
 }
 
-void MinigameManager_SetStatus(MinigameManager_GameStatus_t newGameStatus)
+void MinigameManager_SetGame(MinigameManager_GameStatus_t newGame)
 {
-  currentGameStatus = newGameStatus;
+  currentGame = newGame;
 }
 
 void MinigameManager_EinsatzGesetzt(uint8_t newEinsatzAktiverSpieler, uint8_t newEinsatzPassiverSpieler)
@@ -42,7 +42,7 @@ void MinigameManager_EinsatzGesetzt(uint8_t newEinsatzAktiverSpieler, uint8_t ne
   einsatzSetztenAktiv = false;
 }
 
-void MinigameManager_Main(void)
+void MinigameManager_Run(void)
 {
   if (GameInProgress == true)
   {
@@ -52,7 +52,7 @@ void MinigameManager_Main(void)
     }
     else
     {
-      switch (currentGameStatus)
+      switch (currentGame)
       {
         case Reaktion:
         // code

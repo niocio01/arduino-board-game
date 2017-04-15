@@ -5,5 +5,6 @@
 
 //bool KartenManager_KarteStarten(void);
 void KartenManager_Main(void);
+void Kartenmanager_MinigameEnded(void);
 
 #endif

@@ -18,7 +18,7 @@ static bool tasterGestartet;
 
 void Startup_check(void)
 {
-  extern struct Messages_values MessageValues;
+  
 
   ledGestartet  = LedTreiber_Startup();
   lcdGestartet  = LcdTreiber_Startup();
@@ -30,16 +30,16 @@ void Startup_check(void)
     and tonGestartet and tasterGestartet == true)
   {
     LedTreiber_LedSchalten(192, Gruen);
-    Messages_ZeigeNachricht(SpielerEins, MSG_Startup_OK, &MessageValues);
-    Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_OK, &MessageValues);
+    Messages_ZeigeNachricht(SpielerEins, MSG_Startup_OK);
+    Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_OK);
     //SpeakerTreiber_playTune();
   }
 
   else
   {
     LedTreiber_LedSchalten(192, Rot);
-    Messages_ZeigeNachricht(SpielerEins, MSG_Startup_RFID_Fail, &MessageValues);
-    Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_RFID_Fail, &MessageValues);
+    Messages_ZeigeNachricht(SpielerEins, MSG_Startup_RFID_Fail);
+    Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_RFID_Fail);
 
   }
 }

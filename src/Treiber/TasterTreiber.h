@@ -1,4 +1,5 @@
 #include <inttypes.h>
+#include "globaltypes.h"
 
 #define SPIELER1_TASTE1 (0X01)
 #define SPIELER1_TASTE2 (0X02)

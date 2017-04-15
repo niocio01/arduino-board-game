@@ -21,6 +21,5 @@ void loop()
 {
   TasterTreiber_Main();
   KartenManager_Main();
-  MinigameManager_Main();
   //LedTreiber_LedSchalten(70,Schwarz);
 }
