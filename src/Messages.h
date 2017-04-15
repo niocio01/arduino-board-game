@@ -5,8 +5,8 @@
 
 struct Messages_values {
   int AnzFelder;          // Anzeige Anzahl Felder vorwärts
-  char MiniGameName[40];  // Name eines Minigames zum Anzeigen
-  int  ValEinsatz;        // Gewählter Einsatz für das Minigames
+  char MiniGameName[16];  // Name eines Minigames zum Anzeigen
+  int  ValEinsatz;      // Gewählter Einsatz für das Minigames
   int  ValPunkte;         // Noch vorhandene Punkte
   int  CountDown;         // Wert um CountDown anzuzeigen
 };
@@ -55,7 +55,8 @@ typedef enum {
   MSGxx_Countdown,
   MSG_20_schnell_druecken,
   MSG_Taster_BL_bestaetigen,
-  MSG_Stopp_Licht }Messages_Nachrichten_t;
+  MSG_Stopp_Licht
+  } Messages_Nachrichten_t;
 
 void Messages_ZeigeNachricht(
     GlobalTypes_Spieler_t spieler,                  // Spieler Eins oder Zwei

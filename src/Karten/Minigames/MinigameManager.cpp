@@ -1,18 +1,19 @@
 #include "Karten/Minigames/MinigameManager.h"
 #include "Treiber/LedTreiber.h"
 #include "Karten/Minigames/QuickFinger.h"
+#include "Karten/Minigames/EinsatzSetzen.h"
 //#include "FigurAuswahl.h"
 
 
 MinigameManager_GameStatus_t currentGameStatus;
-bool GameInProgress = false;
-bool einsatzSetztenAktiv = false;
+static bool GameInProgress = false;
+static bool einsatzSetztenAktiv = false;
 uint8_t einsatzAktiverSpieler;
 uint8_t einsatzPassiverSpieler;
 
 void MinigameManager_StartNewGame(void)
 {
-  einsatzSetztenAktiv = false; //debug
+  einsatzSetztenAktiv = true;
   GameInProgress = true;
 }
 
@@ -47,34 +48,36 @@ void MinigameManager_Main(void)
   {
     if (einsatzSetztenAktiv == true)
     {
-      //einsatz setzten
-      einsatzSetztenAktiv = false; //debug
+      EinsatzSetzen_Run();
     }
-    switch (currentGameStatus)
+    else
     {
-      case Reaktion:
-      // code
-      break;
+      switch (currentGameStatus)
+      {
+        case Reaktion:
+        // code
+        break;
 
-      case Simon:
-      // code
-      break;
+        case Simon:
+        // code
+        break;
 
-      case ToneMaster:
-      // code
-      break;
+        case ToneMaster:
+        // code
+        break;
 
-      case QuickFinger:
-        QuickFinger_RunGame();
-      break;
+        case QuickFinger:
+          QuickFinger_RunGame();
+        break;
 
-      case FastCounter:
-      // code
-      break;
+        case FastCounter:
+        // code
+        break;
 
-      case Timing:
-      // code
-      break;
+        case Timing:
+        // code
+        break;
+      }
     }
   }
 }
