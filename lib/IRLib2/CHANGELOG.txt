@@ -1,0 +1,32 @@
+Version 2.04 March 21, 2017 
+  Typo in IRLibSAMD21.h
+Version 2.03 March 17, 2017 
+  Removed restrictions on Adafruit Feather 32u4 pin 9 
+Version 2.02 March 15, 2017 
+  Expanded support for SAMD 21. Now can use any available PWM
+    pins for output. TCC0 and TCC1 selected automatically based
+    on pin number. Receiving using 50 microsecond interrupt defaults
+    to using TC3 however TC4 and TC5 can be used optionally to avoid
+    conflicts with other libraries. GCLK0 is used for both sending and
+    receiving however it uses the default 48 MHz clock source without
+    any divisor so it's safe to use despite the fact it's normally 
+    reserved for internal Arduino infrastructure.
+Version 2.01 February 28, 2017
+  Added preliminary support for SAMD 21 platforms such as
+    Arduino Zero, Arduino M0 Pro, and Adafruit Feather M0.
+  Note: Documentation has not yet been updated to support SAMD 21.
+    See IRLib2/SAMD21.txt for details.
+
+Version beta 0.11 September 21, 2016
+  Fixed extra character in IRLibProtocols/IRLibCombo.h
+
+Additional release beta version 0.1 September 20, 2016
+  Major rewrite of IRLib1 restructuring everything
+  Added auto resume feature when using external buffer
+  But fixes
+  Included new protocols which were previously supported only
+    by sample code into the main libraries.
+  See users manual Appendix A for details of changes and explanation
+    of reasons that this is no longer backward-compatible with IRLib1.
+  Added Section 2 Beginners Tutorial and long-awaited Section 3 on
+    how to add new protocols.

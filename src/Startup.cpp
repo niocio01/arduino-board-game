@@ -8,6 +8,7 @@
 #include "GlobalTypes.h"
 #include "Treiber/SpeakerTreiber.h"
 #include "Treiber/TasterTreiber.h"
+#include "Treiber/IRTreiber.h"
 
 
 static bool ledGestartet;
@@ -15,19 +16,20 @@ static bool lcdGestartet;
 static bool rfidGestartet;
 static bool tonGestartet;
 static bool tasterGestartet;
+static bool IRGestartet;
 
 void Startup_check(void)
 {
-  
-
   ledGestartet  = LedTreiber_Startup();
   lcdGestartet  = LcdTreiber_Startup();
   rfidGestartet = RfidTreiber_Startup();
   tonGestartet  = SpeakerTreiber_Startup();
   tasterGestartet = TasterTreiber_Startup();
+  IRGestartet = IRTreiber_Startup();
+
 
   if (ledGestartet == true and lcdGestartet == true and rfidGestartet == true
-    and tonGestartet and tasterGestartet == true)
+    and tonGestartet and tasterGestartet == true and IRGestartet == true)
   {
     LedTreiber_LedSchalten(192, Gruen);
     Messages_ZeigeNachricht(SpielerEins, MSG_Startup_OK);
