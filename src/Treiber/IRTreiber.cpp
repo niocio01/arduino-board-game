@@ -7,7 +7,7 @@
 #include <arduino.h>
 
 IRdecodeNEC myDecoder; // Now declare an instance of that decoder.
-IRrecv myReceiver(11); //pin number for the receiver
+IRrecv myReceiver(6); //pin number for the receiver
 
 
 #define MYPROTOCOL NEC //IR Protocoll

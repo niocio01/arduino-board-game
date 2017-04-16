@@ -43,8 +43,8 @@
 #if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
 	//#define IR_SEND_TIMER1	11
 	//#define IR_SEND_TIMER2		9
-	#define IR_SEND_TIMER3	5 //war bei timer2 "Nico"
-	//#define IR_SEND_TIMER4	6
+	//#define IR_SEND_TIMER3	5
+	#define IR_SEND_TIMER4	6
 	//#define IR_SEND_TIMER5	46
 
 /* Teensy 1.0 */
