@@ -58,11 +58,11 @@ typedef enum {
   MSG_Stopp_Licht
   } Messages_Nachrichten_t;
 
-  void Messages_ZeigeNachricht(
+ void Messages_ZeigeNachricht(
       GlobalTypes_Spieler_t spieler,                // Spieler Eins oder Zwei
       Messages_Nachrichten_t nachricht);            // Code für die Nachricht (siehe oben)
 
-void Messages_ZeigeNachricht(
+void Messages_ZeigeNachricht_Wert(
     GlobalTypes_Spieler_t spieler,                  // Spieler Eins oder Zwei
     Messages_Nachrichten_t nachricht,               // Code für die Nachricht (siehe oben)
     const struct Messages_values *MessageVal);   // Zusätzliche Werte gemäss obiger Struktur

@@ -3,8 +3,9 @@
 #include "Treiber/TasterTreiber.h"
 #include "Treiber/LedTreiber.h"
 #include "Treiber/TasterLed.h"
+#include "Treiber/PotiTreiber.h"
 
-extern struct Messages_values MessageVal;
+extern struct Messages_values Messages_values;
 
 
 static bool StartMsgShown;
@@ -14,8 +15,8 @@ static bool startP2Done;
 void EinsatzSetzen_Run(void)
 {
   if (!StartMsgShown) {
-    Messages_ZeigeNachricht(SpielerEins, MSG_Einsatz_waehlen);
-    Messages_ZeigeNachricht(SpielerZwei, MSG_Einsatz_waehlen);
+  //  Messages_ZeigeNachricht(SpielerEins, MSG_Einsatz_waehlen);
+  //  Messages_ZeigeNachricht(SpielerZwei, MSG_Einsatz_waehlen);
     TasterLed_Setzten(SpielerEins, LedEins, Gruen);
     TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
     StartMsgShown = true;
@@ -32,9 +33,11 @@ void EinsatzSetzen_Run(void)
     startP2Done = true;
   }
   if (startP1Done){
-    Messages_ZeigeNachricht(SpielerEins, MSG_Welcome);
+  //  Messages_ZeigeNachricht(SpielerEins, MSG_Welcome);
   }
   if (startP2Done){
-    Messages_ZeigeNachricht(SpielerZwei, MSG_Welcome);
+  //Messages_values.ValEinsatz = PotiTreiber_Get_Val(SpielerZwei);
+  //Messages_values.ValPunkte = 30;
+  //Messages_ZeigeNachricht_Wert(SpielerZwei, MSGxx_Einsatz_Punkte, &Messages_values);
   }
 }

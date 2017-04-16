@@ -9,6 +9,7 @@
 #include "Treiber/SpeakerTreiber.h"
 #include "Treiber/TasterTreiber.h"
 #include "Treiber/IRTreiber.h"
+#include "Treiber/PotiTreiber.h"
 
 
 static bool ledGestartet;
@@ -17,6 +18,9 @@ static bool rfidGestartet;
 static bool tonGestartet;
 static bool tasterGestartet;
 static bool IRGestartet;
+static bool PotiGestartet;
+
+extern struct Messages_values Messages_values;
 
 void Startup_check(void)
 {
@@ -26,22 +30,24 @@ void Startup_check(void)
   tonGestartet  = SpeakerTreiber_Startup();
   tasterGestartet = TasterTreiber_Startup();
   IRGestartet = IRTreiber_Startup();
+  PotiGestartet = PotiTreiber_Startup();
 
 
   if (ledGestartet == true and lcdGestartet == true and rfidGestartet == true
-    and tonGestartet and tasterGestartet == true and IRGestartet == true)
+    and tonGestartet and tasterGestartet == true and IRGestartet == true
+    and PotiGestartet == true)
   {
     LedTreiber_LedSchalten(192, Gruen);
-    Messages_ZeigeNachricht(SpielerEins, MSG_Startup_OK);
-    Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_OK);
+    //Messages_ZeigeNachricht(SpielerEins, MSG_Startup_OK);
+    //Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_OK);
     //SpeakerTreiber_playTune();
   }
 
   else
   {
     LedTreiber_LedSchalten(192, Rot);
-    Messages_ZeigeNachricht(SpielerEins, MSG_Startup_RFID_Fail);
-    Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_RFID_Fail);
+  //  Messages_ZeigeNachricht(SpielerEins, MSG_Startup_RFID_Fail);
+  //  Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_RFID_Fail);
 
   }
 }

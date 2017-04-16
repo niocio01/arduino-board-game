@@ -7,6 +7,8 @@ struct Messages_values MessageValues;
 const uint16_t updateIntervall = 200;
 static uint16_t lastUpdateTime;
 
+
+
 void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten_t nachricht)
 {
   switch (nachricht)
@@ -173,7 +175,8 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
   }
 }
 
-void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten_t nachricht, const struct Messages_values *MessageVal)
+
+void Messages_ZeigeNachricht_Wert(GlobalTypes_Spieler_t spieler, Messages_Nachrichten_t nachricht, const struct Messages_values *MessageVal)
 {
   if ((millis() - lastUpdateTime) > updateIntervall)
   {

@@ -11,6 +11,7 @@
 #include "Treiber/PotiLed.h"
 #include "Karten/Minigames/MinigameManager.h"
 #include "Treiber/IRTreiber.h"
+#include "Treiber/PotiTreiber.h"
 
 
 void setup()
@@ -23,5 +24,5 @@ void loop()
   TasterTreiber_Main();
   KartenManager_Main();
   IRTreiber_Main();
-  //LedTreiber_LedSchalten(70,Schwarz);
+  //LedTreiber_LedSchalten(72, Weiss, PotiTreiber_Get_Val(SpielerZwei));
 }
