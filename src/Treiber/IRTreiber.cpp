@@ -3,9 +3,12 @@
 #include <IRLib_P01_NEC.h>
 #include <IRLibRecv.h>
 #include "Treiber/LedTreiber.h"
+#include <SoftReset.h>
+#include <arduino.h>
 
 IRdecodeNEC myDecoder; // Now declare an instance of that decoder.
 IRrecv myReceiver(11); //pin number for the receiver
+
 
 #define MYPROTOCOL NEC //IR Protocoll
 
@@ -55,6 +58,11 @@ void IRTreiber_Main(void)
         case IR_BUTTON_CH_UP:
         LedTreiber_LedSchalten(77, Blau);
         break;
+
+        case IR_BUTTON_9:
+        soft_restart();
+        break;
+
       }
     }
     myReceiver.enableIRIn();
