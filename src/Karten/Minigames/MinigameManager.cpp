@@ -17,15 +17,15 @@ void MinigameManager_StartNewGame(void)
   GameInProgress = true;
 }
 
-void MinigameManager_EndGame(GlobalTypes_AktiverSpieler_t gewinner)
+void MinigameManager_GameEnded(GlobalTypes_Spieler_t gewinner)
 {
-  if (gewinner == AktiverSpieler)
+  if (gewinner == SpielerEins)
   {
-    //FigurAuswahl_FigurAuswaehlen(AktiverSpieler, einsatzAktiverSpieler)
+    LedTreiber_LedSchalten(193, Gruen);
   }
   else
   {
-    //FigurAuswahl_FigurAuswaehlen(PassiverSpieler, einsatzPassiverSpieler)
+    LedTreiber_LedSchalten(193, Rot);
   }
   GameInProgress = false;
 }

@@ -55,7 +55,9 @@ typedef enum {
   MSGxx_Countdown,
   MSG_20_schnell_druecken,
   MSG_Taster_BL_bestaetigen,
-  MSG_Stopp_Licht
+  MSG_Stopp_Licht,
+  MSGxx_Start_in,
+  MSGxx_Endet_in
   } Messages_Nachrichten_t;
 
 /*

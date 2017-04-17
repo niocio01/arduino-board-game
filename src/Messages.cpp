@@ -22,7 +22,7 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     break;
 
     case MSG_Startup_RFID_Fail:
-    LcdTreiber_DisplayMessage(spieler, (char *) "Startup:", (char *) "RFID Fail");
+    LcdTreiber_DisplayMessage(spieler, (char *) "Startup:", (char *) "Failed");
     break;
 
     case MSG_Welcome:
@@ -162,7 +162,7 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     break;
 
     case MSG_Schnell_druecken:
-    LcdTreiber_DisplayMessage(spieler, (char *) "Moeglichst schnell", (char *) "druecken in…");
+    LcdTreiber_DisplayMessage(spieler, (char *) "Moeglichst", (char *) "schnell druecken");
     break;
 
     case MSG_20_schnell_druecken:
@@ -205,6 +205,16 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     case MSGxx_Countdown:
     sprintf(Text2, "%d", MessageVal->CountDown);
     LcdTreiber_DisplayMessage(spieler, (char *) "Countdown:", Text2);
+    break;
+
+    case MSGxx_Start_in:
+    sprintf(Text2, "%d", MessageVal->CountDown);
+    LcdTreiber_DisplayMessage(spieler, (char *) "Start in:", Text2);
+    break;
+
+    case MSGxx_Endet_in:
+    sprintf(Text2, "%d", MessageVal->CountDown);
+    LcdTreiber_DisplayMessage(spieler, (char *) "Game endet in:", Text2);
     break;
   }
 }

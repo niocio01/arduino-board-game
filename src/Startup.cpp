@@ -20,7 +20,7 @@ static bool tasterGestartet;
 static bool IRGestartet;
 static bool PotiGestartet;
 
- const Messages_values Leer;
+ Messages_values Leer;
 
 void Startup_check(void)
 {
@@ -37,7 +37,7 @@ void Startup_check(void)
     and tonGestartet and tasterGestartet == true and IRGestartet == true
     and PotiGestartet == true)
   {
-    LedTreiber_LedSchalten(192, Gruen);
+    
     Messages_ZeigeNachricht(SpielerEins, MSG_Startup_OK, &Leer);
     Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_OK, &Leer);
     //SpeakerTreiber_playTune();
