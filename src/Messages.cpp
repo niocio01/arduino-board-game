@@ -4,7 +4,6 @@
 #include "arduino.h"
 
 struct Messages_values MessageValues;
-const uint16_t updateIntervall = 10;
 static uint16_t lastUpdateTime;
 
 
@@ -118,7 +117,7 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     break;
 
     case MSG_Einsatz_waehlen:
-    LcdTreiber_DisplayMessage(spieler, (char *) "Mit POT", (char *) "Einsatz wählen");
+    LcdTreiber_DisplayMessage(spieler, (char *) "Mit Poti", (char *) "Einsatz waehlen");
     break;
 
     case MSG_Gegner_bestimmt_Einsatz:
@@ -138,7 +137,7 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     break;
 
     case MSG_Next_Round:
-    LcdTreiber_DisplayMessage(spieler, (char *) "Nächste Runde", (char *) "");
+    LcdTreiber_DisplayMessage(spieler, (char *) "Naechste Runde", (char *) "");
     break;
 
     case MSG_Sequenz:
@@ -195,8 +194,7 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     case MSGxx_Einsatz_Punkte:
     if ((millis() - lastUpdateTime) > updateIntervall)
     {
-      sprintf(Text1, "%s %d", "Einsatz:", MessageVal->ValEinsatz);
-      sprintf(Text2, "%s %d", "Punke:", MessageVal->ValPunkte);
+      sprintf(Text2, "%s %d", "Einsatz:", MessageVal->ValEinsatz);
       LcdTreiber_DisplayMessage(spieler, Text1, Text2);
       lastUpdateTime = millis();
     }

@@ -5,42 +5,77 @@
 #include "Treiber/TasterLed.h"
 #include "Treiber/PotiTreiber.h"
 #include "Treiber/PotiLed.h"
+#include "arduino.h"
 
 //extern struct Messages_values messageVal;
 static Messages_values points;
 static Messages_values leer;
 
-static bool StartMsgShown;
-static bool startP1Done;
-static bool startP2Done;
+static uint8_t einsatzDepotP1 = 30;
+static uint8_t einsatzDepotP2 = 30;
+uint8_t maxPunkteP1;
+uint8_t maxPunkteP2;
+const uint8_t maxPunkte = 5;
+
+static uint8_t einsatztP1;
+static uint8_t einsatztP2;
+
+static bool startMsgShown;
+static bool startDoneP1;
+static bool startDoneP2;
+static bool enablePotLedP1;
+static bool enablePotLedP2;
+static bool EinsaztGewaehletP1;
+static bool EinsaztGewaehletP2;
 
 void EinsatzSetzen_Run(void)
 {
-  if (!StartMsgShown) {
+  if (!startMsgShown) {
     Messages_ZeigeNachricht(SpielerEins, MSG_Einsatz_waehlen, &leer);
     Messages_ZeigeNachricht(SpielerZwei, MSG_Einsatz_waehlen, &leer);
     TasterLed_Setzten(SpielerEins, LedEins, Gruen);
     TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
-    StartMsgShown = true;
+    startMsgShown = true;
   }
 
   if (TasterTreiber_TasteGedrueckt(SPIELER1_TASTE1))
   {
     LedTreiber_LedSchalten(70,Blau);
-    startP1Done = true;
+    startDoneP1 = true;
   }
   if (TasterTreiber_TasteGedrueckt(SPIELER2_TASTE1))
   {
     LedTreiber_LedSchalten(90,Blau);
-    startP2Done = true;
+    startDoneP2 = true;
   }
-  if (startP1Done){
-  //  Messages_ZeigeNachricht(SpielerEins, MSG_Welcome);
+  if (startDoneP1)
+  {
+
   }
-  if (startP2Done){
-  PotiLed_Setzen(SpielerZwei, Gruen);
-  points.ValEinsatz = PotiTreiber_Get_Val(SpielerZwei);
-  points.ValPunkte = 30;
-  Messages_ZeigeNachricht(SpielerZwei, MSGxx_Einsatz_Punkte, &points);
+  if (startDoneP2){
+    if(!enablePotLedP2)
+    {
+      PotiLed_Setzen(SpielerZwei, Gruen);
+      enablePotLedP2 = true;
+    }
+    if(!EinsaztGewaehletP2)
+    {
+      if (einsatzDepotP2 < maxPunkte)
+      {
+        maxPunkteP2 = einsatzDepotP2;
+      }
+      else
+      {
+        maxPunkteP2 = maxPunkte;
+      }
+      einsatztP2 = map(PotiTreiber_Get_Val(SpielerZwei), 0, 255, 0, maxPunkteP2);
+      points.ValEinsatz = einsatztP2;
+      points.ValPunkte = einsatzDepotP2;
+      Messages_ZeigeNachricht(SpielerZwei, MSGxx_Einsatz_Punkte, &points);
+      //if (TasterTreiber_TasteGedrueckt(SPIELER2_TASTE1))
+      {
+    //    EinsaztGewaehletP2 = true;
+      }
+    }
   }
 }
