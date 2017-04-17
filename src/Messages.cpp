@@ -4,6 +4,7 @@
 #include "arduino.h"
 
 struct Messages_values MessageValues;
+const uint16_t updateIntervall = 50;
 static uint16_t lastUpdateTime;
 
 
@@ -194,6 +195,7 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     case MSGxx_Einsatz_Punkte:
     if ((millis() - lastUpdateTime) > updateIntervall)
     {
+      sprintf(Text1, "%s %d", "Punkte:", MessageVal->ValPunkte);
       sprintf(Text2, "%s %d", "Einsatz:", MessageVal->ValEinsatz);
       LcdTreiber_DisplayMessage(spieler, Text1, Text2);
       lastUpdateTime = millis();

@@ -12,10 +12,12 @@ const uint8_t P2T2Pin = 48;
 const uint8_t P2T3Pin = 50;
 const uint8_t P2T4Pin = 52;
 
+
 const uint32_t debounceDelay = 5;
 static uint8_t bufferAktuell;
 static uint8_t bufferAlt;
 static uint8_t BufferEntprellt;
+
 
 bool TasterTreiber_Startup()
 {
@@ -46,6 +48,8 @@ bool TasterTreiber_Startup()
   P2T3State = digitalRead(P2T3Pin);
   P2T4State = digitalRead(P2T4Pin);
 
+
+
   if (!P1T1State and !P1T2State and !P1T3State and !P1T4State and !P2T1State and !P2T2State and !P2T3State and !P2T4State == true)
   {
     return true;
@@ -64,6 +68,7 @@ bool TasterTreiber_TasteGedrueckt (uint8_t tastenNr)
   }
   return false;
 }
+
 
 void TasterTreiber_Main (void)
 {
