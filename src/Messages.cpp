@@ -4,13 +4,17 @@
 #include "arduino.h"
 
 struct Messages_values MessageValues;
-const uint16_t updateIntervall = 200;
+const uint16_t updateIntervall = 10;
 static uint16_t lastUpdateTime;
 
 
 
-void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten_t nachricht)
+void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten_t nachricht, struct Messages_values *MessageVal)
 {
+
+  char Text1[41];
+  char Text2[41];
+
   switch (nachricht)
   {
     case MSG_Startup_OK:
@@ -172,39 +176,72 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     case MSG_Stopp_Licht:
     LcdTreiber_DisplayMessage(spieler, (char *) "Licht in der", (char *) "Mitte stoppen");
     break;
-  }
-}
 
 
-void Messages_ZeigeNachricht_Wert(GlobalTypes_Spieler_t spieler, Messages_Nachrichten_t nachricht, const struct Messages_values *MessageVal)
-{
-  if ((millis() - lastUpdateTime) > updateIntervall)
-  {
-    char Text1[41];
-    char Text2[41];
 
-    switch (nachricht)
+    case MSGxx_Felder_vorwaerts:
+    if ((millis() - lastUpdateTime) > updateIntervall)
     {
-      case MSGxx_Felder_vorwaerts:
       sprintf(Text1, "%s %d", "es geht", MessageVal->AnzFelder);
       LcdTreiber_DisplayMessage(spieler, Text1, (char *) "Felder vorwaerts");
-      break;
+      lastUpdateTime = millis();
+    }
+    break;
 
-      case MSGxx_MinigameName:
-      LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", MessageVal->MiniGameName);
-      break;
+    case MSGxx_MinigameName:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", MessageVal->MiniGameName);
+    break;
 
-      case MSGxx_Einsatz_Punkte:
+    case MSGxx_Einsatz_Punkte:
+    if ((millis() - lastUpdateTime) > updateIntervall)
+    {
       sprintf(Text1, "%s %d", "Einsatz:", MessageVal->ValEinsatz);
       sprintf(Text2, "%s %d", "Punke:", MessageVal->ValPunkte);
       LcdTreiber_DisplayMessage(spieler, Text1, Text2);
-      break;
-
-      case MSGxx_Countdown:
-      sprintf(Text2, "%d", MessageVal->CountDown);
-      LcdTreiber_DisplayMessage(spieler, (char *) "Countdown:", Text2);
-      break;
+      lastUpdateTime = millis();
     }
-    lastUpdateTime = millis();
+    break;
+
+    case MSGxx_Countdown:
+    sprintf(Text2, "%d", MessageVal->CountDown);
+    LcdTreiber_DisplayMessage(spieler, (char *) "Countdown:", Text2);
+    break;
   }
 }
+
+
+
+
+/*void Messages_ZeigeNachricht_Wert(GlobalTypes_Spieler_t spieler, Messages_Nachrichten_t nachricht, const struct Messages_values *MessageVal)
+{
+if ((millis() - lastUpdateTime) > updateIntervall)
+{
+char Text1[41];
+char Text2[41];
+
+switch (nachricht)
+{
+case MSGxx_Felder_vorwaerts:
+sprintf(Text1, "%s %d", "es geht", MessageVal->AnzFelder);
+LcdTreiber_DisplayMessage(spieler, Text1, (char *) "Felder vorwaerts");
+break;
+
+case MSGxx_MinigameName:
+LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", MessageVal->MiniGameName);
+break;
+
+case MSGxx_Einsatz_Punkte:
+sprintf(Text1, "%s %d", "Einsatz:", MessageVal->ValEinsatz);
+sprintf(Text2, "%s %d", "Punke:", MessageVal->ValPunkte);
+LcdTreiber_DisplayMessage(spieler, Text1, Text2);
+break;
+
+case MSGxx_Countdown:
+sprintf(Text2, "%d", MessageVal->CountDown);
+LcdTreiber_DisplayMessage(spieler, (char *) "Countdown:", Text2);
+break;
+}
+lastUpdateTime = millis();
+}
+}
+*/

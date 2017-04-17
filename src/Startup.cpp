@@ -20,7 +20,7 @@ static bool tasterGestartet;
 static bool IRGestartet;
 static bool PotiGestartet;
 
-extern struct Messages_values Messages_values;
+ const Messages_values Leer;
 
 void Startup_check(void)
 {
@@ -38,16 +38,16 @@ void Startup_check(void)
     and PotiGestartet == true)
   {
     LedTreiber_LedSchalten(192, Gruen);
-    //Messages_ZeigeNachricht(SpielerEins, MSG_Startup_OK);
-    //Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_OK);
+    Messages_ZeigeNachricht(SpielerEins, MSG_Startup_OK, &Leer);
+    Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_OK, &Leer);
     //SpeakerTreiber_playTune();
   }
 
   else
   {
     LedTreiber_LedSchalten(192, Rot);
-  //  Messages_ZeigeNachricht(SpielerEins, MSG_Startup_RFID_Fail);
-  //  Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_RFID_Fail);
+    Messages_ZeigeNachricht(SpielerEins, MSG_Startup_RFID_Fail, &Leer);
+    Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_RFID_Fail, &Leer);
 
   }
 }

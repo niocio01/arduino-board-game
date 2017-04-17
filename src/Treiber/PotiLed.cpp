@@ -2,7 +2,7 @@
 #include "Treiber/LedTreiber.h"
 
 
-void PotiLed_Setzten(GlobalTypes_Spieler_t spieler,
+void PotiLed_Setzen(GlobalTypes_Spieler_t spieler,
   GlobalTypes_Farbe_t farbe)
   {
     if (spieler == SpielerEins)

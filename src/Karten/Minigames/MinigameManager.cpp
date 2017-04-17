@@ -13,7 +13,7 @@ uint8_t einsatzPassiverSpieler;
 
 void MinigameManager_StartNewGame(void)
 {
-  einsatzSetztenAktiv = false;
+  einsatzSetztenAktiv = true;
   GameInProgress = true;
 }
 
