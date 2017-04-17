@@ -17,6 +17,7 @@ const uint32_t debounceDelay = 5;
 static uint8_t bufferAktuell;
 static uint8_t bufferAlt;
 static uint8_t BufferEntprellt;
+static uint8_t bufferPushRelease;
 
 
 bool TasterTreiber_Startup()
@@ -117,4 +118,9 @@ void TasterTreiber_Main (void)
     bufferAlt = bufferAktuell;
     lastDebounceTime = millis();
   }
+
+
+
+
+
 }
