@@ -17,7 +17,7 @@ typedef enum
     void MinigameManager_Run(void);
     void MinigameManager_SetGame(MinigameManager_GameStatus_t newGameStatus);
     void MinigameManager_StartNewGame(void);
-    void MinigameManager_EinsatzGesetzt(uint8_t newEinsatzAktiverSpieler, uint8_t newEinsatzPassiverSpieler);
+  void MinigameManager_EinsatzGesetzt(uint8_t newEinsatzP1, uint8_t newEinsatzP2);
     void MinigameManager_EndGame(GlobalTypes_AktiverSpieler_t gewinner);
 
 #endif

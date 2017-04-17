@@ -8,18 +8,20 @@
 #include "arduino.h"
 #include "Treiber/TasterHandler.h"
 
-//extern struct Messages_values messageVal;
-static Messages_values points;
-static Messages_values leer;
 
 static uint8_t einsatzDepotP1 = 30;
-static uint8_t einsatzDepotP2 = 100;
+static uint8_t einsatzDepotP2 = 30;
+const uint8_t maxPunkte = 5;
+
+static Messages_values points1;
+static Messages_values points2;
+static Messages_values leer;
+
+
 uint8_t maxPunkteP1;
 uint8_t maxPunkteP2;
-const uint8_t maxPunkte = 100;
-
-static uint8_t einsatztP1;
-static uint8_t einsatztP2;
+static uint8_t einsatzP1;
+static uint8_t einsatzP2;
 
 static bool startMsgShown;
 static bool startDoneP1;
@@ -41,6 +43,38 @@ void EinsatzSetzen_Run(void)
     startMsgShown = true;
   }
 
+  if (!startDoneP1)
+  {
+    if (TasterHandler_Klick(SpielerEins, TasterEins))
+    {
+      PotiLed_Setzen(SpielerEins, Gruen);
+      startDoneP1 = true;
+    }
+  }
+  if(startDoneP1 and !EinsaztGewaehletP1)
+  {
+    if (einsatzDepotP1 < maxPunkte)
+    {
+      maxPunkteP1 = einsatzDepotP1;
+    }
+    else
+    {
+      maxPunkteP1 = maxPunkte;
+    }
+    einsatzP1 = map(PotiTreiber_Get_Val(SpielerEins), 0, 255, 0, maxPunkteP1);
+    points1.ValEinsatz = einsatzP1;
+    points1.ValPunkte = einsatzDepotP1;
+    Messages_ZeigeNachricht(SpielerEins, MSGxx_Einsatz_Punkte, &points1);
+
+    if (TasterHandler_Klick(SpielerEins, TasterEins))
+    {
+      EinsaztGewaehletP1 = true;
+      TasterLed_Setzten(SpielerEins, LedEins, Schwarz);
+      PotiLed_Setzen(SpielerEins, Schwarz);
+    }
+  }
+
+
   if (!startDoneP2)
   {
     if (TasterHandler_Klick(SpielerZwei, TasterEins))
@@ -59,10 +93,10 @@ void EinsatzSetzen_Run(void)
     {
       maxPunkteP2 = maxPunkte;
     }
-    einsatztP2 = map(PotiTreiber_Get_Val(SpielerZwei), 0, 255, 0, maxPunkteP2);
-    points.ValEinsatz = einsatztP2;
-    points.ValPunkte = einsatzDepotP2;
-    Messages_ZeigeNachricht(SpielerZwei, MSGxx_Einsatz_Punkte, &points);
+    einsatzP2 = map(PotiTreiber_Get_Val(SpielerZwei), 0, 255, 0, maxPunkteP2);
+    points2.ValEinsatz = einsatzP2;
+    points2.ValPunkte = einsatzDepotP2;
+    Messages_ZeigeNachricht(SpielerZwei, MSGxx_Einsatz_Punkte, &points2);
 
     if (TasterHandler_Klick(SpielerZwei, TasterEins))
     {
@@ -70,5 +104,16 @@ void EinsatzSetzen_Run(void)
       TasterLed_Setzten(SpielerZwei, LedEins, Schwarz);
       PotiLed_Setzen(SpielerZwei, Schwarz);
     }
+  }
+  if (EinsaztGewaehletP1 and EinsaztGewaehletP2)
+  {
+    startMsgShown = false;
+    startDoneP1 = false;
+    startDoneP2 = false;
+    enablePotLedP1 = false;
+    enablePotLedP2 = false;
+    EinsaztGewaehletP1 = false;
+    EinsaztGewaehletP2 = false;
+    MinigameManager_EinsatzGesetzt(einsatzP1, einsatzP2);
   }
 }

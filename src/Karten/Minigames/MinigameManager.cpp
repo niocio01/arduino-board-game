@@ -8,8 +8,8 @@
 MinigameManager_GameStatus_t currentGame;
 static bool GameInProgress = false;
 static bool einsatzSetztenAktiv = false;
-uint8_t einsatzAktiverSpieler;
-uint8_t einsatzPassiverSpieler;
+uint8_t einsatzP1;
+uint8_t einsatzP2;
 
 void MinigameManager_StartNewGame(void)
 {
@@ -35,10 +35,10 @@ void MinigameManager_SetGame(MinigameManager_GameStatus_t newGame)
   currentGame = newGame;
 }
 
-void MinigameManager_EinsatzGesetzt(uint8_t newEinsatzAktiverSpieler, uint8_t newEinsatzPassiverSpieler)
+void MinigameManager_EinsatzGesetzt(uint8_t newEinsatzP1, uint8_t newEinsatzP2)
 {
-  einsatzAktiverSpieler = newEinsatzAktiverSpieler;
-  einsatzPassiverSpieler = newEinsatzPassiverSpieler;
+  einsatzP1 = newEinsatzP1;
+  einsatzP2 = newEinsatzP2;
   einsatzSetztenAktiv = false;
 }
 
