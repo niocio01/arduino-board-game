@@ -13,6 +13,8 @@ static bool gewinnerBestimmt = false;
 static bool WinnerShown = false;
 uint8_t einsatzP1;
 uint8_t einsatzP2;
+static bool SpielerEinsHatGewonnen;
+static bool SpielerZweiHatGewonnen;
 
 void MinigameManager_StartNewGame(bool useSameEinsatz)
 {
@@ -46,10 +48,14 @@ void MinigameManager_GameEnded(MinigameManager_Winner_t gewinner, bool SkipShowW
   switch (gewinner)
   {
     case Win_SpielerEins:
+    SpielerEinsHatGewonnen = true;
+    SpielerZweiHatGewonnen = false;
     ShowWinner_TellResults(Win_SpielerEins);
     break;
 
     case Win_SpielerZwei:
+    SpielerEinsHatGewonnen = false;
+    SpielerZweiHatGewonnen = true;
     ShowWinner_TellResults(Win_SpielerZwei);
     break;
 
@@ -90,7 +96,7 @@ void MinigameManager_Run(void)
     }
     else
     {
-      switch (currentGame)
+      switch (currentGame) // game auswählen und Laufen lassen
       {
         case Reaktion:
         // code
@@ -120,14 +126,13 @@ void MinigameManager_Run(void)
   }
   else
   {
-    if ( gewinnerBestimmt == true and WinnerShown == false)
+    if ( gewinnerBestimmt == true and WinnerShown == false) //game fertig
     {
       ShowWinner_Run(); //gewinner anzeigen oder bei unentschieden neustarten
     }
     else
     {
       //figur auswaehlen
-      LedTreiber_LedSchalten(70,Violett);
     }
   }
 
