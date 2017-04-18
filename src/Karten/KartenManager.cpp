@@ -16,7 +16,7 @@ void Kartenmanager_MinigameEnded(void)
 
 void KartenManager_Main(void)
 {
-  if (!minigameInProgress)
+  if (minigameInProgress == false)
   {
     uint8_t * kartenNrRef;
     uint8_t  kartenNrValue;

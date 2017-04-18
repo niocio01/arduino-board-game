@@ -7,8 +7,8 @@
 #include "Treiber/TasterHandler.h"
 #include "Karten/Minigames/MinigameManager.h"
 
-const uint8_t startCountdown = 5;
-const uint8_t gameTime = 10;
+const uint8_t startCountdown = 3;
+const uint8_t gameTime = 5;
 
 static uint8_t PressesP1;
 static uint8_t PressesP2;
@@ -20,8 +20,8 @@ static bool startDoneP1;
 static bool startDoneP2;
 static bool gameBegun;
 
-uint8_t startCountdownTimeRemaining = 5;
-uint8_t endCountdownTimeRemaining = 10;
+uint8_t startCountdownTimeRemaining;
+uint8_t endCountdownTimeRemaining;
 uint16_t lastCountTime;
 
 void QuickFinger_RunGame()
@@ -32,6 +32,8 @@ void QuickFinger_RunGame()
     Messages_ZeigeNachricht(SpielerZwei, MSG_Schnell_druecken, &leer);
     TasterLed_Setzten(SpielerEins, LedEins, Gruen);
     TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
+    startCountdownTimeRemaining = startCountdown;
+    endCountdownTimeRemaining = gameTime;
     startMsgShown = true;
   }
 
@@ -118,8 +120,6 @@ void QuickFinger_RunGame()
         startDoneP1 = false;
         startDoneP2 = false;
         gameBegun = false;
-        startCountdownTimeRemaining = startCountdown;
-        endCountdownTimeRemaining = gameTime;
 
         if (PressesP1 > PressesP2) //gewinner herausfinden
         {
@@ -139,9 +139,6 @@ void QuickFinger_RunGame()
           PressesP1 = 0; //reset
           PressesP2 = 0;
           MinigameManager_GameEnded(Win_Unentschieden);
-          // weil bereits alles andere geresettet wurde, wird das spiel
-          // beim nächsten durchlauf automatisch neustarten
-          // es wird gespielt bis ein eindeutiger sieger feststeht.
         }
       }
     }

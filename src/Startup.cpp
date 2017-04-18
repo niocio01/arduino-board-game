@@ -37,7 +37,7 @@ void Startup_check(void)
     and tonGestartet and tasterGestartet == true and IRGestartet == true
     and PotiGestartet == true)
   {
-    
+
     Messages_ZeigeNachricht(SpielerEins, MSG_Startup_OK, &Leer);
     Messages_ZeigeNachricht(SpielerZwei, MSG_Startup_OK, &Leer);
     //SpeakerTreiber_playTune();
