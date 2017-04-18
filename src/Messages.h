@@ -45,6 +45,7 @@ typedef enum {
   MSG_Einsatz_fuer_Gegner,
   MSG_Win,
   MSG_Lose,
+  MSG_Tie,
   MSG_Next_Round,
   MSG_Sequenz,
   MSG_Rot_Licht_druecken,

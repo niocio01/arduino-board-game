@@ -5,6 +5,7 @@
 #include "Treiber/LedTreiber.h"
 #include <SoftReset.h>
 #include <arduino.h>
+#include "Karten/Minigames/MinigameManager.h"
 
 IRdecodeNEC myDecoder; // Now declare an instance of that decoder.
 IRrecv myReceiver(6); //pin number for the receiver
@@ -63,6 +64,9 @@ void IRTreiber_Main(void)
         soft_restart();
         break;
 
+        case IR_BUTTON_PLAY:
+        MinigameManager_EinsatzGesetzt(1, 1);
+        break;
       }
     }
     myReceiver.enableIRIn();

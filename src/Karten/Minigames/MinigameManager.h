@@ -14,10 +14,19 @@ typedef enum
   Timing
 } MinigameManager_GameStatus_t;
 
+typedef enum
+{
+  Win_SpielerEins,
+  Win_SpielerZwei,
+  Win_Unentschieden
+} MinigameManager_Gewinner_t;
+
+
+
     void MinigameManager_Run(void);
     void MinigameManager_SetGame(MinigameManager_GameStatus_t newGameStatus);
     void MinigameManager_StartNewGame(void);
     void MinigameManager_EinsatzGesetzt(uint8_t newEinsatzP1, uint8_t newEinsatzP2);
-    void MinigameManager_GameEnded(GlobalTypes_Spieler_t gewinner);
+    void MinigameManager_GameEnded(MinigameManager_Gewinner_t gewinner);
 
 #endif

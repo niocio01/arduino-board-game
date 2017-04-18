@@ -137,6 +137,10 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     LcdTreiber_DisplayMessage(spieler, (char *) "Verloren", (char *) "");
     break;
 
+    case MSG_Tie:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Unentschieden:", (char *) "nochmal spielen");
+    break;
+
     case MSG_Next_Round:
     LcdTreiber_DisplayMessage(spieler, (char *) "Naechste Runde", (char *) "");
     break;

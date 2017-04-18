@@ -17,17 +17,26 @@ void MinigameManager_StartNewGame(void)
   GameInProgress = true;
 }
 
-void MinigameManager_GameEnded(GlobalTypes_Spieler_t gewinner)
+void MinigameManager_GameEnded(MinigameManager_Gewinner_t gewinner)
 {
-  if (gewinner == SpielerEins)
+  switch (gewinner)
   {
+    case Win_SpielerEins:
     LedTreiber_LedSchalten(193, Gruen);
-  }
-  else
-  {
+    GameInProgress = false;
+    einsatzSetztenAktiv = true;
+    break;
+
+    case Win_SpielerZwei:
     LedTreiber_LedSchalten(193, Rot);
+    GameInProgress = false;
+    einsatzSetztenAktiv = true;
+    break;
+
+    case Win_Unentschieden:
+    GameInProgress = true;
+    break;
   }
-  GameInProgress = false;
 }
 
 void MinigameManager_SetGame(MinigameManager_GameStatus_t newGame)
@@ -67,7 +76,7 @@ void MinigameManager_Run(void)
         break;
 
         case QuickFinger:
-          QuickFinger_RunGame();
+        QuickFinger_RunGame();
         break;
 
         case FastCounter:

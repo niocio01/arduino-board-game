@@ -114,24 +114,35 @@ void QuickFinger_RunGame()
       endCountdownTimeRemaining = endCountdownTimeRemaining - 1;
       if (endCountdownTimeRemaining == 255)
       {
-        if (PressesP1 > PressesP2)
-        {
-          MinigameManager_GameEnded(SpielerEins);
-        }
-        if (PressesP1 < PressesP2)
-        {
-          MinigameManager_GameEnded(SpielerZwei);
-        }
-        PressesP1 = 0;
-        PressesP2 = 0;
-        
-        startMsgShown = false;
+        startMsgShown = false; //reset
         startDoneP1 = false;
         startDoneP2 = false;
         gameBegun = false;
-
         startCountdownTimeRemaining = startCountdown;
         endCountdownTimeRemaining = gameTime;
+
+        if (PressesP1 > PressesP2) //gewinner herausfinden
+        {
+          PressesP1 = 0; //reset
+          PressesP2 = 0;
+          MinigameManager_GameEnded(Win_SpielerEins);
+        }
+        if (PressesP1 < PressesP2)
+        {
+          PressesP1 = 0; //reset
+          PressesP2 = 0;
+          MinigameManager_GameEnded(Win_SpielerZwei);
+        }
+
+        if (PressesP1 == PressesP2) // unentschieden
+        {
+          PressesP1 = 0; //reset
+          PressesP2 = 0;
+          MinigameManager_GameEnded(Win_Unentschieden);
+          // weil bereits alles andere geresettet wurde, wird das spiel
+          // beim nächsten durchlauf automatisch neustarten
+          // es wird gespielt bis ein eindeutiger sieger feststeht.
+        }
       }
     }
   }
