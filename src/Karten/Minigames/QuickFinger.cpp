@@ -19,6 +19,7 @@ static bool startMsgShown;
 static bool startDoneP1;
 static bool startDoneP2;
 static bool gameBegun;
+static bool GameOver;
 
 uint8_t startCountdownTimeRemaining;
 uint8_t endCountdownTimeRemaining;
@@ -107,39 +108,48 @@ void QuickFinger_RunGame()
       }
       PressesP2 ++ ;
     }
-    if ((millis() - lastCountTime) > 1000)
+    if (!GameOver)
     {
-      countdown.CountDown = endCountdownTimeRemaining;
-      Messages_ZeigeNachricht(SpielerEins, MSGxx_Endet_in, &countdown);
-      Messages_ZeigeNachricht(SpielerZwei, MSGxx_Endet_in, &countdown);
-      lastCountTime = millis();
-      endCountdownTimeRemaining = endCountdownTimeRemaining - 1;
-      if (endCountdownTimeRemaining == 255)
+      if ((millis() - lastCountTime) > 1000)
       {
-        startMsgShown = false; //reset
-        startDoneP1 = false;
-        startDoneP2 = false;
-        gameBegun = false;
+        countdown.CountDown = endCountdownTimeRemaining;
+        Messages_ZeigeNachricht(SpielerEins, MSGxx_Endet_in, &countdown);
+        Messages_ZeigeNachricht(SpielerZwei, MSGxx_Endet_in, &countdown);
+        lastCountTime = millis();
+        endCountdownTimeRemaining = endCountdownTimeRemaining - 1;
+        if (endCountdownTimeRemaining == 255)
+        {
+          GameOver = true;
+        }
+      }
+    }
+    if (GameOver)
+    {
+      startMsgShown = false; //reset
+      startDoneP1 = false;
+      startDoneP2 = false;
+      gameBegun = false;
+      GameOver = false;
 
-        if (PressesP1 > PressesP2) //gewinner herausfinden
-        {
-          PressesP1 = 0; //reset
-          PressesP2 = 0;
-          MinigameManager_GameEnded(Win_SpielerEins);
-        }
-        if (PressesP1 < PressesP2)
-        {
-          PressesP1 = 0; //reset
-          PressesP2 = 0;
-          MinigameManager_GameEnded(Win_SpielerZwei);
-        }
+      if (PressesP1 == PressesP2) // unentschieden
+      {
+        PressesP1 = 0; //reset
+        PressesP2 = 0;
+        MinigameManager_GameEnded(Win_Unentschieden);
+      }
 
-        if (PressesP1 == PressesP2) // unentschieden
-        {
-          PressesP1 = 0; //reset
-          PressesP2 = 0;
-          MinigameManager_GameEnded(Win_Unentschieden);
-        }
+      if (PressesP1 > PressesP2) //gewinner herausfinden
+      {
+        PressesP1 = 0; //reset
+        PressesP2 = 0;
+        MinigameManager_GameEnded(Win_SpielerEins);
+      }
+
+      if (PressesP1 < PressesP2)
+      {
+        PressesP1 = 0; //reset
+        PressesP2 = 0;
+        MinigameManager_GameEnded(Win_SpielerZwei);
       }
     }
   }

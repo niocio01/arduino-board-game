@@ -122,11 +122,12 @@ void MinigameManager_Run(void)
   {
     if ( gewinnerBestimmt == true and WinnerShown == false)
     {
-      ShowWinner_Run();
+      ShowWinner_Run(); //gewinner anzeigen oder bei unentschieden neustarten
     }
     else
     {
-      // Figur auswählen
+      //figur auswaehlen
+      LedTreiber_LedSchalten(70,Violett);
     }
   }
 

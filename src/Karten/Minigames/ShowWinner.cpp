@@ -23,8 +23,8 @@ void ShowWinner_TellResults(MinigameManager_Winner_t gewinner)
     break;
 
     case Win_SpielerZwei:
-    P1Won = true;
-    P2Won = false;
+    P1Won = false;
+    P2Won = true;
     Unentschieden = false;
     break;
 
@@ -38,7 +38,7 @@ void ShowWinner_TellResults(MinigameManager_Winner_t gewinner)
 
 void ShowWinner_Run(void)
 {
-  if (P1Won)
+  if (P1Won == true)
   {
     if (!ResultMSGShown)
     {
@@ -70,13 +70,47 @@ void ShowWinner_Run(void)
       ResultMSGShown = false;
       ResultBestaetigtP1 = false;
       ResultBestaetigtP2 = false;
-      P1Won = false;
       MinigameManager_WinnerShown();
     }
   }
 
+  if (P2Won == true)
+  {
+    if (!ResultMSGShown)
+    {
+      Messages_ZeigeNachricht(SpielerEins, MSG_Lose, &leer2);
+      Messages_ZeigeNachricht(SpielerZwei, MSG_Win, &leer2);
+      TasterLed_Setzten(SpielerEins, LedEins, Gruen);
+      TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
+      ResultMSGShown = true;
+    }
 
-  if (Unentschieden)
+    if (!ResultBestaetigtP1)
+    {
+      if (TasterHandler_Klick(SpielerEins, TasterEins))
+      {
+        TasterLed_Setzten(SpielerEins, LedEins, Schwarz);
+        ResultBestaetigtP1 = true;
+      }
+    }
+    if (!ResultBestaetigtP2)
+    {
+      if (TasterHandler_Klick(SpielerZwei, TasterEins))
+      {
+        TasterLed_Setzten(SpielerZwei, LedEins, Schwarz);
+        ResultBestaetigtP2 = true;
+      }
+    }
+    if (ResultBestaetigtP1 and ResultBestaetigtP2)
+    {
+      ResultMSGShown = false;
+      ResultBestaetigtP1 = false;
+      ResultBestaetigtP2 = false;
+      MinigameManager_WinnerShown();
+    }
+  }
+
+  if (Unentschieden == true)
   {
     if (!ResultMSGShown)
     {
@@ -108,7 +142,6 @@ void ShowWinner_Run(void)
       ResultMSGShown = false;
       ResultBestaetigtP1 = false;
       ResultBestaetigtP2 = false;
-      Unentschieden = false;
       MinigameManager_StartNewGame(true);
     }
   }
