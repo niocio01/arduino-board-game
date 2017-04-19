@@ -9,7 +9,7 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ80
 
 bool LedTreiber_Startup(void)
 {
-  pixels.begin();  
+  pixels.begin();
   for (uint16_t i = 0; i < NUMPIXELS + 1 ; i++)
   {
     pixels.setPixelColor(i, 0, 0, 0);
@@ -18,10 +18,13 @@ bool LedTreiber_Startup(void)
   return true;
 }
 
+void LedTreiber_LedAnzeigen(void)
+{
+  pixels.show();
+}
+
 void LedTreiber_LedSchalten(uint16_t ledID, GlobalTypes_Farbe_t farbe, uint8_t helligkeit /* = 255 */ )
 {
-
-  //strip.setBrightness(150);
   switch (farbe)
   {
     case Schwarz:
@@ -58,9 +61,39 @@ void LedTreiber_LedSchalten(uint16_t ledID, GlobalTypes_Farbe_t farbe, uint8_t h
     pixels.setPixelColor(ledID, helligkeit, 0, helligkeit);
     pixels.show();
     break;
+  }
+}
 
+void LedTreiber_LedSetzen(uint16_t ledID, GlobalTypes_Farbe_t farbe, uint8_t helligkeit /* = 255 */ )
+{
+  switch (farbe)
+  {
+    case Schwarz:
+    pixels.setPixelColor(ledID, 0, 0, 0);
+    break;
 
-    default:
+    case Weiss:
+    pixels.setPixelColor(ledID, helligkeit, helligkeit, helligkeit);
+    break;
+
+    case Rot:
+    pixels.setPixelColor(ledID, helligkeit, 0, 0);
+    break;
+
+    case Gruen:
+    pixels.setPixelColor(ledID, 0, helligkeit, 0);
+    break;
+
+    case Blau:
+    pixels.setPixelColor(ledID, 0, 0, helligkeit);
+    break;
+
+    case Gelb:
+    pixels.setPixelColor(ledID, helligkeit, helligkeit, 0);
+    break;
+
+    case Violett:
+    pixels.setPixelColor(ledID, helligkeit, 0, helligkeit);
     break;
   }
 }

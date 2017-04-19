@@ -89,7 +89,7 @@ bool SF_PlayerFigureHasMoved(GlobalTypes_Spieler_t Spieler, GlobalTypes_Figur_t 
 
 // Funktion muss im Main-Loop laufend aufgerufen werden
 // Die Funktion ist nicht blockierend
-void SF_OperateSpielfeld(void);
+void SF_OperateSpielfeld_Main(void);
 
 // Funktion berechnet auf Grund der "FigureData" den neuen Weg
 // Die Funktion darf nur im Modul "SpielfeldLed.cpp" aufgerufen werden

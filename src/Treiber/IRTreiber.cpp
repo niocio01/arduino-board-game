@@ -6,6 +6,7 @@
 #include <SoftReset.h>
 #include <arduino.h>
 #include "Karten/Minigames/MinigameManager.h"
+#include "Treiber/SpielfeldLed.h"
 
 IRdecodeNEC myDecoder; // Now declare an instance of that decoder.
 IRrecv myReceiver(6); //pin number for the receiver
@@ -21,7 +22,8 @@ IRrecv myReceiver(6); //pin number for the receiver
 #define IR_BUTTON_PLAY      0xFFC23D
 #define IR_BUTTON_VOL_DOWN  0xFFE01F
 #define IR_BUTTON_VOL_UP    0xFFA857
-#define IR_BUTTON_0         0xFF906F
+#define IR_BUTTON_EQ        0xFF906F
+#define IR_BUTTON_0         0xFF6897
 #define IR_BUTTON_100       0xFF9867
 #define IR_BUTTON_200       0xFFB04F
 #define IR_BUTTON_1         0xFF30CF
@@ -60,13 +62,65 @@ void IRTreiber_Main(void)
         LedTreiber_LedSchalten(77, Blau);
         break;
 
-        case IR_BUTTON_9:
-        soft_restart();
+        case IR_BUTTON_PREV:
+        break;
+
+        case IR_BUTTON_NEXT:
         break;
 
         case IR_BUTTON_PLAY:
         MinigameManager_EinsatzGesetzt(1, 1);
         break;
+
+        case IR_BUTTON_VOL_DOWN:
+        break;
+
+        case IR_BUTTON_VOL_UP:
+        break;
+
+        case IR_BUTTON_EQ:
+
+        break;
+
+        case IR_BUTTON_0:
+        break;
+
+        case IR_BUTTON_100:
+        break;
+
+        case IR_BUTTON_200:
+        break;
+
+        case IR_BUTTON_1:
+        SF_StartDim();
+        break;
+
+        case IR_BUTTON_2:
+        SF_StartLauflicht(Gruen, 50);
+        break;
+
+        case IR_BUTTON_3:
+        break;
+
+        case IR_BUTTON_4:
+        break;
+
+        case IR_BUTTON_5:
+        break;
+
+        case IR_BUTTON_6:
+        break;
+
+        case IR_BUTTON_7:
+        break;
+
+        case IR_BUTTON_8:
+        break;
+
+        case IR_BUTTON_9:
+        soft_restart();
+        break;
+
       }
     }
     myReceiver.enableIRIn();

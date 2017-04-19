@@ -10,6 +10,7 @@
 #include "Treiber/TasterTreiber.h"
 #include "Treiber/IRTreiber.h"
 #include "Treiber/PotiTreiber.h"
+#include "Treiber/SpielfeldLed.h"
 
 
 static bool ledGestartet;
@@ -31,6 +32,7 @@ void Startup_check(void)
   tasterGestartet = TasterTreiber_Startup();
   IRGestartet = IRTreiber_Startup();
   PotiGestartet = PotiTreiber_Startup();
+  SF_InitData();
 
 
   if (ledGestartet == true and lcdGestartet == true and rfidGestartet == true
