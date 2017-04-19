@@ -2,6 +2,7 @@
 #include "Messages.h"
 #include "Treiber/TasterLed.h"
 #include "Treiber/TasterHandler.h"
+#include "Treiber/LedTreiber.h"
 
 Messages_values leer2;
 
@@ -42,11 +43,48 @@ void ShowWinner_Run(void)
   {
     if (!ResultMSGShown)
     {
+      LedTreiber_AllBlack();
       Messages_ZeigeNachricht(SpielerEins, MSG_Win, &leer2);
       Messages_ZeigeNachricht(SpielerZwei, MSG_Lose, &leer2);
       TasterLed_Setzten(SpielerEins, LedEins, Gruen);
       TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
       ResultMSGShown = true;
+      for (uint16_t i = 194; i <= 196; i++) { // Erster Kreis Seite Spieler 1
+        LedTreiber_LedSetzen(i, Gruen, 5);
+      }
+      for (uint16_t i = 198; i <= 200; i++) {  // Erster Kreis Seite Spieler 2
+        LedTreiber_LedSetzen(i, Rot, 5);
+      }
+      for (uint16_t i = 202; i <= 206; i++) { // Zweiter Kreis Seite Spieler 1
+        LedTreiber_LedSetzen(i, Gruen, 15);
+      }
+      for (uint16_t i = 208; i <= 212; i++) {  // Zweiter Kreis Seite Spieler 2
+        LedTreiber_LedSetzen(i, Rot, 15);
+      }
+      for (uint16_t i = 214; i <= 220; i++) { // Dritter Kreis Seite Spieler 1
+        LedTreiber_LedSetzen(i, Gruen, 40);
+      }
+      for (uint16_t i = 222; i <= 228; i++) {  // Dritter Kreis Seite Spieler 2
+        LedTreiber_LedSetzen(i, Rot, 40);
+      }
+      for (uint16_t i = 230; i <= 240; i++) { // Vierter Kreis Seite Spieler 1
+        LedTreiber_LedSetzen(i, Gruen, 80);
+      }
+      for (uint16_t i = 242; i <= 252; i++) {  // Vierter Kreis Seite Spieler 2
+        LedTreiber_LedSetzen(i, Rot, 80);
+      }
+
+      LedTreiber_LedSetzen(192, Blau, 80);
+      LedTreiber_LedSetzen(193, Blau, 80);
+      LedTreiber_LedSetzen(197, Blau, 80);
+      LedTreiber_LedSetzen(201, Blau, 80);
+      LedTreiber_LedSetzen(207, Blau, 80);
+      LedTreiber_LedSetzen(213, Blau, 80);
+      LedTreiber_LedSetzen(221, Blau, 80);
+      LedTreiber_LedSetzen(229, Blau, 80);
+      LedTreiber_LedSetzen(241, Blau, 80);
+
+      LedTreiber_LedAnzeigen();
     }
 
     if (!ResultBestaetigtP1)
@@ -78,11 +116,47 @@ void ShowWinner_Run(void)
   {
     if (!ResultMSGShown)
     {
+      LedTreiber_AllBlack();
       Messages_ZeigeNachricht(SpielerEins, MSG_Lose, &leer2);
       Messages_ZeigeNachricht(SpielerZwei, MSG_Win, &leer2);
       TasterLed_Setzten(SpielerEins, LedEins, Gruen);
       TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
       ResultMSGShown = true;
+      for (uint16_t i = 194; i <= 196; i++) { // Erster Kreis Seite Spieler 1
+        LedTreiber_LedSetzen(i, Rot, 5);
+      }
+      for (uint16_t i = 198; i <= 200; i++) {  // Erster Kreis Seite Spieler 2
+        LedTreiber_LedSetzen(i, Gruen, 5);
+      }
+      for (uint16_t i = 202; i <= 206; i++) { // Zweiter Kreis Seite Spieler 1
+        LedTreiber_LedSetzen(i, Rot, 15);
+      }
+      for (uint16_t i = 208; i <= 212; i++) {  // Zweiter Kreis Seite Spieler 2
+        LedTreiber_LedSetzen(i, Gruen, 15);
+      }
+      for (uint16_t i = 214; i <= 220; i++) { // Dritter Kreis Seite Spieler 1
+        LedTreiber_LedSetzen(i, Rot, 40);
+      }
+      for (uint16_t i = 222; i <= 228; i++) {  // Dritter Kreis Seite Spieler 2
+        LedTreiber_LedSetzen(i, Gruen, 40);
+      }
+      for (uint16_t i = 230; i <= 240; i++) { // Vierter Kreis Seite Spieler 1
+        LedTreiber_LedSetzen(i, Rot, 80);
+      }
+      for (uint16_t i = 242; i <= 252; i++) {  // Vierter Kreis Seite Spieler 2
+        LedTreiber_LedSetzen(i, Gruen, 80);
+      }
+      LedTreiber_LedSetzen(192, Blau, 80);
+      LedTreiber_LedSetzen(193, Blau, 80);
+      LedTreiber_LedSetzen(197, Blau, 80);
+      LedTreiber_LedSetzen(201, Blau, 80);
+      LedTreiber_LedSetzen(207, Blau, 80);
+      LedTreiber_LedSetzen(213, Blau, 80);
+      LedTreiber_LedSetzen(221, Blau, 80);
+      LedTreiber_LedSetzen(229, Blau, 80);
+      LedTreiber_LedSetzen(241, Blau, 80);
+
+      LedTreiber_LedAnzeigen();
     }
 
     if (!ResultBestaetigtP1)
@@ -114,6 +188,7 @@ void ShowWinner_Run(void)
   {
     if (!ResultMSGShown)
     {
+      LedTreiber_AllBlack();
       Messages_ZeigeNachricht(SpielerEins, MSG_Tie, &leer2);
       Messages_ZeigeNachricht(SpielerZwei, MSG_Tie, &leer2);
       TasterLed_Setzten(SpielerEins, LedEins, Gruen);
