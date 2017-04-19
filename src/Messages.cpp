@@ -193,8 +193,7 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     break;
 
     case MSGxx_MinigameName:
-    sprintf(Text2, "%d", MessageVal->AnzFelder); // nico
-    LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", Text2);
+    LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", MessageVal->MiniGameName);
     break;
 
     case MSGxx_Einsatz_Punkte:

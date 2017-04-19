@@ -14,7 +14,7 @@ void ShowGameName_Run(void)
   switch (Game) // game auswählen und Laufen lassen
   {
     case Reaktion:
-    //gameName.MiniGameName = "Reaktion";
+  //  gameName.MiniGameName = "Reaktion";
     break;
 
     case Simon:
@@ -37,6 +37,6 @@ void ShowGameName_Run(void)
     // code
     break;
   }
-  //Messages_ZeigeNachricht(SpielerEins, MSGxx_MinigameName, &gameName);
-  //Messages_ZeigeNachricht(SpielerZwei, MSGxx_MinigameName, &gameName);
+  Messages_ZeigeNachricht(SpielerEins, MSGxx_MinigameName, &gameName);
+  Messages_ZeigeNachricht(SpielerZwei, MSGxx_MinigameName, &gameName);
 }

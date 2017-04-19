@@ -89,12 +89,12 @@ void MinigameManager_WinnerShown(void)
 {
   if (SpielerEinsHatGewonnen)
   {
-  FigurAuswahl_TellResults(SpielerEins, einsatzP1 + 1);
+//  FigurAuswahl_TellResults (SpielerEins, einsatzP1 + 1);
   }
 
   if (SpielerZweiHatGewonnen)
   {
-  FigurAuswahl_TellResults (SpielerZwei, einsatzP2 + 1);
+//  FigurAuswahl_TellResults (SpielerZwei, einsatzP2 + 1);
   }
   WinnerShown = true;
 }

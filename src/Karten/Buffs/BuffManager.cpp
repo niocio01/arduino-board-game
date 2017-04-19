@@ -1,6 +1,5 @@
 #include "Karten/Buffs/BuffManager.h"
-#include "Karten/Buffs/KarteSpeed.h"
-#include "Karten/Buffs/KarteAussetzen.h"
+#include "PlayerManager.h"
 
 const uint8_t FalleStellen =65;  // hex A
 const uint8_t EinsatzSetzen =66; // hex B
@@ -18,19 +17,17 @@ void BuffManager_BuffAnwenden(uint8_t kartenNrValue){
     /* code */
   }
   else if (kartenNrValue == EinsatzSetzen) {
-    /* code */
+    PlayerManager_ActivateEinsatzSetzen(); // auf Auktiven Spieler
   }
   else if (kartenNrValue == Steinschlag) {
     /* code */
   }
   else if (kartenNrValue == Speed) {
-    KarteSpeed_BuffAnwenden();
   }
   else if (kartenNrValue == GewinnGarantiert) {
     /* code */
   }
   else if (kartenNrValue == Aussetzen) {
-    KarteAussetzen_BuffAnwenden();
   }
   else if (kartenNrValue == Zeitreise) {
     /* code */
