@@ -19,7 +19,7 @@ uint16_t SF_LedWeg[SF_MAX_STEPS];
 
 const uint8_t SF_DIM_helligkeit = 5;
 const uint32_t SF_UpdateDelayS = 750;    // "Wanderzeit" LEDs im Spiel in ms
-const uint32_t SF_UpdateDelayF = 250;     // "Wanderzeit" der LEDs im Lauflicht
+const uint32_t SF_UpdateDelayF = 1;     // "Wanderzeit" der LEDs im Lauflicht
 uint32_t SF_OldTimeS;
 uint32_t SF_OldTimeF;
 
@@ -429,19 +429,21 @@ void SF_OperateSpielfeld_Main(void)
                     {
                       if(SF_LauflichtCounter >= SF_TOT_LEDS)
                       {
-                        LedTreiber_LedSchalten(SF_LauflichtCounter-1, Weiss, SF_DIM_helligkeit);
+                        LedTreiber_LedSetzen(SF_LauflichtCounter-1, Weiss, SF_DIM_helligkeit);
                         SF_LauflichtAktiv = false;
                       }
-                      else {
-                        if(SF_LauflichtCounter > 0)
+                      else
+                      {
+                        if (SF_LauflichtCounter > 0)
                         {
-                          LedTreiber_LedSchalten(SF_LauflichtCounter-1, Weiss, SF_DIM_helligkeit);
+                          LedTreiber_LedSetzen(SF_LauflichtCounter-1, Weiss, SF_DIM_helligkeit);
                         }
-                        LedTreiber_LedSchalten(SF_LauflichtCounter,
+                        LedTreiber_LedSetzen(SF_LauflichtCounter,
                           SF_LauflichtFarbe,
                           SF_LauflichtHelligkeit);
                           SF_LauflichtCounter++;
                         }
+                        LedTreiber_LedAnzeigen();
                       }
                     }
 

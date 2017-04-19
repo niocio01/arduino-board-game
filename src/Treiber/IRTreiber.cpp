@@ -115,6 +115,7 @@ void IRTreiber_Main(void)
         break;
 
         case IR_BUTTON_8:
+        LedTreiber_AllBlack();
         break;
 
         case IR_BUTTON_9:

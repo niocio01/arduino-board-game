@@ -2,7 +2,7 @@
 #include <Adafruit_NeoPixel.h>
 
 #define PIN 4
-#define NUMPIXELS 267
+#define NUMPIXELS 268
 
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
@@ -20,6 +20,15 @@ bool LedTreiber_Startup(void)
 
 void LedTreiber_LedAnzeigen(void)
 {
+  pixels.show();
+}
+
+void LedTreiber_AllBlack(void)
+{
+  for (uint16_t i = 0; i < NUMPIXELS; i++)
+  {
+    pixels.setPixelColor(i, 0, 0, 0);
+  }
   pixels.show();
 }
 

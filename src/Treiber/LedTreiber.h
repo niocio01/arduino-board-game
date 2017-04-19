@@ -29,4 +29,9 @@ Zeigt die zuvor gesetzten Leds
 */
 void LedTreiber_LedAnzeigen(void);
 
+/* function: LedTreiber_AllBlack:
+schaltet alle LEDs aus.
+*/
+void LedTreiber_AllBlack(void);
+
 #endif

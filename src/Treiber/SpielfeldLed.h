@@ -18,7 +18,7 @@
 #define  SF_MaxSegm     11      // Anzahl der Segemente
 #define  SF_K_Steps     19      // Anzahl Schritte pro Spieler im Kreis
 #define  SF_K_StartID   192     // ID der ersten LED im Kreis
-#define  SF_K_TotSteps  60      // Anzahl Schritte Total im Kreis
+#define  SF_K_TotSteps  61      // Anzahl Schritte Total im Kreis
 #define  SF_MAX_STEPS   100      // Maximale Anzahl Schritte bis zum Ziel
 #define  SF_TOT_LEDS    252      // Totale Anzahl LED's
 
