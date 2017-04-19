@@ -5,7 +5,7 @@
 
 struct Messages_values MessageValues;
 const uint16_t updateIntervall = 20;
-static uint16_t lastUpdateTime;
+static uint32_t lastUpdateTime;
 
 
 

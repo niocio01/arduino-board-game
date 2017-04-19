@@ -23,12 +23,13 @@ static bool GameOver;
 
 uint8_t startCountdownTimeRemaining;
 uint8_t endCountdownTimeRemaining;
-uint16_t lastCountTime;
+uint32_t lastCountTime;
 
 void QuickFinger_RunGame()
 {
   if (!startMsgShown)
   {
+    LedTreiber_AllBlack();
     Messages_ZeigeNachricht(SpielerZwei, MSG_Schnell_druecken, &leer);
     Messages_ZeigeNachricht(SpielerZwei, MSG_Schnell_druecken, &leer);
     TasterLed_Setzten(SpielerEins, LedEins, Gruen);
@@ -60,10 +61,10 @@ void QuickFinger_RunGame()
   {
     if ((millis() - lastCountTime) > 1000)
     {
+      lastCountTime = millis();
       countdown.CountDown = startCountdownTimeRemaining;
       Messages_ZeigeNachricht(SpielerEins, MSGxx_Start_in, &countdown);
       Messages_ZeigeNachricht(SpielerZwei, MSGxx_Start_in, &countdown);
-      lastCountTime = millis();
       startCountdownTimeRemaining = startCountdownTimeRemaining - 1;
       if (startCountdownTimeRemaining == 255)
       {
@@ -112,10 +113,10 @@ void QuickFinger_RunGame()
     {
       if ((millis() - lastCountTime) > 1000)
       {
+        lastCountTime = millis();
         countdown.CountDown = endCountdownTimeRemaining;
         Messages_ZeigeNachricht(SpielerEins, MSGxx_Endet_in, &countdown);
         Messages_ZeigeNachricht(SpielerZwei, MSGxx_Endet_in, &countdown);
-        lastCountTime = millis();
         endCountdownTimeRemaining = endCountdownTimeRemaining - 1;
         if (endCountdownTimeRemaining == 255)
         {
