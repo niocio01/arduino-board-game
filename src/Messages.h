@@ -5,7 +5,7 @@
 
 struct Messages_values {
   int AnzFelder;          // Anzeige Anzahl Felder vorwärts
-  char MiniGameName[40];  // Name eines Minigames zum Anzeigen
+  char MiniGameName[16];  // Name eines Minigames zum Anzeigen
   int  ValEinsatz;      // Gewählter Einsatz für das Minigames
   int  ValPunkte;         // Noch vorhandene Punkte
   int  CountDown;         // Wert um CountDown anzuzeigen

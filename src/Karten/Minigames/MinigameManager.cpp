@@ -3,7 +3,9 @@
 #include "Karten/Minigames/QuickFinger.h"
 #include "Karten/Minigames/EinsatzSetzen.h"
 #include "Karten/Minigames/ShowWinner.h"
-//#include "FigurAuswahl.h"
+#include "Karten/Minigames/ShowGameName.h"
+#include "GlobalTypes.h"
+#include "FigurAuswahl.h"
 
 
 MinigameManager_GameStatus_t currentGame;
@@ -11,6 +13,7 @@ static bool GameInProgress = false;
 static bool einsatzSetztenAktiv = false;
 static bool gewinnerBestimmt = false;
 static bool WinnerShown = false;
+static bool GameNameShown = false;
 uint8_t einsatzP1;
 uint8_t einsatzP2;
 static bool SpielerEinsHatGewonnen;
@@ -71,6 +74,7 @@ void MinigameManager_SetGame(MinigameManager_GameStatus_t newGame)
   GameInProgress = true;
   einsatzSetztenAktiv = true;
   gewinnerBestimmt = false;
+  ShowGameName_TellGame(newGame);
 
 }
 
@@ -83,7 +87,21 @@ void MinigameManager_EinsatzGesetzt(uint8_t newEinsatzP1, uint8_t newEinsatzP2)
 
 void MinigameManager_WinnerShown(void)
 {
+  if (SpielerEinsHatGewonnen)
+  {
+  FigurAuswahl_TellResults(SpielerEins, einsatzP1 + 1);
+  }
+
+  if (SpielerZweiHatGewonnen)
+  {
+  FigurAuswahl_TellResults (SpielerZwei, einsatzP2 + 1);
+  }
   WinnerShown = true;
+}
+
+void MinigameManager_GameNameShown(void)
+{
+  GameNameShown = true;
 }
 
 void MinigameManager_Run(void)
@@ -94,7 +112,11 @@ void MinigameManager_Run(void)
     {
       EinsatzSetzen_Run();
     }
-    else
+    if (GameNameShown == false)
+    {
+      ShowGameName_Run();
+    }
+    if (einsatzSetztenAktiv == false and gewinnerBestimmt == false and GameNameShown == true)
     {
       switch (currentGame) // game auswählen und Laufen lassen
       {

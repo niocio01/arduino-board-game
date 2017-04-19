@@ -12,8 +12,8 @@ static uint32_t lastUpdateTime;
 void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten_t nachricht, struct Messages_values *MessageVal)
 {
 
-  char Text1[41];
-  char Text2[41];
+  char Text1[16];
+  char Text2[16];
 
   switch (nachricht)
   {
@@ -193,7 +193,8 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     break;
 
     case MSGxx_MinigameName:
-    LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", MessageVal->MiniGameName);
+    sprintf(Text2, "%d", MessageVal->AnzFelder); // nico
+    LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", Text2);
     break;
 
     case MSGxx_Einsatz_Punkte:

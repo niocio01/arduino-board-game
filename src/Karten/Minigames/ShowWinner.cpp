@@ -73,7 +73,6 @@ void ShowWinner_Run(void)
       for (uint16_t i = 242; i <= 252; i++) {  // Vierter Kreis Seite Spieler 2
         LedTreiber_LedSetzen(i, Rot, 80);
       }
-
       LedTreiber_LedSetzen(192, Blau, 80);
       LedTreiber_LedSetzen(193, Blau, 80);
       LedTreiber_LedSetzen(197, Blau, 80);
@@ -146,16 +145,6 @@ void ShowWinner_Run(void)
       for (uint16_t i = 242; i <= 252; i++) {  // Vierter Kreis Seite Spieler 2
         LedTreiber_LedSetzen(i, Gruen, 80);
       }
-      LedTreiber_LedSetzen(192, Blau, 80);
-      LedTreiber_LedSetzen(193, Blau, 80);
-      LedTreiber_LedSetzen(197, Blau, 80);
-      LedTreiber_LedSetzen(201, Blau, 80);
-      LedTreiber_LedSetzen(207, Blau, 80);
-      LedTreiber_LedSetzen(213, Blau, 80);
-      LedTreiber_LedSetzen(221, Blau, 80);
-      LedTreiber_LedSetzen(229, Blau, 80);
-      LedTreiber_LedSetzen(241, Blau, 80);
-
       LedTreiber_LedAnzeigen();
     }
 
