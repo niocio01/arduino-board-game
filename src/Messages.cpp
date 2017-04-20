@@ -113,6 +113,30 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     LcdTreiber_DisplayMessage(spieler, (char *) "Buff:", (char *) "Schild");
     break;
 
+    case MSG_Minigame_Reaktion:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", (char *) "Reaktion");
+    break;
+
+    case MSG_Minigame_Simon:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", (char *) "Simon");
+    break;
+
+    case MSG_Minigame_ToneMaster:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", (char *) "Tone Master");
+    break;
+
+    case MSG_Minigame_QuickFinger:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", (char *) "Quick Finger");
+    break;
+
+    case MSG_Minigame_FastCounter:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", (char *) "Fast Counter");
+    break;
+
+    case MSG_Minigame_Timing:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", (char *) "Timing");
+    break;
+
     case MSG_Startup_Taster_Fail:
     LcdTreiber_DisplayMessage(spieler, (char *) "Startup:", (char *) "Taster Fail");
     break;
@@ -190,10 +214,6 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
       LcdTreiber_DisplayMessage(spieler, Text1, (char *) "Felder vorwaerts");
       lastUpdateTime = millis();
     }
-    break;
-
-    case MSGxx_MinigameName:
-    LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", MessageVal->MiniGameName);
     break;
 
     case MSGxx_Einsatz_Punkte:
