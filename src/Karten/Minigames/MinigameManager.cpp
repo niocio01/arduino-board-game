@@ -7,48 +7,75 @@
 #include "GlobalTypes.h"
 #include "FigurAuswahl.h"
 #include "PlayerManager.h"
-
-const uint8_t AnzahlZusaezlicherEinsatzt = 10; //bei Buff Mehr Einsatz
-
+#include "Karten/Minigames/ShowGameAction.h"
 
 MinigameManager_GameStatus_t currentGame;
-static bool GameInProgress = false;
-static bool einsatzSetztenAktiv = false;
-static bool gewinnerBestimmt = false;
-static bool WinnerShown = false;
-static bool GameNameShown = false;
+
+static bool showGameName;
+static bool einsatzSetzen;
+static bool showGameAction;
+static bool runGame;
+static bool showWinner;
+static bool figurAuswaehlen;
+
 uint8_t einsatzP1;
 uint8_t einsatzP2;
 static bool SpielerEinsHatGewonnen;
 static bool SpielerZweiHatGewonnen;
 
-void MinigameManager_StartNewGame(bool useSameEinsatz)
+void MinigameManager_SetGame(MinigameManager_GameStatus_t newGame)
 {
-  GameInProgress = true;
-  WinnerShown = false;
-  gewinnerBestimmt = false;
-  if (useSameEinsatz == true)
+  currentGame = newGame;
+  ShowGameName_TellGame(newGame);
+  ShowGameAction_TellGame(newGame);
+}
+
+void MinigameManager_StartNewGame(bool skipShowGameNameUndEinsatzSetzen)
+{
+  if (skipShowGameNameUndEinsatzSetzen == true)
   {
-    einsatzSetztenAktiv = false;
+    showGameName = false;
+    einsatzSetzen = false;
+    runGame = true;
   }
   else
   {
-    einsatzSetztenAktiv = true;
+    showGameName = true;
   }
+}
+
+void MinigameManager_GameNameShown(void)
+{
+  showGameName = false;
+  einsatzSetzen = true;
+}
+
+void MinigameManager_EinsatzGesetzt(uint8_t newEinsatzP1, uint8_t newEinsatzP2)
+{
+  einsatzP1 = newEinsatzP1;
+  einsatzP2 = newEinsatzP2;
+  einsatzSetzen = false;
+  showGameAction = true;
+
+}
+
+void MinigameManager_GameActionShown(void)
+{
+  showGameAction = false;
+  runGame = true;
 }
 
 void MinigameManager_GameEnded(MinigameManager_Winner_t gewinner, bool SkipShowWinner)
 {
-
-  GameInProgress = false;
-  gewinnerBestimmt = true;
+  runGame = false;
   if (SkipShowWinner == true)
   {
-    WinnerShown = true;
+    showWinner = false;
+    figurAuswaehlen = true;
   }
   else
   {
-    WinnerShown = false;
+    showWinner = true;
   }
 
   switch (gewinner)
@@ -71,108 +98,74 @@ void MinigameManager_GameEnded(MinigameManager_Winner_t gewinner, bool SkipShowW
   }
 }
 
-void MinigameManager_SetGame(MinigameManager_GameStatus_t newGame)
-{
-  currentGame = newGame;
-  GameInProgress = true;
-  einsatzSetztenAktiv = true;
-  gewinnerBestimmt = false;
-  ShowGameName_TellGame(newGame);
-
-}
-
-void MinigameManager_EinsatzGesetzt(uint8_t newEinsatzP1, uint8_t newEinsatzP2)
-{
-  einsatzP1 = newEinsatzP1;
-  einsatzP2 = newEinsatzP2;
-  einsatzSetztenAktiv = false;
-}
-
 void MinigameManager_WinnerShown(void)
 {
+  showWinner = false;
+  figurAuswaehlen = true;
+
   if (SpielerEinsHatGewonnen)
   {
-//  FigurAuswahl_TellResults (SpielerEins, einsatzP1 + 1);
+    //  FigurAuswahl_TellResults (SpielerEins, einsatzP1 + 1);
   }
 
   if (SpielerZweiHatGewonnen)
   {
-//  FigurAuswahl_TellResults (SpielerZwei, einsatzP2 + 1);
+    //  FigurAuswahl_TellResults (SpielerZwei, einsatzP2 + 1);
   }
-  WinnerShown = true;
 }
 
-void MinigameManager_GameNameShown(void)
-{
-  GameNameShown = true;
-}
-
-void MinigameManager_MehrEinsatztBuffAnwenden(void)
-{
-  if (PlayerManager_SpielerEinsAmZug())
-  {
-    einsatzP1 = einsatzP1 + AnzahlZusaezlicherEinsatzt;
-  }
-  else
-  {
-    {
-      einsatzP2 = einsatzP2 + AnzahlZusaezlicherEinsatzt;
-    }
-  }
-}
 
 void MinigameManager_Run(void)
 {
-  if (GameInProgress == true)
+  if (showGameName)
   {
-    if (einsatzSetztenAktiv == true and gewinnerBestimmt == false)
-    {
-      EinsatzSetzen_Run();
-    }
-    if (GameNameShown == false)
-    {
-      ShowGameName_Run();
-    }
-    if (einsatzSetztenAktiv == false and gewinnerBestimmt == false and GameNameShown == true)
-    {
-      switch (currentGame) // game auswählen und Laufen lassen
-      {
-        case Reaktion:
-        // code
-        break;
-
-        case Simon:
-        // code
-        break;
-
-        case ToneMaster:
-        // code
-        break;
-
-        case QuickFinger:
-        QuickFinger_RunGame();
-        break;
-
-        case FastCounter:
-        // code
-        break;
-
-        case Timing:
-        // code
-        break;
-      }
-    }
+    ShowGameName_Run();
   }
-  else
+  else if (einsatzSetzen)
   {
-    if ( gewinnerBestimmt == true and WinnerShown == false) //game fertig
+    EinsatzSetzen_Run();
+  }
+   else if (showGameAction)
+  {
+    ShowGameAction_Run();
+  }
+  else if (runGame)
+  {
+    switch (currentGame) // game auswählen und Laufen lassen
     {
-      ShowWinner_Run(); //gewinner anzeigen oder bei unentschieden neustarten
-    }
-    else
-    {
-      //figur auswaehlen
+      case Reaktion:
+      // code
+      break;
+
+      case Simon:
+      // code
+      break;
+
+      case ToneMaster:
+      // code
+      break;
+
+      case QuickFinger:
+      QuickFinger_RunGame();
+      break;
+
+      case FastCounter:
+      // code
+      break;
+
+      case Timing:
+      // code
+      break;
     }
   }
 
+  else if (showWinner) //game fertig
+  {
+    ShowWinner_Run(); //gewinner anzeigen oder bei unentschieden neustarten
+  }
+
+  else if (figurAuswaehlen)
+  {
+    //figur auswaehlen
+  }
 }

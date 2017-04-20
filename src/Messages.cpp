@@ -62,7 +62,7 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     break;
 
     case MSG_Buff_Einsatz_bestimmen:
-    LcdTreiber_DisplayMessage(spieler, (char *) "Buff:", (char *) "Einsatz bestimmen");
+    LcdTreiber_DisplayMessage(spieler, (char *) "Buff:", (char *) "Einsatz setzen");
     break;
 
     case MSG_Buff_Falle:

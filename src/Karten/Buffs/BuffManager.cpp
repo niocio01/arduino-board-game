@@ -8,6 +8,7 @@
 #include <arduino.h>
 #include "Karten/KartenManager.h"
 #include "StatusLedSituation.h"
+#include "Karten/Minigames/EinsatzSetzen.h"
 
 const uint8_t FalleStellen =65;  // hex A
 const uint8_t EinsatzSetzen =66; // hex B
@@ -81,6 +82,10 @@ void BuffManager_Run(void)
       {
         Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Falle, &leer3);
       }
+      if (karte == Steinschlag)
+      {
+        Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Steinschlag, &leer3);
+      }
     }
 
     if (PlayerManager_SpielerZweiAmZug())
@@ -125,6 +130,10 @@ void BuffManager_Run(void)
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Falle, &leer3);
       }
+      if (karte == Steinschlag)
+      {
+        Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Steinschlag, &leer3);
+      }
     }
   }
 
@@ -155,7 +164,6 @@ void BuffManager_Run(void)
     if (karte == Lucky)
     {
       karte = random(65, 74);
-      randomSeed(analogRead(A4));
     }
 
     else if (karte == EinsatzSetzen)
@@ -190,7 +198,7 @@ void BuffManager_Run(void)
 
     else if (karte == MehrEinsatz)
     {
-      MinigameManager_MehrEinsatztBuffAnwenden();
+      EinsatzSetzen_MehrEinsatztBuffAnwenden();
       Kartenmanager_BuffProcessed();
     }
 
@@ -200,6 +208,11 @@ void BuffManager_Run(void)
     }
 
     else if (karte == FalleStellen)
+    {
+      Kartenmanager_BuffProcessed();
+    }
+
+    else if (karte == Steinschlag)
     {
       Kartenmanager_BuffProcessed();
     }

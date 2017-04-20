@@ -7,8 +7,9 @@
 #include "Treiber/PotiLed.h"
 #include "arduino.h"
 #include "Treiber/TasterHandler.h"
+#include "PlayerManager.h"
 
-
+const uint8_t AnzahlZusaezlicherEinsatzt = 10; //bei Buff Mehr Einsatz
 static uint8_t einsatzDepotP1 = 30;
 static uint8_t einsatzDepotP2 = 30;
 const uint8_t maxPunkte = 5;
@@ -31,6 +32,20 @@ static bool enablePotLedP2;
 static bool EinsaztGewaehletP1;
 static bool EinsaztGewaehletP2;
 
+
+void EinsatzSetzen_MehrEinsatztBuffAnwenden(void)
+{
+  if (PlayerManager_SpielerEinsAmZug())
+  {
+    einsatzDepotP1 = einsatzDepotP1 + AnzahlZusaezlicherEinsatzt;
+  }
+  else
+  {
+    {
+      einsatzDepotP2 = einsatzDepotP2 + AnzahlZusaezlicherEinsatzt;
+    }
+  }
+}
 
 
 void EinsatzSetzen_Run(void)

@@ -1,8 +1,15 @@
 #include "Karten/Minigames/ShowGameName.h"
 #include "Messages.h"
+#include "Treiber/TasterHandler.h"
+#include "Treiber/TasterLed.h"
 
 static MinigameManager_GameStatus_t Game;
-static Messages_values gameName;
+static Messages_values leer5;
+
+static bool NameShown;
+static bool NameBestaetigtP1;
+static bool NameBestaetigtP2;
+
 
 void ShowGameName_TellGame(MinigameManager_GameStatus_t newGame)
 {
@@ -11,32 +18,73 @@ void ShowGameName_TellGame(MinigameManager_GameStatus_t newGame)
 
 void ShowGameName_Run(void)
 {
-  switch (Game) // game auswählen und Laufen lassen
+  if (!NameShown)
   {
-    case Reaktion:
-    //gameName.MiniGameName = "Reaktion";
-    break;
+    NameShown = true;
+    TasterLed_Setzten(SpielerEins, LedEins, Gruen);
+    TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
 
-    case Simon:
-    // code
-    break;
+    switch (Game)
+    {
+      case Reaktion:
+      Messages_ZeigeNachricht(SpielerEins, MSG_Minigame_Reaktion, &leer5);
+      Messages_ZeigeNachricht(SpielerZwei, MSG_Minigame_Reaktion, &leer5);
+      break;
 
-    case ToneMaster:
-    // code
-    break;
+      case Simon:
+      Messages_ZeigeNachricht(SpielerEins, MSG_Minigame_Simon, &leer5);
+      Messages_ZeigeNachricht(SpielerZwei, MSG_Minigame_Simon, &leer5);
+      break;
 
-    case QuickFinger:
+      case ToneMaster:
+      Messages_ZeigeNachricht(SpielerEins, MSG_Minigame_ToneMaster, &leer5);
+      Messages_ZeigeNachricht(SpielerZwei, MSG_Minigame_ToneMaster, &leer5);
+      break;
 
-    break;
+      case QuickFinger:
+      Messages_ZeigeNachricht(SpielerEins, MSG_Minigame_QuickFinger, &leer5);
+      Messages_ZeigeNachricht(SpielerZwei, MSG_Minigame_QuickFinger, &leer5);
+      break;
 
-    case FastCounter:
-    // code
-    break;
+      case FastCounter:
+      Messages_ZeigeNachricht(SpielerEins, MSG_Minigame_FastCounter, &leer5);
+      Messages_ZeigeNachricht(SpielerZwei, MSG_Minigame_FastCounter, &leer5);
+      break;
 
-    case Timing:
-    // code
-    break;
+      case Timing:
+      Messages_ZeigeNachricht(SpielerEins, MSG_Minigame_Timing, &leer5);
+      Messages_ZeigeNachricht(SpielerZwei, MSG_Minigame_Timing, &leer5);
+      break;
+    }
   }
-  Messages_ZeigeNachricht(SpielerEins, MSGxx_MinigameName, &gameName);
-  Messages_ZeigeNachricht(SpielerZwei, MSGxx_MinigameName, &gameName);
+
+  if (NameShown)
+  {
+    if (!NameBestaetigtP1)
+    {
+      if (TasterHandler_Klick(SpielerEins, TasterEins))
+      {
+        NameBestaetigtP1 = true;
+        TasterLed_Setzten(SpielerEins, LedEins, Schwarz);
+      }
+    }
+
+    if (!NameBestaetigtP2)
+    {
+      if (TasterHandler_Klick(SpielerZwei, TasterEins))
+      {
+        NameBestaetigtP2 = true;
+        TasterLed_Setzten(SpielerZwei, LedEins, Schwarz);
+      }
+    }
+  }
+
+  if (NameBestaetigtP1 and NameBestaetigtP2)
+  {
+    NameShown = false;
+    NameBestaetigtP1 = false;
+    NameBestaetigtP2 = false;
+
+    MinigameManager_GameNameShown();
+  }
 }

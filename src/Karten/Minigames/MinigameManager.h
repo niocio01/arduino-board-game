@@ -29,6 +29,6 @@ typedef enum
     void MinigameManager_GameEnded(MinigameManager_Winner_t gewinner, bool skipShowWinner = false);
     void MinigameManager_WinnerShown(void);
     void MinigameManager_GameNameShown(void);
-    void MinigameManager_MehrEinsatztBuffAnwenden(void);
+    void MinigameManager_GameActionShown(void);
 
 #endif

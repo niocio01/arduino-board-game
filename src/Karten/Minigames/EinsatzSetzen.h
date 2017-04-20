@@ -1,5 +1,8 @@
 #ifndef EINSATSSETZEN
 #define  EINSATSSETZEN
 
-  void EinsatzSetzen_Run(void);
+void EinsatzSetzen_MehrEinsatztBuffAnwenden(void);
+
+void EinsatzSetzen_Run(void);
+
 #endif

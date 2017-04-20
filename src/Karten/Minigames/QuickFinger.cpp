@@ -21,43 +21,13 @@ static bool startDoneP2;
 static bool gameBegun;
 static bool GameOver;
 
-uint8_t startCountdownTimeRemaining;
-uint8_t endCountdownTimeRemaining;
+uint8_t startCountdownTimeRemaining = startCountdown;
+uint8_t endCountdownTimeRemaining = startCountdown;
 uint32_t lastCountTime;
 
 void QuickFinger_RunGame()
 {
-  if (!startMsgShown)
-  {
-    LedTreiber_AllBlack();
-    Messages_ZeigeNachricht(SpielerZwei, MSG_Schnell_druecken, &leer);
-    Messages_ZeigeNachricht(SpielerZwei, MSG_Schnell_druecken, &leer);
-    TasterLed_Setzten(SpielerEins, LedEins, Gruen);
-    TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
-    startCountdownTimeRemaining = startCountdown;
-    endCountdownTimeRemaining = gameTime;
-    startMsgShown = true;
-  }
-
-  if (!startDoneP1)
-  {
-    if (TasterHandler_Klick(SpielerEins, TasterEins))
-    {
-      TasterLed_Setzten(SpielerEins, LedEins, Schwarz);
-      startDoneP1 = true;
-    }
-  }
-
-  if (!startDoneP2)
-  {
-    if (TasterHandler_Klick(SpielerZwei, TasterEins))
-    {
-      TasterLed_Setzten(SpielerZwei, LedEins, Schwarz);
-      startDoneP2 = true;
-    }
-  }
-
-  if (startDoneP1 and startDoneP2 and !gameBegun)
+  if (!gameBegun)
   {
     if ((millis() - lastCountTime) > 1000)
     {
@@ -70,6 +40,8 @@ void QuickFinger_RunGame()
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Schnell_druecken, &leer);
         Messages_ZeigeNachricht(SpielerZwei, MSG_Schnell_druecken, &leer);
+        TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
+        TasterLed_Setzten(SpielerEins, LedEins, Gruen);
         gameBegun = true;
       }
     }
@@ -131,6 +103,8 @@ void QuickFinger_RunGame()
       startDoneP2 = false;
       gameBegun = false;
       GameOver = false;
+      startCountdownTimeRemaining = startCountdown;
+      endCountdownTimeRemaining = gameTime;
 
       if (PressesP1 == PressesP2) // unentschieden
       {
