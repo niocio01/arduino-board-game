@@ -25,10 +25,22 @@ void LedTreiber_LedAnzeigen(void)
 
 void LedTreiber_AllBlack(void)
 {
-  for (uint16_t i = 0; i < NUMPIXELS; i++)
+  for (uint16_t i = 0; i < 252; i++)
   {
     pixels.setPixelColor(i, 0, 0, 0);
   }
+  pixels.setPixelColor(256, 0, 0, 0); // Poti P1
+  pixels.setPixelColor(257, 0, 0, 0); // Taster 1 P1
+  pixels.setPixelColor(258, 0, 0, 0); // Taster 2 P1
+  pixels.setPixelColor(259, 0, 0, 0); // Taster 3 P1
+  pixels.setPixelColor(260, 0, 0, 0); // Taster 4 P1
+
+  pixels.setPixelColor(264, 0, 0, 0); // Poti P2
+  pixels.setPixelColor(265, 0, 0, 0); // Taster 1 P2
+  pixels.setPixelColor(266, 0, 0, 0); // Taster 2 P2
+  pixels.setPixelColor(267, 0, 0, 0); // Taster 3 P2
+  pixels.setPixelColor(268, 0, 0, 0); // Taster 4 P2
+
   pixels.show();
 }
 

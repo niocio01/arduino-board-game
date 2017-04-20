@@ -4,6 +4,9 @@
 #include "globaltypes.h"
 
 
+bool PlayerManager_SpielerEinsAmZug(void);
+bool PlayerManager_SpielerZweiAmZug(void);
+
 /*
 Diese Funktionen Managen die Buffs, die auf einen
 Spieler gesetzt werden können.

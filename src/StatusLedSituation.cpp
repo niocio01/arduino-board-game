@@ -27,6 +27,16 @@ void StatusLedSituationSetzten(GlobalTypes_Spieler_t spieler,
         StatusLed_Setzen(SpielerZwei,RFID_Led,Aus);
         StatusLed_Setzen(SpielerZwei,Minigame_Led,Ein);
         break;
+
+        case Buff:
+        StatusLed_Setzen(SpielerEins,AmZug_Led,Ein);
+        StatusLed_Setzen(SpielerEins,RFID_Led,Aus);
+        StatusLed_Setzen(SpielerEins,Minigame_Led,Aus);
+
+        StatusLed_Setzen(SpielerZwei,AmZug_Led,Aus);
+        StatusLed_Setzen(SpielerZwei,RFID_Led,Aus);
+        StatusLed_Setzen(SpielerZwei,Minigame_Led,Aus);
+        break;
       }
     }
     else
@@ -51,6 +61,16 @@ void StatusLedSituationSetzten(GlobalTypes_Spieler_t spieler,
         StatusLed_Setzen(SpielerEins,AmZug_Led,Aus);
         StatusLed_Setzen(SpielerEins,RFID_Led,Aus);
         StatusLed_Setzen(SpielerEins,Minigame_Led,Ein);
+        break;
+
+        case Buff:
+        StatusLed_Setzen(SpielerZwei,AmZug_Led,Ein);
+        StatusLed_Setzen(SpielerZwei,RFID_Led,Aus);
+        StatusLed_Setzen(SpielerZwei,Minigame_Led,Aus);
+
+        StatusLed_Setzen(SpielerEins,AmZug_Led,Aus);
+        StatusLed_Setzen(SpielerEins,RFID_Led,Aus);
+        StatusLed_Setzen(SpielerEins,Minigame_Led,Aus);
         break;
       }
     }

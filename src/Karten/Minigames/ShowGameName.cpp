@@ -14,7 +14,7 @@ void ShowGameName_Run(void)
   switch (Game) // game auswählen und Laufen lassen
   {
     case Reaktion:
-  //  gameName.MiniGameName = "Reaktion";
+    //gameName.MiniGameName = "Reaktion";
     break;
 
     case Simon:

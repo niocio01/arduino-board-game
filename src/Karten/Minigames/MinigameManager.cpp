@@ -6,6 +6,9 @@
 #include "Karten/Minigames/ShowGameName.h"
 #include "GlobalTypes.h"
 #include "FigurAuswahl.h"
+#include "PlayerManager.h"
+
+const uint8_t AnzahlZusaezlicherEinsatzt = 10; //bei Buff Mehr Einsatz
 
 
 MinigameManager_GameStatus_t currentGame;
@@ -102,6 +105,20 @@ void MinigameManager_WinnerShown(void)
 void MinigameManager_GameNameShown(void)
 {
   GameNameShown = true;
+}
+
+void MinigameManager_MehrEinsatztBuffAnwenden(void)
+{
+  if (PlayerManager_SpielerEinsAmZug())
+  {
+    einsatzP1 = einsatzP1 + AnzahlZusaezlicherEinsatzt;
+  }
+  else
+  {
+    {
+      einsatzP2 = einsatzP2 + AnzahlZusaezlicherEinsatzt;
+    }
+  }
 }
 
 void MinigameManager_Run(void)

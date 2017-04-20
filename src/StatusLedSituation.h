@@ -6,7 +6,8 @@
 typedef enum
 {
   Spielzug,
-  Minigame
+  Minigame,
+  Buff
 } StatusLedSituation_Situation_t;
 
 /* function: StatusLedSituationSetzten

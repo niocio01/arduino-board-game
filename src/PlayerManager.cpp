@@ -8,15 +8,28 @@ static bool P1_EinsatztSetzenAktiv;
 static bool P1_GewinnGarantiertAktiv;
 
 
-// static bool P2_AmZug; Wird nicht abgefragt.
+//static bool P2_AmZug; Wird nicht abgefragt.
 static bool P2_SchildAktiv;
 static bool P2_SpeedAktiv;
 static bool P2_AussetzenAktiv;
 static bool P2_EinsatztSetzenAktiv;
 static bool P2_GewinnGarantiertAktiv;
 
+bool PlayerManager_SpielerEinsAmZug(void)
+{
+  if (P1_AmZug == true)
+  {
+    return true;
+  }
+}
 
-
+bool PlayerManager_SpielerZweiAmZug(void)
+{
+  if (P1_AmZug == false)
+  {
+    return true;
+  }
+}
 // Schild: hier wird der Status des Passiven Spielers ausgegeben.
 // Und Vom Passiven Spieler zurückgesetzt.
 void PlayerManager_ActivateShield(void)
