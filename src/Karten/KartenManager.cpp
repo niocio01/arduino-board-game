@@ -38,15 +38,15 @@ void KartenManager_Main(void)
     {
     Messages_ZeigeNachricht(SpielerEins, MSG_Karte_EndGame, &leer4);
     Messages_ZeigeNachricht(SpielerZwei, MSG_Gegner_am_Zug, &leer4);
-    StatusLedSituationSetzten(SpielerEins, Spielzug);
-    TasterLed_Setzten(SpielerEins, LedEins, Gruen);
+    StatusLedSituationSetzen(SpielerEins, Spielzug);
+    TasterLed_Setzen(SpielerEins, LedEins, Gruen);
     }
     else
     {
     Messages_ZeigeNachricht(SpielerZwei, MSG_Karte_EndGame, &leer4);
     Messages_ZeigeNachricht(SpielerEins, MSG_Gegner_am_Zug, &leer4);
-    StatusLedSituationSetzten(SpielerZwei, Spielzug);
-      TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
+    StatusLedSituationSetzen(SpielerZwei, Spielzug);
+      TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
     }
   }
   else

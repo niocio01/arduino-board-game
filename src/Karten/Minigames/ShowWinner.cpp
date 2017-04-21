@@ -46,8 +46,8 @@ void ShowWinner_Run(void)
       LedTreiber_AllBlack();
       Messages_ZeigeNachricht(SpielerEins, MSG_Win, &leer2);
       Messages_ZeigeNachricht(SpielerZwei, MSG_Lose, &leer2);
-      TasterLed_Setzten(SpielerEins, LedEins, Gruen);
-      TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
+      TasterLed_Setzen(SpielerEins, LedEins, Gruen);
+      TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
       ResultMSGShown = true;
       for (uint16_t i = 194; i <= 196; i++) { // Erster Kreis Seite Spieler 1
         LedTreiber_LedSetzen(i, Gruen, 5);
@@ -90,7 +90,7 @@ void ShowWinner_Run(void)
     {
       if (TasterHandler_Klick(SpielerEins, TasterEins))
       {
-        TasterLed_Setzten(SpielerEins, LedEins, Schwarz);
+        TasterLed_Setzen(SpielerEins, LedEins, Schwarz);
         ResultBestaetigtP1 = true;
       }
     }
@@ -98,7 +98,7 @@ void ShowWinner_Run(void)
     {
       if (TasterHandler_Klick(SpielerZwei, TasterEins))
       {
-        TasterLed_Setzten(SpielerZwei, LedEins, Schwarz);
+        TasterLed_Setzen(SpielerZwei, LedEins, Schwarz);
         ResultBestaetigtP2 = true;
       }
     }
@@ -118,8 +118,8 @@ void ShowWinner_Run(void)
       LedTreiber_AllBlack();
       Messages_ZeigeNachricht(SpielerEins, MSG_Lose, &leer2);
       Messages_ZeigeNachricht(SpielerZwei, MSG_Win, &leer2);
-      TasterLed_Setzten(SpielerEins, LedEins, Gruen);
-      TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
+      TasterLed_Setzen(SpielerEins, LedEins, Gruen);
+      TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
       ResultMSGShown = true;
       for (uint16_t i = 194; i <= 196; i++) { // Erster Kreis Seite Spieler 1
         LedTreiber_LedSetzen(i, Rot, 5);
@@ -162,7 +162,7 @@ void ShowWinner_Run(void)
     {
       if (TasterHandler_Klick(SpielerEins, TasterEins))
       {
-        TasterLed_Setzten(SpielerEins, LedEins, Schwarz);
+        TasterLed_Setzen(SpielerEins, LedEins, Schwarz);
         ResultBestaetigtP1 = true;
       }
     }
@@ -170,7 +170,7 @@ void ShowWinner_Run(void)
     {
       if (TasterHandler_Klick(SpielerZwei, TasterEins))
       {
-        TasterLed_Setzten(SpielerZwei, LedEins, Schwarz);
+        TasterLed_Setzen(SpielerZwei, LedEins, Schwarz);
         ResultBestaetigtP2 = true;
       }
     }
@@ -190,8 +190,8 @@ void ShowWinner_Run(void)
       LedTreiber_AllBlack();
       Messages_ZeigeNachricht(SpielerEins, MSG_Tie, &leer2);
       Messages_ZeigeNachricht(SpielerZwei, MSG_Tie, &leer2);
-      TasterLed_Setzten(SpielerEins, LedEins, Gruen);
-      TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
+      TasterLed_Setzen(SpielerEins, LedEins, Gruen);
+      TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
       ResultMSGShown = true;
     }
 
@@ -199,7 +199,7 @@ void ShowWinner_Run(void)
     {
       if (TasterHandler_Klick(SpielerEins, TasterEins))
       {
-        TasterLed_Setzten(SpielerEins, LedEins, Schwarz);
+        TasterLed_Setzen(SpielerEins, LedEins, Schwarz);
         ResultBestaetigtP1 = true;
       }
     }
@@ -207,7 +207,7 @@ void ShowWinner_Run(void)
     {
       if (TasterHandler_Klick(SpielerZwei, TasterEins))
       {
-        TasterLed_Setzten(SpielerZwei, LedEins, Schwarz);
+        TasterLed_Setzen(SpielerZwei, LedEins, Schwarz);
         ResultBestaetigtP2 = true;
       }
     }

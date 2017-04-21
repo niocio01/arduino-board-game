@@ -40,8 +40,8 @@ void QuickFinger_RunGame()
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Schnell_druecken, &leer);
         Messages_ZeigeNachricht(SpielerZwei, MSG_Schnell_druecken, &leer);
-        TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
-        TasterLed_Setzten(SpielerEins, LedEins, Gruen);
+        TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
+        TasterLed_Setzen(SpielerEins, LedEins, Gruen);
         gameBegun = true;
       }
     }

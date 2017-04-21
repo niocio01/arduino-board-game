@@ -12,7 +12,7 @@ typedef enum
   FigurZwei
 } WegLeds_Figur_t;
 
-/* function: StatusLedSituationSetzten
+/* function: StatusLedSituationSetzen
 Stellt die Status Led's auf eine bestimmte spiel situation
 1. Param: spieler (SpielerEins,SpielerZwei)
 2. Param: Situation (Spielzug,Minigame)

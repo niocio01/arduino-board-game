@@ -22,8 +22,8 @@ void ShowGameAction_Run(void)
   if (!actionShown)
   {
     actionShown = true;
-    TasterLed_Setzten(SpielerEins, LedEins, Gruen);
-    TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
+    TasterLed_Setzen(SpielerEins, LedEins, Gruen);
+    TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
 
     switch (Game)
     {
@@ -64,7 +64,7 @@ void ShowGameAction_Run(void)
       if (TasterHandler_Klick(SpielerEins, TasterEins))
       {
         actionBestaetigtP1 = true;
-        TasterLed_Setzten(SpielerEins, LedEins, Schwarz);
+        TasterLed_Setzen(SpielerEins, LedEins, Schwarz);
       }
     }
 
@@ -73,7 +73,7 @@ void ShowGameAction_Run(void)
       if (TasterHandler_Klick(SpielerZwei, TasterEins))
       {
         actionBestaetigtP2 = true;
-        TasterLed_Setzten(SpielerZwei, LedEins, Schwarz);
+        TasterLed_Setzen(SpielerZwei, LedEins, Schwarz);
       }
     }
   }

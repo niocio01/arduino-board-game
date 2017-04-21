@@ -2,7 +2,7 @@
 #include "Treiber/LedTreiber.h"
 
 
-void TasterLed_Setzten(GlobalTypes_Spieler_t spieler,
+void TasterLed_Setzen(GlobalTypes_Spieler_t spieler,
   TasterLed_Nummer_t nummer,
   GlobalTypes_Farbe_t farbe)
   {

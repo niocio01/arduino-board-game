@@ -1,7 +1,7 @@
 #include "StatusLedSituation.h"
 #include "Treiber/StatusLed.h"
 
-void StatusLedSituationSetzten(GlobalTypes_Spieler_t spieler,
+void StatusLedSituationSetzen(GlobalTypes_Spieler_t spieler,
   StatusLedSituation_Situation_t situation)
   {
     if (spieler == SpielerEins)

@@ -43,8 +43,8 @@ void BuffManager_Run(void)
     if (PlayerManager_SpielerEinsAmZug())
     {
       LedTreiber_AllBlack();
-      TasterLed_Setzten(SpielerEins, LedEins, Gruen);
-      StatusLedSituationSetzten(SpielerEins, Buff);
+      TasterLed_Setzen(SpielerEins, LedEins, Gruen);
+      StatusLedSituationSetzen(SpielerEins, Buff);
 
       if (karte == EinsatzSetzen)
       {
@@ -91,8 +91,8 @@ void BuffManager_Run(void)
     if (PlayerManager_SpielerZweiAmZug())
     {
       LedTreiber_AllBlack();
-      TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
-      StatusLedSituationSetzten(SpielerZwei, Buff);
+      TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
+      StatusLedSituationSetzen(SpielerZwei, Buff);
 
       if (karte == EinsatzSetzen)
       {

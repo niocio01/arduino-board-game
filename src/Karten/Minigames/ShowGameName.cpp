@@ -21,8 +21,8 @@ void ShowGameName_Run(void)
   if (!NameShown)
   {
     NameShown = true;
-    TasterLed_Setzten(SpielerEins, LedEins, Gruen);
-    TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
+    TasterLed_Setzen(SpielerEins, LedEins, Gruen);
+    TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
 
     switch (Game)
     {
@@ -65,7 +65,7 @@ void ShowGameName_Run(void)
       if (TasterHandler_Klick(SpielerEins, TasterEins))
       {
         NameBestaetigtP1 = true;
-        TasterLed_Setzten(SpielerEins, LedEins, Schwarz);
+        TasterLed_Setzen(SpielerEins, LedEins, Schwarz);
       }
     }
 
@@ -74,7 +74,7 @@ void ShowGameName_Run(void)
       if (TasterHandler_Klick(SpielerZwei, TasterEins))
       {
         NameBestaetigtP2 = true;
-        TasterLed_Setzten(SpielerZwei, LedEins, Schwarz);
+        TasterLed_Setzen(SpielerZwei, LedEins, Schwarz);
       }
     }
   }

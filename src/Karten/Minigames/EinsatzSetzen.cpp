@@ -76,8 +76,8 @@ void EinsatzSetzen_Run(void)
   if (!startMsgShown) {
     Messages_ZeigeNachricht(SpielerEins, MSG_Einsatz_waehlen, &leer);
     Messages_ZeigeNachricht(SpielerZwei, MSG_Einsatz_waehlen, &leer);
-    TasterLed_Setzten(SpielerEins, LedEins, Gruen);
-    TasterLed_Setzten(SpielerZwei, LedEins, Gruen);
+    TasterLed_Setzen(SpielerEins, LedEins, Gruen);
+    TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
     startMsgShown = true;
   }
 
@@ -107,7 +107,7 @@ void EinsatzSetzen_Run(void)
     if (TasterHandler_Klick(SpielerEins, TasterEins))
     {
       EinsaztGewaehletP1 = true;
-      TasterLed_Setzten(SpielerEins, LedEins, Schwarz);
+      TasterLed_Setzen(SpielerEins, LedEins, Schwarz);
       PotiLed_Setzen(SpielerEins, Schwarz);
     }
   }
@@ -139,7 +139,7 @@ void EinsatzSetzen_Run(void)
     if (TasterHandler_Klick(SpielerZwei, TasterEins))
     {
       EinsaztGewaehletP2 = true;
-      TasterLed_Setzten(SpielerZwei, LedEins, Schwarz);
+      TasterLed_Setzen(SpielerZwei, LedEins, Schwarz);
       PotiLed_Setzen(SpielerZwei, Schwarz);
     }
   }

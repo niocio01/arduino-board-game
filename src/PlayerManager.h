@@ -17,7 +17,7 @@ gesetzt oder zurückgesetzt, dass es vom Spielfluss her sinn macht.
 Siehe .cpp für nähere details dazu.
 
 Es Gibt Drei Funktion:
-Eine zum Setzten
+Eine zum Setzen
 Eine Zum Deaktivieren
 Und Eine zum anbfragen des Statuses eines Buffs
 */
