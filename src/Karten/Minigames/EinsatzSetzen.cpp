@@ -47,6 +47,29 @@ void EinsatzSetzen_MehrEinsatztBuffAnwenden(void)
   }
 }
 
+uint8_t EinsatzSetzen_GetEinsatzDepot(GlobalTypes_Spieler_t spieler)
+{
+  if (spieler == SpielerEins)
+  {
+    return einsatzDepotP1;
+  }
+  else
+  {
+    return einsatzDepotP2;
+  }
+}
+
+void EinsatzSetzen_SetEinsatzDepot(GlobalTypes_Spieler_t spieler, uint8_t newEinsatztDepot)
+{
+  if (spieler == SpielerEins)
+  {
+    einsatzDepotP1 = newEinsatztDepot;
+  }
+  else
+  {
+    einsatzDepotP2 = newEinsatztDepot;
+  }
+}
 
 void EinsatzSetzen_Run(void)
 {

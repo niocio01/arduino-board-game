@@ -168,31 +168,66 @@ void BuffManager_Run(void)
 
     else if (karte == EinsatzSetzen)
     {
-      PlayerManager_ActivateEinsatzSetzen(); // für Aktiven Spieler
+      if (PlayerManager_SpielerEinsAmZug())
+      {
+        PlayerManager_ActivateEinsatzSetzen(SpielerEins);
+      }
+      else
+      {
+        PlayerManager_ActivateEinsatzSetzen(SpielerZwei);
+      }
       Kartenmanager_BuffProcessed();
     }
 
     else if (karte == Speed)
     {
-      PlayerManager_ActivateSpeed(); // für Aktiven Spieler
+      if (PlayerManager_SpielerEinsAmZug())
+      {
+        PlayerManager_ActivateSpeed(SpielerEins);
+      }
+      else
+      {
+        PlayerManager_ActivateSpeed(SpielerZwei);
+      }
       Kartenmanager_BuffProcessed();
     }
 
     else if (karte == GewinnGarantiert)
     {
-      PlayerManager_ActivateGewinnGarantiert(); // für Aktiven Spieler
+      if (PlayerManager_SpielerEinsAmZug())
+      {
+        PlayerManager_ActivateGewinnGarantiert(SpielerEins);
+      }
+      else
+      {
+        PlayerManager_ActivateGewinnGarantiert(SpielerZwei);
+      }
       Kartenmanager_BuffProcessed();
     }
 
     else if (karte == Schild)
     {
-      PlayerManager_ActivateShield(); // für Aktiven Spieler
+      if (PlayerManager_SpielerEinsAmZug())
+      {
+        PlayerManager_ActivateShield(SpielerEins);
+      }
+      else
+      {
+        PlayerManager_ActivateShield(SpielerZwei);
+      }
       Kartenmanager_BuffProcessed();
     }
 
     else if (karte == Aussetzen)
     {
-      PlayerManager_ActivateAussetzen(); // für Passiven Spieler
+      if (PlayerManager_SpielerEinsAmZug())
+      {
+        PlayerManager_ActivateAussetzen(SpielerEins);
+      }
+      else
+      {
+        PlayerManager_ActivateAussetzen(SpielerZwei);
+      }
       Kartenmanager_BuffProcessed();
     }
 

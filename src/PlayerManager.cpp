@@ -1,10 +1,11 @@
 #include <inttypes.h>
+#include "GlobalTypes.h"
 
 static bool P1_AmZug;
 static bool P1_SchildAktiv;
 static bool P1_SpeedAktiv;
 static bool P1_AussetzenAktiv;
-static bool P1_EinsatztSetzenAktiv;
+static bool P1_EinsatzSetzenAktiv;
 static bool P1_GewinnGarantiertAktiv;
 
 
@@ -12,7 +13,7 @@ static bool P1_GewinnGarantiertAktiv;
 static bool P2_SchildAktiv;
 static bool P2_SpeedAktiv;
 static bool P2_AussetzenAktiv;
-static bool P2_EinsatztSetzenAktiv;
+static bool P2_EinsatzSetzenAktiv;
 static bool P2_GewinnGarantiertAktiv;
 
 bool PlayerManager_SpielerEinsAmZug(void)
@@ -30,11 +31,13 @@ bool PlayerManager_SpielerZweiAmZug(void)
     return true;
   }
 }
+
+
 // Schild: hier wird der Status des Passiven Spielers ausgegeben.
 // Und Vom Passiven Spieler zurückgesetzt.
-void PlayerManager_ActivateShield(void)
+void PlayerManager_ActivateShield(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
+  if (spieler == SpielerEins)
   {
     P1_SchildAktiv = true;
   }
@@ -43,29 +46,29 @@ void PlayerManager_ActivateShield(void)
     P2_SchildAktiv = true;
   }
 }
-void PlayerManager_DeActivateShield(void)
+void PlayerManager_DeActivateShield(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
-  {
-    P2_SchildAktiv = false;
-  }
-  else
+  if (spieler == SpielerEins)
   {
     P1_SchildAktiv = false;
   }
-}
-bool PlayerManager_IsShieldActive(void)
-{
-  if (P1_AmZug)
+  else
   {
-    if (P2_SchildAktiv)
+    P2_SchildAktiv = false;
+  }
+}
+bool PlayerManager_IsShieldActive(GlobalTypes_Spieler_t spieler)
+{
+  if (spieler == SpielerEins)
+  {
+    if (P1_SchildAktiv)
     {
       return true;
     }
   }
   else
   {
-    if (P1_SchildAktiv)
+    if (P2_SchildAktiv)
     {
       return true;
     }
@@ -73,9 +76,9 @@ bool PlayerManager_IsShieldActive(void)
 }
 
 // Speed: Alles auf Aktiven Spieler bezogen
-void PlayerManager_ActivateSpeed(void)
+void PlayerManager_ActivateSpeed(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
+  if (spieler == SpielerEins)
   {
     P1_SpeedAktiv = true;
   }
@@ -84,9 +87,9 @@ void PlayerManager_ActivateSpeed(void)
     P2_SpeedAktiv = true;
   }
 }
-void PlayerManager_DeActivateSpeed(void)
+void PlayerManager_DeActivateSpeed(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
+  if (spieler == SpielerEins)
   {
     P1_SpeedAktiv = false;
   }
@@ -95,9 +98,9 @@ void PlayerManager_DeActivateSpeed(void)
     P2_SpeedAktiv = false;
   }
 }
-bool PlayerManager_IsSpeedAcive(void)
+bool PlayerManager_IsSpeedActive(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
+  if (spieler == SpielerEins)
   {
     if (P1_SpeedAktiv)
     {
@@ -114,9 +117,9 @@ bool PlayerManager_IsSpeedAcive(void)
 }
 
 // Gewinn garantiert: Alles auf Aktiven Spieler bezogen
-void PlayerManager_ActivateGewinnGarantiert(void)
+void PlayerManager_ActivateGewinnGarantiert(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
+  if (spieler == SpielerEins)
   {
     P1_GewinnGarantiertAktiv = true;
   }
@@ -125,9 +128,9 @@ void PlayerManager_ActivateGewinnGarantiert(void)
     P2_GewinnGarantiertAktiv = true;
   }
 }
-void PlayerManager_DeActivateGewinnGarantiert(void)
+void PlayerManager_DeActivateGewinnGarantiert(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
+  if (spieler == SpielerEins)
   {
     P1_GewinnGarantiertAktiv = false;
   }
@@ -136,9 +139,9 @@ void PlayerManager_DeActivateGewinnGarantiert(void)
     P2_GewinnGarantiertAktiv = false;
   }
 }
-bool PlayerManager_IsGewinnGarantiertAcive(void)
+bool PlayerManager_IsGewinnGarantiertActive(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
+  if (spieler == SpielerEins)
   {
     if (P1_GewinnGarantiertAktiv)
     {
@@ -155,40 +158,40 @@ bool PlayerManager_IsGewinnGarantiertAcive(void)
 }
 
 // Einsatz setzen: Alles auf Aktiven Spieler bezogen
-void PlayerManager_ActivateEinsatzSetzen(void)
+void PlayerManager_ActivateEinsatzSetzen(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
+  if (spieler == SpielerEins)
   {
-    P1_EinsatztSetzenAktiv = true;
+    P1_EinsatzSetzenAktiv = true;
   }
   else
   {
-    P2_EinsatztSetzenAktiv = true;
+    P2_EinsatzSetzenAktiv = true;
   }
 }
-void PlayerManager_DeActivateEinsatzSetzen(void)
+void PlayerManager_DeActivateEinsatzSetzen(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
+  if (spieler == SpielerEins)
   {
-    P1_EinsatztSetzenAktiv = false;
+    P1_EinsatzSetzenAktiv = false;
   }
   else
   {
-    P2_EinsatztSetzenAktiv = false;
+    P2_EinsatzSetzenAktiv = false;
   }
 }
-bool PlayerManager_IsEinsatzSetzenAcive(void)
+bool PlayerManager_IsEinsatzSetzenActive(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
+  if (spieler == SpielerEins)
   {
-    if (P1_EinsatztSetzenAktiv)
+    if (P1_EinsatzSetzenAktiv)
     {
       return true;
     }
   }
   else
   {
-    if (P2_EinsatztSetzenAktiv)
+    if (P2_EinsatzSetzenAktiv)
     {
       return true;
     }
@@ -197,9 +200,9 @@ bool PlayerManager_IsEinsatzSetzenAcive(void)
 
 // Aussetzen: Hier wird auf den Passiven Spieler gesetzt
 // Und der Aktive zurückgesetzt.
-void PlayerManager_ActivateAussetzen(void)
+void PlayerManager_ActivateAussetzen(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
+  if (spieler == SpielerEins)
   {
     P2_AussetzenAktiv = true;
   }
@@ -208,9 +211,9 @@ void PlayerManager_ActivateAussetzen(void)
     P1_AussetzenAktiv = true;
   }
 }
-void PlayerManager_DeActivateAussetzen(void)
+void PlayerManager_DeActivateAussetzen(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
+  if (spieler == SpielerEins)
   {
     P1_AussetzenAktiv = false;
   }
@@ -219,9 +222,9 @@ void PlayerManager_DeActivateAussetzen(void)
     P2_AussetzenAktiv = false;
   }
 }
-bool PlayerManager_IsAussetzenAcive(void)
+bool PlayerManager_IsAussetzenActive(GlobalTypes_Spieler_t spieler)
 {
-  if (P1_AmZug)
+  if (spieler == SpielerEins)
   {
     if (P1_AussetzenAktiv)
     {

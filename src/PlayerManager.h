@@ -23,24 +23,24 @@ Und Eine zum anbfragen des Statuses eines Buffs
 */
 
 
-void PlayerManager_ActivateShield(void);
-void PlayerManager_DeActivateShield(void);
-bool PlayerManager_IsShieldActive(void);
+void PlayerManager_ActivateShield(GlobalTypes_Spieler_t spieler);
+void PlayerManager_DeActivateShield(GlobalTypes_Spieler_t spieler);
+bool PlayerManager_IsShieldActive(GlobalTypes_Spieler_t spieler);
 
-void PlayerManager_ActivateSpeed(void);
-void PlayerManager_DeActivateSpeed(void);
-bool PlayerManager_IsSpeedAcive(void);
+void PlayerManager_ActivateSpeed(GlobalTypes_Spieler_t spieler);
+void PlayerManager_DeActivateSpeed(GlobalTypes_Spieler_t spieler);
+bool PlayerManager_IsSpeedActive(GlobalTypes_Spieler_t spieler);
 
-void PlayerManager_ActivateAussetzen(void);
-void PlayerManager_DeActivateAussetzen(void);
-bool PlayerManager_IsAussetzenAcive(void);
+void PlayerManager_ActivateAussetzen(GlobalTypes_Spieler_t spieler);
+void PlayerManager_DeActivateAussetzen(GlobalTypes_Spieler_t spieler);
+bool PlayerManager_IsAussetzenActive(GlobalTypes_Spieler_t spieler);
 
-void PlayerManager_ActivateEinsatzSetzen(void);
-void PlayerManager_DeActivateEinsatzSetzen(void);
-bool PlayerManager_IsEinsatzSetzenAcive(void);
+void PlayerManager_ActivateEinsatzSetzen(GlobalTypes_Spieler_t spieler);
+void PlayerManager_DeActivateEinsatzSetzen(GlobalTypes_Spieler_t spieler);
+bool PlayerManager_IsEinsatzSetzenActive(GlobalTypes_Spieler_t spieler);
 
-void PlayerManager_ActivateGewinnGarantiert(void);
-void PlayerManager_DeActivateGewinnGarantiert(void);
-bool PlayerManager_IsGewinnGarantiertAcive(void);
+void PlayerManager_ActivateGewinnGarantiert(GlobalTypes_Spieler_t spieler);
+void PlayerManager_DeActivateGewinnGarantiert(GlobalTypes_Spieler_t spieler);
+bool PlayerManager_IsGewinnGarantiertActive(GlobalTypes_Spieler_t spieler);
 
 #endif
