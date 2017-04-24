@@ -47,6 +47,7 @@ typedef enum {
   MSG_Einsatz_waehlen,
   MSG_Gegner_bestimmt_Einsatz,
   MSGxx_Einsatz_Punkte,
+  MSGxx_Einsatz_Punkte_FuerGegner,
   MSG_Einsatz_fuer_Gegner,
   MSG_Win,
   MSG_Lose,
@@ -64,11 +65,12 @@ typedef enum {
   MSG_Stopp_Licht,
   MSGxx_Start_in,
   MSGxx_Endet_in,
-  MSG_Nach_Zeitreise,
+  MSG_AktiveBuffsAnzeigen,
   MSG_Buff_Schild_Aktiv,
   MSG_Buff_Speed_Aktiv,
   MSG_Buff_Gewinn_Aktiv,
-  MSG_Buff_EinsatzSetzen  
+  MSG_Buff_EinsatzSetzen_Aktiv,
+  MSG_Buff_Aussetzen_Aktiv
   } Messages_Nachrichten_t;
 
 /*

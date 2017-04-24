@@ -8,6 +8,7 @@
 #include "FigurAuswahl.h"
 #include "PlayerManager.h"
 #include "Karten/Minigames/ShowGameAction.h"
+#include "StatusLedSituation.h"
 
 MinigameManager_GameStatus_t currentGame;
 
@@ -37,9 +38,18 @@ void MinigameManager_StartNewGame(bool skipShowGameNameUndEinsatzSetzen)
     showGameName = false;
     einsatzSetzen = false;
     runGame = true;
+
   }
   else
   {
+    if (PlayerManager_SpielerEinsAmZug())
+    {
+      StatusLedSituationSetzen(SpielerEins, Minigame);
+    }
+    else
+    {
+      StatusLedSituationSetzen(SpielerZwei, Minigame);
+    }
     showGameName = true;
   }
 }
@@ -50,13 +60,20 @@ void MinigameManager_GameNameShown(void)
   einsatzSetzen = true;
 }
 
-void MinigameManager_EinsatzGesetzt(uint8_t newEinsatzP1, uint8_t newEinsatzP2)
+void MinigameManager_EinsatzGesetzt(uint8_t newEinsatzP1, uint8_t newEinsatzP2, bool continueWithFigurAuswahl)
 {
   einsatzP1 = newEinsatzP1;
   einsatzP2 = newEinsatzP2;
-  einsatzSetzen = false;
-  showGameAction = true;
 
+  if (continueWithFigurAuswahl == true)
+  {
+    figurAuswaehlen = true;
+  }
+  else
+  {
+    einsatzSetzen = false;
+    showGameAction = true;
+  }
 }
 
 void MinigameManager_GameActionShown(void)

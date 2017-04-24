@@ -75,7 +75,6 @@ void EinsatzSetzen_SetEinsatzDepot(GlobalTypes_Spieler_t spieler, uint8_t newEin
 void EinsatzSetzen_Run(void)
 {
 
-  // Einsatz für Spieler Eins und Zwei von Spieler eins wählen.
   if (PlayerManager_SpielerEinsAmZug())
   {
     if (PlayerManager_IsEinsatzSetzenActive(SpielerEins))
@@ -115,14 +114,14 @@ void EinsatzSetzen_Run(void)
           EinsaztGewaehletP1 = true;
           TasterLed_Setzen(SpielerEins, LedEins, Gruen);
           PotiLed_Setzen(SpielerEins, Schwarz);
-          Messages_ZeigeNachricht(SpielerZwei, MSG_Einsatz_fuer_Gegner, &leer);
+          Messages_ZeigeNachricht(SpielerEins, MSG_Einsatz_fuer_Gegner, &leer);
         }
       }
 
 
       if (EinsaztGewaehletP1 and !startDoneP2)
       {
-        if (TasterHandler_Klick(SpielerZwei, TasterEins))
+        if (TasterHandler_Klick(SpielerEins, TasterEins))
         {
           PotiLed_Setzen(SpielerEins, Gruen);
           startDoneP2 = true;
@@ -140,8 +139,7 @@ void EinsatzSetzen_Run(void)
         }
         einsatzP2 = map(PotiTreiber_Get_Val(SpielerEins), 0, 255, 0, maxPunkteP2);
         points2.ValEinsatz = einsatzP2;
-        points2.ValPunkte = 00;
-        Messages_ZeigeNachricht(SpielerEins, MSGxx_Einsatz_Punkte, &points2);
+        Messages_ZeigeNachricht(SpielerEins, MSGxx_Einsatz_Punkte_FuerGegner, &points2);
 
         if (TasterHandler_Klick(SpielerEins, TasterEins))
         {
@@ -150,7 +148,7 @@ void EinsatzSetzen_Run(void)
           PotiLed_Setzen(SpielerEins, Schwarz);
         }
       }
-      if (EinsaztGewaehletP1 and EinsaztGewaehletP2)
+      if (EinsaztGewaehletP2 and EinsaztGewaehletP1)
       {
         startMsgShown = false;
         startDoneP1 = false;
@@ -235,8 +233,7 @@ void EinsatzSetzen_Run(void)
         }
         einsatzP1 = map(PotiTreiber_Get_Val(SpielerZwei), 0, 255, 0, maxPunkteP1);
         points1.ValEinsatz = einsatzP1;
-        points1.ValPunkte = 00;
-        Messages_ZeigeNachricht(SpielerZwei, MSGxx_Einsatz_Punkte, &points1);
+        Messages_ZeigeNachricht(SpielerZwei, MSGxx_Einsatz_Punkte_FuerGegner, &points1);
 
         if (TasterHandler_Klick(SpielerZwei, TasterEins))
         {

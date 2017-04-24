@@ -205,8 +205,8 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     LcdTreiber_DisplayMessage(spieler, (char *) "Licht in der", (char *) "Mitte stoppen");
     break;
 
-    case MSG_Nach_Zeitreise:
-    LcdTreiber_DisplayMessage(spieler, (char *) "Folgende Buffs", (char *) "aktiv:");
+    case MSG_AktiveBuffsAnzeigen:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Akive Buffs mit", (char *) "Poti ansehen");
     break;
 
     case MSG_Buff_Schild_Aktiv:
@@ -221,8 +221,12 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     LcdTreiber_DisplayMessage(spieler, (char *) "Gewinn", (char *) "garantiert");
     break;
 
-    case MSG_Buff_EinsatzSetzen:
+    case MSG_Buff_EinsatzSetzen_Aktiv:
     LcdTreiber_DisplayMessage(spieler, (char *) "", (char *) "Einsatz setzten");
+    break;
+
+    case MSG_Buff_Aussetzen_Aktiv:
+    LcdTreiber_DisplayMessage(spieler, (char *) "", (char *) "Aussetzen");
     break;
 
 
@@ -242,6 +246,15 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
       sprintf(Text1, "%s %d", "Einsatz:", MessageVal->ValEinsatz);
       sprintf(Text2, "%s %d", "Punkte:", MessageVal->ValPunkte);
       LcdTreiber_DisplayMessage(spieler, Text1, Text2);
+      lastUpdateTime = millis();
+    }
+    break;
+
+    case MSGxx_Einsatz_Punkte_FuerGegner:
+    if ((millis() - lastUpdateTime) > updateIntervall)
+    {
+      sprintf(Text1, "%s %d", "Einsatz:", MessageVal->ValEinsatz);
+      LcdTreiber_DisplayMessage(spieler, Text1, (char *) "Punkte: XX");
       lastUpdateTime = millis();
     }
     break;

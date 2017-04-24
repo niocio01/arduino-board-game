@@ -34,4 +34,6 @@ schaltet alle LEDs aus.
 */
 void LedTreiber_AllBlack(void);
 
+void LedTreiber_ControllsBlack(void);
+
 #endif
