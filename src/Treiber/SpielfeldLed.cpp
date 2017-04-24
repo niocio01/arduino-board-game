@@ -12,8 +12,8 @@ struct FigureData SF_Player1_Figure2;
 struct FigureData SF_Player2_Figure1;
 struct FigureData SF_Player2_Figure2;
 
-int SF_Player1_Kreis[SF_K_Steps];
-int SF_Player2_Kreis[SF_K_Steps];
+uint16_t SF_Player1_Kreis[SF_K_Steps];
+uint16_t SF_Player2_Kreis[SF_K_Steps];
 
 uint16_t SF_LedWeg[SF_MAX_STEPS];
 
@@ -103,9 +103,8 @@ void SF_InitData(void)
   SF_Player1_Kreis[13] = 203;
   SF_Player1_Kreis[14] = 204;
   SF_Player1_Kreis[15] = 205;
-  SF_Player1_Kreis[16] = 206;
-  SF_Player1_Kreis[17] = 196;
-  SF_Player1_Kreis[18] = 192;
+  SF_Player1_Kreis[16] = 196;
+  SF_Player1_Kreis[17] = 192;
 
   SF_Player2_Kreis[0] = 252;
   SF_Player2_Kreis[1] = 251;
@@ -123,9 +122,8 @@ void SF_InitData(void)
   SF_Player2_Kreis[13] = 209;
   SF_Player2_Kreis[14] = 210;
   SF_Player2_Kreis[15] = 211;
-  SF_Player2_Kreis[16] = 212;
-  SF_Player2_Kreis[17] = 200;
-  SF_Player2_Kreis[18] = 192;
+  SF_Player2_Kreis[16] = 200;
+  SF_Player2_Kreis[17] = 192;
 
   SF_OldTimeS = millis();
   SF_OldTimeF = millis();
@@ -161,8 +159,14 @@ bool SF_StartDim(void)
   }
 
   // Alle LED's des Kreises setzen
-  for (id = SF_K_StartID, i = 0; i < SF_K_TotSteps; i++, id++)
+  for (i = 0; i <= SF_K_Steps ; i++)
   {
+    id = SF_Player1_Kreis[i];
+    LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+  }
+  for (i = 0; i <= SF_K_Steps ; i++)
+  {
+    id = SF_Player2_Kreis[i];
     LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
   }
   LedTreiber_LedAnzeigen();
