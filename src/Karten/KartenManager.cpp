@@ -51,17 +51,17 @@ void KartenManager_Main(void)
   }
   else
   {
-    if (buffInProgress)
-    {
-      BuffManager_Run();
-    }
-
     if (minigameInProgress)
     {
       MinigameManager_Run();
     }
 
-    if (minigameInProgress == false and buffInProgress == false)
+    else if (buffInProgress)
+    {
+      BuffManager_Run();
+    }
+
+    else
     {
       uint8_t * kartenNrRef;
       uint8_t  kartenNrValue;

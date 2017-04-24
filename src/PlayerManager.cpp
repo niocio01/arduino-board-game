@@ -1,26 +1,30 @@
 #include <inttypes.h>
 #include "GlobalTypes.h"
 
-static bool P1_AmZug;
-static bool P1_SchildAktiv;
-static bool P1_SpeedAktiv;
-static bool P1_AussetzenAktiv;
-static bool P1_EinsatzSetzenAktiv;
-static bool P1_GewinnGarantiertAktiv;
+static bool P1_AmZug = false;
+static bool P1_SchildAktiv = false;
+static bool P1_SpeedAktiv = false;
+static bool P1_AussetzenAktiv = false;
+static bool P1_EinsatzSetzenAktiv = false;
+static bool P1_GewinnGarantiertAktiv = false;
 
 
 //static bool P2_AmZug; Wird nicht abgefragt.
-static bool P2_SchildAktiv;
-static bool P2_SpeedAktiv;
-static bool P2_AussetzenAktiv;
-static bool P2_EinsatzSetzenAktiv;
-static bool P2_GewinnGarantiertAktiv;
+static bool P2_SchildAktiv = false;
+static bool P2_SpeedAktiv = false;
+static bool P2_AussetzenAktiv = false;
+static bool P2_EinsatzSetzenAktiv = false;
+static bool P2_GewinnGarantiertAktiv = false;
 
 bool PlayerManager_SpielerEinsAmZug(void)
 {
   if (P1_AmZug == true)
   {
     return true;
+  }
+  else
+  {
+    return false;
   }
 }
 
@@ -29,6 +33,10 @@ bool PlayerManager_SpielerZweiAmZug(void)
   if (P1_AmZug == false)
   {
     return true;
+  }
+  else
+  {
+    return false;
   }
 }
 
@@ -65,12 +73,20 @@ bool PlayerManager_IsShieldActive(GlobalTypes_Spieler_t spieler)
     {
       return true;
     }
+    else
+    {
+      return false;
+    }
   }
   else
   {
     if (P2_SchildAktiv)
     {
       return true;
+    }
+    else
+    {
+      return false;
     }
   }
 }
@@ -106,12 +122,20 @@ bool PlayerManager_IsSpeedActive(GlobalTypes_Spieler_t spieler)
     {
       return true;
     }
+    else
+    {
+      return false;
+    }
   }
   else
   {
     if (P2_SpeedAktiv)
     {
       return true;
+    }
+    else
+    {
+      return false;
     }
   }
 }
@@ -147,12 +171,20 @@ bool PlayerManager_IsGewinnGarantiertActive(GlobalTypes_Spieler_t spieler)
     {
       return true;
     }
+    else
+    {
+      return false;
+    }
   }
   else
   {
     if (P2_GewinnGarantiertAktiv)
     {
       return true;
+    }
+    else
+    {
+      return false;
     }
   }
 }
@@ -188,12 +220,20 @@ bool PlayerManager_IsEinsatzSetzenActive(GlobalTypes_Spieler_t spieler)
     {
       return true;
     }
+    else
+    {
+      return false;
+    }
   }
-  else
+  else if (spieler == SpielerZwei)
   {
     if (P2_EinsatzSetzenAktiv)
     {
       return true;
+    }
+    else
+    {
+      return false;
     }
   }
 }
@@ -230,12 +270,20 @@ bool PlayerManager_IsAussetzenActive(GlobalTypes_Spieler_t spieler)
     {
       return true;
     }
+    else
+    {
+      return false;
+    }
   }
   else
   {
     if (P2_AussetzenAktiv)
     {
       return true;
+    }
+    else
+    {
+      return false;
     }
   }
 }

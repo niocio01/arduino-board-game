@@ -194,7 +194,7 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     break;
 
     case MSG_20_schnell_druecken:
-    LcdTreiber_DisplayMessage(spieler, (char *) "20 x schnell", (char *) "druecken in…");
+    LcdTreiber_DisplayMessage(spieler, (char *) "20 x schnell", (char *) "druecken");
     break;
 
     case MSG_Taster_BL_bestaetigen:

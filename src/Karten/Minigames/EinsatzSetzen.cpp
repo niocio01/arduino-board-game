@@ -10,7 +10,7 @@
 #include "PlayerManager.h"
 
 const uint8_t AnzahlZusaezlicherEinsatzt = 10; //bei Buff Mehr Einsatz
-static uint8_t einsatzDepotP1 = 30;
+static uint8_t einsatzDepotP1 = 3;
 static uint8_t einsatzDepotP2 = 30;
 const uint8_t maxPunkte = 5;
 
@@ -24,6 +24,7 @@ uint8_t maxPunkteP2;
 static uint8_t einsatzP1;
 static uint8_t einsatzP2;
 
+static bool DoNormalRoutine = false;
 static bool startMsgShown;
 static bool startDoneP1;
 static bool startDoneP2;
@@ -73,85 +74,283 @@ void EinsatzSetzen_SetEinsatzDepot(GlobalTypes_Spieler_t spieler, uint8_t newEin
 
 void EinsatzSetzen_Run(void)
 {
-  if (!startMsgShown) {
-    Messages_ZeigeNachricht(SpielerEins, MSG_Einsatz_waehlen, &leer);
-    Messages_ZeigeNachricht(SpielerZwei, MSG_Einsatz_waehlen, &leer);
-    TasterLed_Setzen(SpielerEins, LedEins, Gruen);
-    TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
-    startMsgShown = true;
-  }
 
-  if (!startDoneP1)
+  // Einsatz für Spieler Eins und Zwei von Spieler eins wählen.
+  if (PlayerManager_SpielerEinsAmZug())
   {
-    if (TasterHandler_Klick(SpielerEins, TasterEins))
+    if (PlayerManager_IsEinsatzSetzenActive(SpielerEins))
     {
-      PotiLed_Setzen(SpielerEins, Gruen);
-      startDoneP1 = true;
-    }
-  }
-  if(startDoneP1 and !EinsaztGewaehletP1)
-  {
-    if (einsatzDepotP1 < maxPunkte)
-    {
-      maxPunkteP1 = einsatzDepotP1;
+      if (!startMsgShown) {
+        Messages_ZeigeNachricht(SpielerEins, MSG_Einsatz_waehlen, &leer);
+        Messages_ZeigeNachricht(SpielerZwei, MSG_Gegner_bestimmt_Einsatz, &leer);
+        TasterLed_Setzen(SpielerEins, LedEins, Gruen);
+        startMsgShown = true;
+      }
+
+      if (!startDoneP1)
+      {
+        if (TasterHandler_Klick(SpielerEins, TasterEins))
+        {
+          PotiLed_Setzen(SpielerEins, Gruen);
+          startDoneP1 = true;
+        }
+      }
+      if(startDoneP1 and !EinsaztGewaehletP1)
+      {
+        if (einsatzDepotP1 < maxPunkte)
+        {
+          maxPunkteP1 = einsatzDepotP1;
+        }
+        else
+        {
+          maxPunkteP1 = maxPunkte;
+        }
+        einsatzP1 = map(PotiTreiber_Get_Val(SpielerEins), 0, 255, 0, maxPunkteP1);
+        points1.ValEinsatz = einsatzP1;
+        points1.ValPunkte = einsatzDepotP1;
+        Messages_ZeigeNachricht(SpielerEins, MSGxx_Einsatz_Punkte, &points1);
+
+        if (TasterHandler_Klick(SpielerEins, TasterEins))
+        {
+          EinsaztGewaehletP1 = true;
+          TasterLed_Setzen(SpielerEins, LedEins, Gruen);
+          PotiLed_Setzen(SpielerEins, Schwarz);
+          Messages_ZeigeNachricht(SpielerZwei, MSG_Einsatz_fuer_Gegner, &leer);
+        }
+      }
+
+
+      if (EinsaztGewaehletP1 and !startDoneP2)
+      {
+        if (TasterHandler_Klick(SpielerZwei, TasterEins))
+        {
+          PotiLed_Setzen(SpielerEins, Gruen);
+          startDoneP2 = true;
+        }
+      }
+      if(startDoneP2 and !EinsaztGewaehletP2)
+      {
+        if (einsatzDepotP2 < maxPunkte)
+        {
+          maxPunkteP2 = einsatzDepotP2;
+        }
+        else
+        {
+          maxPunkteP2 = maxPunkte;
+        }
+        einsatzP2 = map(PotiTreiber_Get_Val(SpielerEins), 0, 255, 0, maxPunkteP2);
+        points2.ValEinsatz = einsatzP2;
+        points2.ValPunkte = 00;
+        Messages_ZeigeNachricht(SpielerEins, MSGxx_Einsatz_Punkte, &points2);
+
+        if (TasterHandler_Klick(SpielerEins, TasterEins))
+        {
+          EinsaztGewaehletP2 = true;
+          TasterLed_Setzen(SpielerEins, LedEins, Schwarz);
+          PotiLed_Setzen(SpielerEins, Schwarz);
+        }
+      }
+      if (EinsaztGewaehletP1 and EinsaztGewaehletP2)
+      {
+        startMsgShown = false;
+        startDoneP1 = false;
+        startDoneP2 = false;
+        enablePotLedP1 = false;
+        enablePotLedP2 = false;
+        EinsaztGewaehletP1 = false;
+        EinsaztGewaehletP2 = false;
+        MinigameManager_EinsatzGesetzt(einsatzP1, einsatzP2);
+      }
     }
     else
     {
-      maxPunkteP1 = maxPunkte;
-    }
-    einsatzP1 = map(PotiTreiber_Get_Val(SpielerEins), 0, 255, 0, maxPunkteP1);
-    points1.ValEinsatz = einsatzP1;
-    points1.ValPunkte = einsatzDepotP1;
-    Messages_ZeigeNachricht(SpielerEins, MSGxx_Einsatz_Punkte, &points1);
-
-    if (TasterHandler_Klick(SpielerEins, TasterEins))
-    {
-      EinsaztGewaehletP1 = true;
-      TasterLed_Setzen(SpielerEins, LedEins, Schwarz);
-      PotiLed_Setzen(SpielerEins, Schwarz);
+      DoNormalRoutine = true;
     }
   }
 
 
-  if (!startDoneP2)
+  /*-----------------------------------------------------------------
+  Einsatz für Spieler Eins und Zwei von Spieler Zwei wählen. */
+  if (PlayerManager_SpielerZweiAmZug())
   {
-    if (TasterHandler_Klick(SpielerZwei, TasterEins))
+    if (PlayerManager_IsEinsatzSetzenActive(SpielerZwei))
     {
-      PotiLed_Setzen(SpielerZwei, Gruen);
-      startDoneP2 = true;
-    }
-  }
-  if(startDoneP2 and !EinsaztGewaehletP2)
-  {
-    if (einsatzDepotP2 < maxPunkte)
-    {
-      maxPunkteP2 = einsatzDepotP2;
+      if (!startMsgShown) {
+        Messages_ZeigeNachricht(SpielerZwei, MSG_Einsatz_waehlen, &leer);
+        Messages_ZeigeNachricht(SpielerEins, MSG_Gegner_bestimmt_Einsatz, &leer);
+        TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
+        startMsgShown = true;
+      }
+
+      if (!startDoneP2)
+      {
+        if (TasterHandler_Klick(SpielerZwei, TasterEins))
+        {
+          PotiLed_Setzen(SpielerZwei, Gruen);
+          startDoneP2 = true;
+        }
+      }
+      if(startDoneP2 and !EinsaztGewaehletP2)
+      {
+        if (einsatzDepotP2 < maxPunkte)
+        {
+          maxPunkteP2 = einsatzDepotP2;
+        }
+        else
+        {
+          maxPunkteP2 = maxPunkte;
+        }
+        einsatzP2 = map(PotiTreiber_Get_Val(SpielerZwei), 0, 255, 0, maxPunkteP2);
+        points2.ValEinsatz = einsatzP2;
+        points2.ValPunkte = einsatzDepotP2;
+        Messages_ZeigeNachricht(SpielerZwei, MSGxx_Einsatz_Punkte, &points2);
+
+        if (TasterHandler_Klick(SpielerZwei, TasterEins))
+        {
+          EinsaztGewaehletP2 = true;
+          TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
+          PotiLed_Setzen(SpielerZwei, Schwarz);
+          Messages_ZeigeNachricht(SpielerZwei, MSG_Einsatz_fuer_Gegner, &leer);
+        }
+      }
+
+
+      if (EinsaztGewaehletP2 and !startDoneP1)
+      {
+        if (TasterHandler_Klick(SpielerZwei, TasterEins))
+        {
+          PotiLed_Setzen(SpielerZwei, Gruen);
+          startDoneP1 = true;
+        }
+      }
+      if(startDoneP1 and !EinsaztGewaehletP1)
+      {
+        if (einsatzDepotP1 < maxPunkte)
+        {
+          maxPunkteP1 = einsatzDepotP1;
+        }
+        else
+        {
+          maxPunkteP1 = maxPunkte;
+        }
+        einsatzP1 = map(PotiTreiber_Get_Val(SpielerZwei), 0, 255, 0, maxPunkteP1);
+        points1.ValEinsatz = einsatzP1;
+        points1.ValPunkte = 00;
+        Messages_ZeigeNachricht(SpielerZwei, MSGxx_Einsatz_Punkte, &points1);
+
+        if (TasterHandler_Klick(SpielerZwei, TasterEins))
+        {
+          EinsaztGewaehletP1 = true;
+          TasterLed_Setzen(SpielerZwei, LedEins, Schwarz);
+          PotiLed_Setzen(SpielerZwei, Schwarz);
+        }
+      }
+      if (EinsaztGewaehletP1 and EinsaztGewaehletP2)
+      {
+        startMsgShown = false;
+        startDoneP1 = false;
+        startDoneP2 = false;
+        enablePotLedP1 = false;
+        enablePotLedP2 = false;
+        EinsaztGewaehletP1 = false;
+        EinsaztGewaehletP2 = false;
+        MinigameManager_EinsatzGesetzt(einsatzP1, einsatzP2);
+      }
     }
     else
     {
-      maxPunkteP2 = maxPunkte;
-    }
-    einsatzP2 = map(PotiTreiber_Get_Val(SpielerZwei), 0, 255, 0, maxPunkteP2);
-    points2.ValEinsatz = einsatzP2;
-    points2.ValPunkte = einsatzDepotP2;
-    Messages_ZeigeNachricht(SpielerZwei, MSGxx_Einsatz_Punkte, &points2);
-
-    if (TasterHandler_Klick(SpielerZwei, TasterEins))
-    {
-      EinsaztGewaehletP2 = true;
-      TasterLed_Setzen(SpielerZwei, LedEins, Schwarz);
-      PotiLed_Setzen(SpielerZwei, Schwarz);
+      DoNormalRoutine = true;
     }
   }
-  if (EinsaztGewaehletP1 and EinsaztGewaehletP2)
+
+
+
+
+  /*-----------------------------------------------------------------
+  Beide wählen Ihren eigenen Einsatz. */
+  if (DoNormalRoutine)
   {
-    startMsgShown = false;
-    startDoneP1 = false;
-    startDoneP2 = false;
-    enablePotLedP1 = false;
-    enablePotLedP2 = false;
-    EinsaztGewaehletP1 = false;
-    EinsaztGewaehletP2 = false;
-    MinigameManager_EinsatzGesetzt(einsatzP1, einsatzP2);
+    if (!startMsgShown) {
+      Messages_ZeigeNachricht(SpielerEins, MSG_Einsatz_waehlen, &leer);
+      Messages_ZeigeNachricht(SpielerZwei, MSG_Einsatz_waehlen, &leer);
+      TasterLed_Setzen(SpielerEins, LedEins, Gruen);
+      TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
+      startMsgShown = true;
+    }
+
+    if (!startDoneP1)
+    {
+      if (TasterHandler_Klick(SpielerEins, TasterEins))
+      {
+        PotiLed_Setzen(SpielerEins, Gruen);
+        startDoneP1 = true;
+      }
+    }
+    if(startDoneP1 and !EinsaztGewaehletP1)
+    {
+      if (einsatzDepotP1 < maxPunkte)
+      {
+        maxPunkteP1 = einsatzDepotP1;
+      }
+      else
+      {
+        maxPunkteP1 = maxPunkte;
+      }
+      einsatzP1 = map(PotiTreiber_Get_Val(SpielerEins), 0, 255, 0, maxPunkteP1);
+      points1.ValEinsatz = einsatzP1;
+      points1.ValPunkte = einsatzDepotP1;
+      Messages_ZeigeNachricht(SpielerEins, MSGxx_Einsatz_Punkte, &points1);
+
+      if (TasterHandler_Klick(SpielerEins, TasterEins))
+      {
+        EinsaztGewaehletP1 = true;
+        TasterLed_Setzen(SpielerEins, LedEins, Schwarz);
+        PotiLed_Setzen(SpielerEins, Schwarz);
+      }
+    }
+
+
+    if (!startDoneP2)
+    {
+      if (TasterHandler_Klick(SpielerZwei, TasterEins))
+      {
+        PotiLed_Setzen(SpielerZwei, Gruen);
+        startDoneP2 = true;
+      }
+    }
+    if(startDoneP2 and !EinsaztGewaehletP2)
+    {
+      if (einsatzDepotP2 < maxPunkte)
+      {
+        maxPunkteP2 = einsatzDepotP2;
+      }
+      else
+      {
+        maxPunkteP2 = maxPunkte;
+      }
+      einsatzP2 = map(PotiTreiber_Get_Val(SpielerZwei), 0, 255, 0, maxPunkteP2);
+      points2.ValEinsatz = einsatzP2;
+      points2.ValPunkte = einsatzDepotP2;
+      Messages_ZeigeNachricht(SpielerZwei, MSGxx_Einsatz_Punkte, &points2);
+
+      if (TasterHandler_Klick(SpielerZwei, TasterEins))
+      {
+        EinsaztGewaehletP2 = true;
+        TasterLed_Setzen(SpielerZwei, LedEins, Schwarz);
+        PotiLed_Setzen(SpielerZwei, Schwarz);
+      }
+    }
+    if (EinsaztGewaehletP1 and EinsaztGewaehletP2)
+    {
+      startMsgShown = false;
+      startDoneP1 = false;
+      startDoneP2 = false;
+      enablePotLedP1 = false;
+      enablePotLedP2 = false;
+      EinsaztGewaehletP1 = false;
+      EinsaztGewaehletP2 = false;
+      DoNormalRoutine = false;
+      MinigameManager_EinsatzGesetzt(einsatzP1, einsatzP2);
+    }
   }
 }

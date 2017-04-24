@@ -22,7 +22,6 @@ const uint8_t Schild =73;
 const uint8_t Lucky =74;
 
 uint8_t karte;
-static bool karteShown;
 static bool MGSShown;
 static bool MSGBestaetigt;
 Messages_values leer3;
@@ -32,6 +31,8 @@ Messages_values leer3;
 void BuffManager_TellBuff(uint8_t kartenNrValue)
 {
   karte = kartenNrValue;
+  MGSShown = false;
+  MSGBestaetigt = false;
 }
 
 
@@ -49,46 +50,53 @@ void BuffManager_Run(void)
       if (karte == EinsatzSetzen)
       {
         Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Einsatz_bestimmen, &leer3);
+        PlayerManager_ActivateEinsatzSetzen(SpielerEins);
       }
-      if (karte == Speed)
+      else if (karte == Speed)
       {
         Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Speed, &leer3);
+        PlayerManager_ActivateSpeed(SpielerEins);
       }
-      if (karte == GewinnGarantiert)
+      else if (karte == GewinnGarantiert)
       {
         Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Gewinn, &leer3);
+        PlayerManager_ActivateGewinnGarantiert(SpielerEins);
       }
-      if (karte == Aussetzen)
+      else if (karte == Aussetzen)
       {
         Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Aussetzen, &leer3);
+        PlayerManager_ActivateAussetzen(SpielerEins);
       }
-      if (karte == MehrEinsatz)
+      else if (karte == MehrEinsatz)
       {
         Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Mehr_Einsatz, &leer3);
+        EinsatzSetzen_MehrEinsatztBuffAnwenden();
       }
-      if (karte == Lucky)
+      else if (karte == Lucky)
       {
         Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Lucky, &leer3);
-      }
-      if (karte == Schild)
+        karte = random(65, 74);
+        }
+      else if (karte == Schild)
       {
         Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Schild, &leer3);
+        PlayerManager_ActivateShield(SpielerEins);
       }
-      if (karte == Zeitreise)
+      else if (karte == Zeitreise)
       {
         Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Zeitreise, &leer3);
       }
-      if (karte == FalleStellen)
+      else if (karte == FalleStellen)
       {
         Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Falle, &leer3);
       }
-      if (karte == Steinschlag)
+      else if (karte == Steinschlag)
       {
         Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Steinschlag, &leer3);
       }
     }
 
-    if (PlayerManager_SpielerZweiAmZug())
+    else if (PlayerManager_SpielerZweiAmZug())
     {
       LedTreiber_AllBlack();
       TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
@@ -97,40 +105,47 @@ void BuffManager_Run(void)
       if (karte == EinsatzSetzen)
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Einsatz_bestimmen, &leer3);
+        PlayerManager_ActivateEinsatzSetzen(SpielerZwei);
       }
-      if (karte == Speed)
+      else if (karte == Speed)
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Speed, &leer3);
+        PlayerManager_ActivateSpeed(SpielerZwei);
       }
-      if (karte == GewinnGarantiert)
+      else if (karte == GewinnGarantiert)
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Gewinn, &leer3);
+        PlayerManager_ActivateGewinnGarantiert(SpielerZwei);
       }
-      if (karte == Aussetzen)
+      else if (karte == Aussetzen)
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Aussetzen, &leer3);
+        PlayerManager_ActivateAussetzen(SpielerZwei);
       }
-      if (karte == MehrEinsatz)
+      else if (karte == MehrEinsatz)
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Mehr_Einsatz, &leer3);
+        EinsatzSetzen_MehrEinsatztBuffAnwenden();
       }
-      if (karte == Lucky)
+      else if (karte == Lucky)
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Lucky, &leer3);
+        karte = random(65, 74);
       }
-      if (karte == Schild)
+      else if (karte == Schild)
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Schild, &leer3);
+        PlayerManager_ActivateShield(SpielerZwei);
       }
-      if (karte == Zeitreise)
+      else if (karte == Zeitreise)
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Zeitreise, &leer3);
       }
-      if (karte == FalleStellen)
+      else if (karte == FalleStellen)
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Falle, &leer3);
       }
-      if (karte == Steinschlag)
+      else if (karte == Steinschlag)
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Steinschlag, &leer3);
       }
@@ -146,7 +161,7 @@ void BuffManager_Run(void)
         MSGBestaetigt = true;
       }
     }
-    if (PlayerManager_SpielerZweiAmZug())
+    else
     {
       if (TasterHandler_Klick(SpielerZwei, TasterEins))
       {
@@ -155,101 +170,14 @@ void BuffManager_Run(void)
     }
   }
 
-  if (MSGBestaetigt)
+  else // reset und beeenden
   {
     MGSShown = false;
     MSGBestaetigt = false;
     LedTreiber_AllBlack();
-
-    if (karte == Lucky)
+    if (karte != Lucky)
     {
-      karte = random(65, 74);
-    }
-
-    else if (karte == EinsatzSetzen)
-    {
-      if (PlayerManager_SpielerEinsAmZug())
-      {
-        PlayerManager_ActivateEinsatzSetzen(SpielerEins);
-      }
-      else
-      {
-        PlayerManager_ActivateEinsatzSetzen(SpielerZwei);
-      }
-      Kartenmanager_BuffProcessed();
-    }
-
-    else if (karte == Speed)
-    {
-      if (PlayerManager_SpielerEinsAmZug())
-      {
-        PlayerManager_ActivateSpeed(SpielerEins);
-      }
-      else
-      {
-        PlayerManager_ActivateSpeed(SpielerZwei);
-      }
-      Kartenmanager_BuffProcessed();
-    }
-
-    else if (karte == GewinnGarantiert)
-    {
-      if (PlayerManager_SpielerEinsAmZug())
-      {
-        PlayerManager_ActivateGewinnGarantiert(SpielerEins);
-      }
-      else
-      {
-        PlayerManager_ActivateGewinnGarantiert(SpielerZwei);
-      }
-      Kartenmanager_BuffProcessed();
-    }
-
-    else if (karte == Schild)
-    {
-      if (PlayerManager_SpielerEinsAmZug())
-      {
-        PlayerManager_ActivateShield(SpielerEins);
-      }
-      else
-      {
-        PlayerManager_ActivateShield(SpielerZwei);
-      }
-      Kartenmanager_BuffProcessed();
-    }
-
-    else if (karte == Aussetzen)
-    {
-      if (PlayerManager_SpielerEinsAmZug())
-      {
-        PlayerManager_ActivateAussetzen(SpielerEins);
-      }
-      else
-      {
-        PlayerManager_ActivateAussetzen(SpielerZwei);
-      }
-      Kartenmanager_BuffProcessed();
-    }
-
-    else if (karte == MehrEinsatz)
-    {
-      EinsatzSetzen_MehrEinsatztBuffAnwenden();
-      Kartenmanager_BuffProcessed();
-    }
-
-    else if (karte == Zeitreise)
-    {
-      Kartenmanager_BuffProcessed();
-    }
-
-    else if (karte == FalleStellen)
-    {
-      Kartenmanager_BuffProcessed();
-    }
-
-    else if (karte == Steinschlag)
-    {
-      Kartenmanager_BuffProcessed();
+    Kartenmanager_BuffProcessed();
     }
   }
 }

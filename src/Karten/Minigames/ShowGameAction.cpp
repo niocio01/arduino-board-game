@@ -38,6 +38,8 @@ void ShowGameAction_Run(void)
       break;
 
       case ToneMaster: // separat im game
+      actionBestaetigtP1 = true;
+      actionBestaetigtP2 = true;
       break;
 
       case QuickFinger:

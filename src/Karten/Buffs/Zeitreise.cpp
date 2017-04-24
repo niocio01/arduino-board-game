@@ -216,7 +216,7 @@ void Zeitreise_FillInNewSpielzug(void)
 
 void Zeitreise_BuffAnwenden(void)
 {
-  /* Array verschieben, um augelesen zu werden
+  /* Array verschieben, um ausgelesen zu werden
   ----------------------------------------------------------------------------------*/
 
   uint8_t anzahlGefuellt;
@@ -405,6 +405,4 @@ void Zeitreise_BuffAnwenden(void)
       }
     }
   }
-
-
 }
