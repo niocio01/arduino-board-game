@@ -205,6 +205,26 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     LcdTreiber_DisplayMessage(spieler, (char *) "Licht in der", (char *) "Mitte stoppen");
     break;
 
+    case MSG_Nach_Zeitreise:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Folgende Buffs", (char *) "aktiv:");
+    break;
+
+    case MSG_Buff_Schild_Aktiv:
+    LcdTreiber_DisplayMessage(spieler, (char *) "", (char *) "Schild");
+    break;
+
+    case MSG_Buff_Speed_Aktiv:
+    LcdTreiber_DisplayMessage(spieler, (char *) "", (char *) "Speed");
+    break;
+
+    case MSG_Buff_Gewinn_Aktiv:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Gewinn", (char *) "garantiert");
+    break;
+
+    case MSG_Buff_EinsatzSetzen:
+    LcdTreiber_DisplayMessage(spieler, (char *) "", (char *) "Einsatz setzten");
+    break;
+
 
 
     case MSGxx_Felder_vorwaerts:
@@ -242,40 +262,3 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     break;
   }
 }
-
-
-
-
-/*void Messages_ZeigeNachricht_Wert(GlobalTypes_Spieler_t spieler, Messages_Nachrichten_t nachricht, const struct Messages_values *MessageVal)
-{
-if ((millis() - lastUpdateTime) > updateIntervall)
-{
-char Text1[41];
-char Text2[41];
-
-switch (nachricht)
-{
-case MSGxx_Felder_vorwaerts:
-sprintf(Text1, "%s %d", "es geht", MessageVal->AnzFelder);
-LcdTreiber_DisplayMessage(spieler, Text1, (char *) "Felder vorwaerts");
-break;
-
-case MSGxx_MinigameName:
-LcdTreiber_DisplayMessage(spieler, (char *) "Minigame:", MessageVal->MiniGameName);
-break;
-
-case MSGxx_Einsatz_Punkte:
-sprintf(Text1, "%s %d", "Einsatz:", MessageVal->ValEinsatz);
-sprintf(Text2, "%s %d", "Punke:", MessageVal->ValPunkte);
-LcdTreiber_DisplayMessage(spieler, Text1, Text2);
-break;
-
-case MSGxx_Countdown:
-sprintf(Text2, "%d", MessageVal->CountDown);
-LcdTreiber_DisplayMessage(spieler, (char *) "Countdown:", Text2);
-break;
-}
-lastUpdateTime = millis();
-}
-}
-*/

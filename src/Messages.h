@@ -63,7 +63,12 @@ typedef enum {
   MSG_Taster_BL_bestaetigen,
   MSG_Stopp_Licht,
   MSGxx_Start_in,
-  MSGxx_Endet_in
+  MSGxx_Endet_in,
+  MSG_Nach_Zeitreise,
+  MSG_Buff_Schild_Aktiv,
+  MSG_Buff_Speed_Aktiv,
+  MSG_Buff_Gewinn_Aktiv,
+  MSG_Buff_EinsatzSetzen  
   } Messages_Nachrichten_t;
 
 /*
