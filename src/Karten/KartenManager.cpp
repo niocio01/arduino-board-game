@@ -10,12 +10,14 @@
 #include "StatusLedSituation.h"
 #include "Treiber/TasterLed.h"
 #include "Treiber/TasterHandler.h"
+#include "Karten/Buffs/AktiveBuffsAnzeigen.h"
 
 uint8_t freeSteps = 1; // Anzahl schritte welche pro zug gratis gamacht werden können
 
 static bool minigameInProgress = false;
 static bool buffInProgress = false;
 static bool MSGShown = false;
+static bool AktiveBuffsAnzeigen = false;
 Messages_values leer4;
 
 
@@ -29,6 +31,20 @@ void Kartenmanager_BuffProcessed(void)
 {
   buffInProgress = false;
   MSGShown = false;
+}
+
+void Kartenmanager_AktiveBuffAnzeigen(bool anzeigen)
+{
+  if (anzeigen == true)
+  {
+    AktiveBuffsAnzeigen = true;
+    MSGShown = true;
+  }
+  else
+  {
+    AktiveBuffsAnzeigen = false;
+    MSGShown = false;
+  }
 }
 
 void KartenManager_Main(void)
@@ -62,7 +78,13 @@ void KartenManager_Main(void)
     BuffManager_Run();
   }
 
-  if (MSGShown and minigameInProgress == false and buffInProgress == false)
+  if (AktiveBuffsAnzeigen)
+  {
+    AktiveBuffsAnzeigen_Run();
+  }
+
+  if (MSGShown and minigameInProgress == false and buffInProgress == false
+  and AktiveBuffsAnzeigen == false)
   {
     uint8_t * kartenNrRef;
     uint8_t  kartenNrValue;

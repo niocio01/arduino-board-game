@@ -9,7 +9,7 @@ const uint8_t anzahlSchritteZurueck = 5;
 // Lokale Typendefinitionen
 typedef struct ZeitreiseDaten_tag
 {
-  bool SpielschrittGefuellt;
+  bool SpielschrittGefuellt = false;
   uint8_t Figur1Pos;
   uint8_t Figur2Pos;
   uint8_t FallePos;
@@ -45,7 +45,7 @@ void Zeitreise_FillInNewSpielzug(void)
 
   if (PlayerManager_SpielerEinsAmZug())
   {
-    for (spielSchritt = anzahlSpeicherstaende; 0; spielSchritt--)
+    for (spielSchritt = anzahlSpeicherstaende; spielSchritt >= 0; spielSchritt--)
     {
       if (spielSchritt != 0)
       {
@@ -67,7 +67,7 @@ void Zeitreise_FillInNewSpielzug(void)
 
   if (PlayerManager_SpielerZweiAmZug())
   {
-    for (spielSchritt = anzahlSpeicherstaende; 0; spielSchritt--)
+    for (spielSchritt = anzahlSpeicherstaende; spielSchritt >= 0; spielSchritt--)
     {
       if (spielSchritt != 0)
       {
@@ -98,14 +98,14 @@ void Zeitreise_BuffAnwenden(void)
 {
   /* Array verschieben, um ausgelesen zu werden
   ----------------------------------------------------------------------------------*/
-  uint8_t anzahlGefuellt;
   uint8_t spielSchritt;
+  uint8_t anzahlGefuellt;
   // aktuellen Spieler pfüfen, denn dieser
   // hat immer gleichviel oder weniger datenstaende gespichert
   if (PlayerManager_SpielerEinsAmZug())
   {
-    // Prüfen, ob alle 5 plätze mit daten gefüllt sind
-    for (spielSchritt = 0; anzahlSpeicherstaende-1; spielSchritt++)
+    // Array absuchen und anzahl gefüllter spielschritte zählen
+    for (spielSchritt = 0; spielSchritt <= (anzahlSpeicherstaende-1); spielSchritt++)
     {
       if (Speicherstand_P1[spielSchritt].SpielschrittGefuellt == true)
       {
@@ -117,7 +117,7 @@ void Zeitreise_BuffAnwenden(void)
     // Ganzes Array (auch Gegner) anazahl gefüllter spielstände (anzahlGefuellt) herunter verschieben.
     if (anzahlGefuellt < anzahlSchritteZurueck)
     {
-      for (spielSchritt = 0; anzahlGefuellt-1 ; spielSchritt++) // von null bis zur letzten gefüllten zeile
+      for (spielSchritt = 0; spielSchritt <= anzahlGefuellt-1 ; spielSchritt++) // von null bis zur letzten gefüllten zeile
       {
         speicherstandKopieren_P1(spielSchritt, spielSchritt+(anzahlGefuellt-1));
         speicherstandKopieren_P2(spielSchritt, spielSchritt+(anzahlGefuellt-1));
@@ -125,7 +125,7 @@ void Zeitreise_BuffAnwenden(void)
     }
     else // wenn alle "5" Zeilen gefüllt sind
     {
-      for (spielSchritt = 0; anzahlGefuellt-1; spielSchritt++)
+      for (spielSchritt = 0; spielSchritt <= anzahlGefuellt-1; spielSchritt++)
       {
         speicherstandKopieren_P1(spielSchritt, spielSchritt+(anzahlSchritteZurueck-1));
         speicherstandKopieren_P2(spielSchritt, spielSchritt+(anzahlSchritteZurueck-1));
@@ -135,6 +135,41 @@ void Zeitreise_BuffAnwenden(void)
     // Aktuelle Zeitreise-Daten an entsprechende Module weitergeben
     aktuelleSpielstaendeWeitergeben();
   }
+
+  else // Spieler Zwei
+  {
+    // Array absuchen und anzahl gefüllter spielschritte zählen
+    for (spielSchritt = 0; spielSchritt <= (anzahlSpeicherstaende-1); spielSchritt++)
+    {
+      if (Speicherstand_P2[spielSchritt].SpielschrittGefuellt == true)
+      {
+        anzahlGefuellt++ ;
+      }
+    }
+
+    // wenn Die anzahl gespeicherter datenstaenden kleiner als "5" (anzahlSchritteZurueck) ist,
+    // Ganzes Array (auch Gegner) anazahl gefüllter spielstände (anzahlGefuellt) herunter verschieben.
+    if (anzahlGefuellt < anzahlSchritteZurueck)
+    {
+      for (spielSchritt = 0; spielSchritt <= anzahlGefuellt-1 ; spielSchritt++) // von null bis zur letzten gefüllten zeile
+      {
+        speicherstandKopieren_P1(spielSchritt, spielSchritt+(anzahlGefuellt-1));
+        speicherstandKopieren_P2(spielSchritt, spielSchritt+(anzahlGefuellt-1));
+      }
+    }
+    else // wenn alle "5" Zeilen gefüllt sind
+    {
+      for (spielSchritt = 0; spielSchritt <= anzahlGefuellt-1; spielSchritt++)
+      {
+        speicherstandKopieren_P1(spielSchritt, spielSchritt+(anzahlSchritteZurueck-1));
+        speicherstandKopieren_P2(spielSchritt, spielSchritt+(anzahlSchritteZurueck-1));
+      }
+    }
+
+    // Aktuelle Zeitreise-Daten an entsprechende Module weitergeben
+    aktuelleSpielstaendeWeitergeben();
+  }
+  //LedTreiber_AllBlack();
 }
 
 /* Aktuelle Zeitreise-Daten von Spieler 1 vom Quell-Schritt in Ziel-Schritt kopieren
@@ -320,4 +355,39 @@ static void aktuelleSpielstaendeWeitergeben(void)
   {
     PlayerManager_DeActivateGewinnGarantiert(SpielerZwei);
   }
+}
+
+void Zeitreise_DebugSituationErstellen (void)
+{
+  for (uint8_t i = 0; i < 10; i++)
+  {
+  Speicherstand_P1[i].SpielschrittGefuellt = true;
+  Speicherstand_P1[i].Figur1Pos = i * 2;
+  Speicherstand_P1[i].Figur2Pos = i;
+  Speicherstand_P1[i].FallePos = 0;
+  Speicherstand_P1[i].EinsatzDepot = 30-i;
+  Speicherstand_P1[i].Umweg1Aktiv = false;
+  Speicherstand_P1[i].Umweg2Aktiv = false;
+  Speicherstand_P1[i].Umweg3Aktiv = true;
+  Speicherstand_P1[i].SchildAktiv = true;
+  Speicherstand_P1[i].SpeedAktiv = false;
+  Speicherstand_P1[i].AussetzenAktiv = false;
+  Speicherstand_P1[i].EinsatzSetzenAktiv = true;
+  Speicherstand_P1[i].GewinnGarantiertAktiv = false;
+
+  Speicherstand_P2[i].SpielschrittGefuellt = true;
+  Speicherstand_P2[i].Figur1Pos = i +5;
+  Speicherstand_P2[i].Figur2Pos = i;
+  Speicherstand_P2[i].FallePos = 0;
+  Speicherstand_P2[i].EinsatzDepot = 30 - 2*i;
+  Speicherstand_P2[i].Umweg1Aktiv = true;
+  Speicherstand_P2[i].Umweg2Aktiv = false;
+  Speicherstand_P2[i].Umweg3Aktiv = false;
+  Speicherstand_P2[i].SchildAktiv = true;
+  Speicherstand_P2[i].SpeedAktiv = true;
+  Speicherstand_P2[i].AussetzenAktiv = true;
+  Speicherstand_P2[i].EinsatzSetzenAktiv = true;
+  Speicherstand_P2[i].GewinnGarantiertAktiv = true;
+  }
+//LedTreiber_LedSchalten(192,Blau);
 }

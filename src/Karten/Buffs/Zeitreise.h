@@ -8,5 +8,7 @@ void Zeitreise_BuffAnwenden(void);
 
 void Zeitreise_AktiveBuffsDebugSituationErstellen(void);
 
+void Zeitreise_DebugSituationErstellen(void);
+
 
 #endif
