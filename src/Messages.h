@@ -66,6 +66,7 @@ typedef enum {
   MSGxx_Start_in,
   MSGxx_Endet_in,
   MSG_AktiveBuffsAnzeigen,
+  MSG_KeineBuffsAktiv,
   MSG_Buff_Schild_Aktiv,
   MSG_Buff_Speed_Aktiv,
   MSG_Buff_Gewinn_Aktiv,

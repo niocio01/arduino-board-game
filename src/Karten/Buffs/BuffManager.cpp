@@ -11,6 +11,7 @@
 #include "Karten/Minigames/EinsatzSetzen.h"
 #include "Karten/Buffs/Zeitreise.h"
 #include "Karten/Buffs/AktiveBuffsAnzeigen.h"
+//#include "Treiber/LedTreiber.h"
 
 const uint8_t FalleStellen =65;  // hex A
 const uint8_t EinsatzSetzen =66; // hex B
@@ -28,9 +29,6 @@ static bool MGSShown;
 static bool MSGBestaetigt;
 Messages_values leer3;
 
-uint8_t i;
-
-
 
 void BuffManager_TellBuff(uint8_t kartenNrValue)
 {
@@ -45,7 +43,6 @@ void BuffManager_Run(void)
     MGSShown = true;
     if (PlayerManager_SpielerEinsAmZug())
     {
-      LedTreiber_ControllsBlack();
       TasterLed_Setzen(SpielerEins, LedEins, Gruen);
       StatusLedSituationSetzen(SpielerEins, Buff);
 
@@ -89,7 +86,6 @@ void BuffManager_Run(void)
         Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Zeitreise, &leer3);
         Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Zeitreise, &leer3);
         Zeitreise_BuffAnwenden();
-        AktiveBuffsAnzeigen_Run();
         break;
 
         case FalleStellen:
@@ -105,7 +101,6 @@ void BuffManager_Run(void)
 
     else
     {
-      LedTreiber_ControllsBlack();
       TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
       StatusLedSituationSetzen(SpielerZwei, Buff);
 
@@ -149,7 +144,6 @@ void BuffManager_Run(void)
         Messages_ZeigeNachricht(SpielerZwei, MSG_Buff_Zeitreise, &leer3);
         Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Zeitreise, &leer3);
         Zeitreise_BuffAnwenden();
-        AktiveBuffsAnzeigen_Run();
         break;
 
         case FalleStellen:
@@ -181,21 +175,22 @@ void BuffManager_Run(void)
     }
   }
 
-  else // reset und beeenden
+  if (MSGBestaetigt)
   {
-    MGSShown = false;
-    MSGBestaetigt = false;
-    LedTreiber_ControllsBlack();
     if (karte == Lucky)
     {
       karte = random(65, 74);
     }
     else
     {
-      if (AktiveBuffsAnzeigen_fertig())
-      {
+      MGSShown = false;
+      MSGBestaetigt = false;
+      LedTreiber_LedSchalten(50,Rot);
       Kartenmanager_BuffProcessed();
-      }
+    }
+    if (karte == Zeitreise)
+    {
+      Kartenmanager_AktiveBuffAnzeigen(true);
     }
   }
 }

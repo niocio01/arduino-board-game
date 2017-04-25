@@ -7,6 +7,8 @@
 #include <arduino.h>
 #include "Karten/Minigames/MinigameManager.h"
 #include "Treiber/SpielfeldLed.h"
+#include "Karten/Buffs/Zeitreise.h"
+#include "Karten/Buffs/AktiveBuffsAnzeigen.h"
 
 IRdecodeNEC myDecoder; // Now declare an instance of that decoder.
 IRrecv myReceiver(6); //pin number for the receiver
@@ -36,6 +38,8 @@ IRrecv myReceiver(6); //pin number for the receiver
 #define IR_BUTTON_8         0xFF4AB5
 #define IR_BUTTON_9         0xFF52AD
 
+static bool AktiveBuffsAnzeigen = false;
+
 bool IRTreiber_Startup(void)
 {
   myReceiver.enableIRIn(); // Start the receiver
@@ -44,86 +48,100 @@ bool IRTreiber_Startup(void)
 
 void IRTreiber_Main(void)
 {
-  if (myReceiver.getResults())
+  if (AktiveBuffsAnzeigen)
   {
-    if(myDecoder.decode())
+    AktiveBuffsAnzeigen_Run();
+  }
+  else
+  {
+    if (myReceiver.getResults())
     {
-      switch(myDecoder.value)
+      if(myDecoder.decode())
       {
-        case IR_BUTTON_CH_DOWN:
-        LedTreiber_LedSchalten(77, Rot);
-        break;
+        switch(myDecoder.value)
+        {
+          case IR_BUTTON_CH_DOWN:
+          LedTreiber_LedSchalten(77, Rot);
+          break;
 
-        case IR_BUTTON_CH:
-        LedTreiber_LedSchalten(77, Gruen);
-        break;
+          case IR_BUTTON_CH:
+          LedTreiber_LedSchalten(77, Gruen);
+          break;
 
-        case IR_BUTTON_CH_UP:
-        LedTreiber_LedSchalten(77, Blau);
-        break;
+          case IR_BUTTON_CH_UP:
+          LedTreiber_LedSchalten(77, Blau);
+          break;
 
-        case IR_BUTTON_PREV:
-        break;
+          case IR_BUTTON_PREV:
+          break;
 
-        case IR_BUTTON_NEXT:
-        break;
+          case IR_BUTTON_NEXT:
+          break;
 
-        case IR_BUTTON_PLAY:
-        MinigameManager_EinsatzGesetzt(1, 1);
-        break;
+          case IR_BUTTON_PLAY:
+          MinigameManager_EinsatzGesetzt(1, 1);
+          break;
 
-        case IR_BUTTON_VOL_DOWN:
-        break;
+          case IR_BUTTON_VOL_DOWN:
+          break;
 
-        case IR_BUTTON_VOL_UP:
-        break;
+          case IR_BUTTON_VOL_UP:
+          break;
 
-        case IR_BUTTON_EQ:
+          case IR_BUTTON_EQ:
+          AktiveBuffsAnzeigen = true;
+          break;
 
-        break;
+          case IR_BUTTON_0:
+          break;
 
-        case IR_BUTTON_0:
-        break;
+          case IR_BUTTON_100:
+          break;
 
-        case IR_BUTTON_100:
-        break;
+          case IR_BUTTON_200:
+          break;
 
-        case IR_BUTTON_200:
-        break;
-
+<<<<<<< HEAD
         case IR_BUTTON_1:
         SF_StartDim(5);
         break;
+=======
+          case IR_BUTTON_1:
+          SF_StartDim();
+          break;
+>>>>>>> origin/master
 
-        case IR_BUTTON_2:
-        SF_StartLauflicht(Gruen, 50);
-        break;
+          case IR_BUTTON_2:
+          SF_StartLauflicht(Gruen, 50);
+          break;
 
-        case IR_BUTTON_3:
-        break;
+          case IR_BUTTON_3:
+          break;
 
-        case IR_BUTTON_4:
-        break;
+          case IR_BUTTON_4:
+          break;
 
-        case IR_BUTTON_5:
-        break;
+          case IR_BUTTON_5:
+          break;
 
-        case IR_BUTTON_6:
-        break;
+          case IR_BUTTON_6:
+          break;
 
-        case IR_BUTTON_7:
-        break;
+          case IR_BUTTON_7:
+          Zeitreise_DebugSituationErstellen();
+          break;
 
-        case IR_BUTTON_8:
-        LedTreiber_AllBlack();
-        break;
+          case IR_BUTTON_8:
+          LedTreiber_AllBlack();
+          break;
 
-        case IR_BUTTON_9:
-        soft_restart();
-        break;
+          case IR_BUTTON_9:
+          soft_restart();
+          break;
 
+        }
       }
+      myReceiver.enableIRIn();
     }
-    myReceiver.enableIRIn();
   }
 }

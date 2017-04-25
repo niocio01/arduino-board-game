@@ -206,15 +206,19 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     break;
 
     case MSG_AktiveBuffsAnzeigen:
-    LcdTreiber_DisplayMessage(spieler, (char *) "Akive Buffs mit", (char *) "Poti ansehen");
+    LcdTreiber_DisplayMessage(spieler, (char *) "Aktive Buffs mit", (char *) "Poti ansehen");
+    break;
+
+    case MSG_KeineBuffsAktiv:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Keine Buffs", (char *) "Aktiv");
     break;
 
     case MSG_Buff_Schild_Aktiv:
-    LcdTreiber_DisplayMessage(spieler, (char *) "", (char *) "Schild");
+    LcdTreiber_DisplayMessage(spieler, (char *) "Schild", (char *) "");
     break;
 
     case MSG_Buff_Speed_Aktiv:
-    LcdTreiber_DisplayMessage(spieler, (char *) "", (char *) "Speed");
+    LcdTreiber_DisplayMessage(spieler, (char *) "Speed", (char *) "");
     break;
 
     case MSG_Buff_Gewinn_Aktiv:
@@ -222,11 +226,11 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     break;
 
     case MSG_Buff_EinsatzSetzen_Aktiv:
-    LcdTreiber_DisplayMessage(spieler, (char *) "", (char *) "Einsatz setzten");
+    LcdTreiber_DisplayMessage(spieler, (char *) "Einsatz setzen", (char *) "");
     break;
 
     case MSG_Buff_Aussetzen_Aktiv:
-    LcdTreiber_DisplayMessage(spieler, (char *) "", (char *) "Aussetzen");
+    LcdTreiber_DisplayMessage(spieler, (char *) "Aussetzen", (char *) "");
     break;
 
 
