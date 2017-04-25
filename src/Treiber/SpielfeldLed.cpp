@@ -12,8 +12,8 @@ struct FigureData SF_Player1_Figure2;
 struct FigureData SF_Player2_Figure1;
 struct FigureData SF_Player2_Figure2;
 
-uint16_t SF_Player1_Kreis[SF_K_Steps];
-uint16_t SF_Player2_Kreis[SF_K_Steps];
+int SF_Player1_Kreis[SF_K_Steps];
+int SF_Player2_Kreis[SF_K_Steps];
 
 uint16_t SF_LedWeg[SF_MAX_STEPS];
 
@@ -56,14 +56,14 @@ void SF_InitData(void)
   SF_dataPlayer1[SF_SegmVB3].Steps = 11;          // Segment bis Branch 3
   SF_dataPlayer1[SF_SegmVB3].StartID = 28;        // Start ID Hardware zu LED's oben
   SF_dataPlayer1[SF_SegmIB3].Steps = 4;           // Kürzeres Segment bei Branch 3
-  SF_dataPlayer1[SF_SegmIB3].StartID = 40;        // Start ID Hardware zu LED's oben
+  SF_dataPlayer1[SF_SegmIB3].StartID = 40;        // Start ID Hardware zu LED's oben *** Anstelle 40 vermutlich 39
   SF_dataPlayer1[SF_SegmB3].Steps = 13;           // Längeres Segment bei Branch 3
   SF_dataPlayer1[SF_SegmB3].StartID = 179;        // Start ID Hardware zu LED's oben
   SF_dataPlayer1[SF_SegmVK].Steps = 19;           // Segment bis zum Kreis
   SF_dataPlayer1[SF_SegmVK].StartID = 44;         // Start ID Hardware zu LED's oben
   SF_dataPlayer1[SF_SegmK].Steps = SF_K_Steps;    // Segment im Kreis
 
-  // Spielfeld Teil Speiler 2
+  // Spielfeld Teil Spieler 2
   SF_dataPlayer2[SF_SegmVB1].Steps = 9;           // Segment bis Branch 1
   SF_dataPlayer2[SF_SegmVB1].StartID = 62;        // Start ID Hardware zu LED's oben
   SF_dataPlayer2[SF_SegmIB1].Steps = 5;           // Kürzeres Segment bei Branch 1
@@ -103,8 +103,9 @@ void SF_InitData(void)
   SF_Player1_Kreis[13] = 203;
   SF_Player1_Kreis[14] = 204;
   SF_Player1_Kreis[15] = 205;
-  SF_Player1_Kreis[16] = 196;
-  SF_Player1_Kreis[17] = 192;
+  SF_Player1_Kreis[16] = 206;
+  SF_Player1_Kreis[17] = 196;
+  SF_Player1_Kreis[18] = 192;
 
   SF_Player2_Kreis[0] = 252;
   SF_Player2_Kreis[1] = 251;
@@ -122,8 +123,9 @@ void SF_InitData(void)
   SF_Player2_Kreis[13] = 209;
   SF_Player2_Kreis[14] = 210;
   SF_Player2_Kreis[15] = 211;
-  SF_Player2_Kreis[16] = 200;
-  SF_Player2_Kreis[17] = 192;
+  SF_Player2_Kreis[16] = 212;
+  SF_Player2_Kreis[17] = 200;
+  SF_Player2_Kreis[18] = 192;
 
   SF_OldTimeS = millis();
   SF_OldTimeF = millis();
@@ -132,7 +134,7 @@ void SF_InitData(void)
 
 // Kommentar siehe Headerfile
 // **************************
-bool SF_StartDim(void)
+bool SF_StartDim(uint8_t Helligkeit)
 {
   int Segment;
   int i;
@@ -143,7 +145,7 @@ bool SF_StartDim(void)
   {
     for (id = SF_dataPlayer1[Segment].StartID, i = 0; i < SF_dataPlayer1[Segment].Steps; i++, id++)
     {
-      LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+      LedTreiber_LedSetzen(id, Weiss, Helligkeit);
     }
     //LedTreiber_LedAnzeigen();
   }
@@ -153,22 +155,17 @@ bool SF_StartDim(void)
   {
     for (id = SF_dataPlayer2[Segment].StartID, i = 0; i < SF_dataPlayer2[Segment].Steps; i++, id++)
     {
-      LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+      LedTreiber_LedSetzen(id, Weiss, Helligkeit);
     }
     //LedTreiber_LedAnzeigen();
   }
 
   // Alle LED's des Kreises setzen
-  for (i = 0; i <= SF_K_Steps ; i++)
+  for (id = SF_K_StartID, i = 0; i < SF_K_TotSteps; i++, id++)
   {
-    id = SF_Player1_Kreis[i];
-    LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+    LedTreiber_LedSetzen(id, Weiss, Helligkeit);
   }
-  for (i = 0; i <= SF_K_Steps ; i++)
-  {
-    id = SF_Player2_Kreis[i];
-    LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
-  }
+
   LedTreiber_LedAnzeigen();
   return(true);
 }
@@ -192,6 +189,7 @@ bool SF_LauflichtAmLaufen(void)
 {
   return(SF_LauflichtAktiv);
 }// end of SF_LauflichtEnded()
+
 
 // Kommentar siehe Headerfile
 // **************************
@@ -580,3 +578,72 @@ void SF_OperateSpielfeld_Main(void)
                       }
                     }
                   }// end of SF_CalcPlayerWay()
+
+
+/*  Beispiel auskommentiert
+void beispiel()
+{
+  int caseVal = 0;
+  bool isInit = false;
+  const int START = 0;
+  const int READY = 10;
+  const int WAIT = 20;
+  const int MOVE = 30;
+
+  switch(caseVal)
+  {
+    case START:
+      SF_InitData();
+      isInit = true;
+      casVal = READY;
+    break;
+
+    case READY:
+      if(Taste ist gedrückt)
+      {
+        SF_StartLauflicht(Farbe, 25);
+        caseVAL = WAIT;
+      }
+    break;
+
+    case WAIT:
+      if(SF_LauflichtAmLaufen == false)
+      {
+        Player1_Figure1.NewPos = Player1_Figure2.NewPos = Player2_Figure1.NewPos = Player2_Figure2.NewPos =0;
+        Player1_Figure1.Farbe = Farbe1;
+        Player1_Figure2.Farbe = Farbe2;
+        Player2_Figure1.Farbe = Farbe3;
+        Player2_Figure2.Farbe = Farbe4;
+        Player1_Figure1.Helligkeit = Player1_Figure2.Helligkeit = Player2_Figure1.Helligkeit = Player2_Figure2.Helligkeit = 12;
+        Player1_Figure1.BranchOn1 = Player1_Figure2.BranchOn1 = Player2_Figure1.BranchOn1 = Player2_Figure2.BranchOn1 = false;
+        Player1_Figure1.BranchOn2 = Player1_Figure2.BranchOn2 = Player2_Figure1.BranchOn2 = Player2_Figure2.BranchOn2 = false;
+        Player1_Figure1.BranchOn3 = Player1_Figure2.BranchOn3 = Player2_Figure1.BranchOn3 = Player2_Figure2.BranchOn3 = false;
+        SF_FiguresSetToStart();
+        caseVal = MOVE;
+      }
+    break;
+
+    case MOVE:
+    {
+      if(Figur soll sich bewegen)
+      {
+        Player1_Figure1.NewPos = 5;
+        Player1_Figure1.BranchOn1 = true;
+        Player1_Figure1.BranchOn2 = false;
+        Player1_Figure1.BranchOn3 = false;
+        SF_MovePlayerFigure(Spieler, Figur);
+        caseVal = MOVED;
+      }
+    }
+
+    case MOVED:
+      if(SF_PlayerFigureHasMoved(Spieler, Figur) == true)
+      {
+        caseVAL = .........;
+      }
+    brake;
+  }
+
+if(isInit) SF_OperateSpielfeld_Main();
+
+}*/

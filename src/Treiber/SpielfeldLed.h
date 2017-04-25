@@ -41,15 +41,17 @@ struct FigureData {
   int  ActLEDid;                // ID des aktuellen LED's. Nur im Modul "SpielfeldLed.cpp" verwenden
 };
 
+
 // Funktion muss beim Start einmal aufgerufen werden
 // Funktion ist "blockierend"
 void SF_InitData(void);
 
+
 // Grundbeleuchtung einschalten
 // Funktion ist "blockierend"
+// "Helligkeit" gilt für alle LED's
 // Return true, wenn abgeschlossen
-// Return false, wenn noch am laufen
-bool SF_StartDim(void);
+bool SF_StartDim(uint8_t Helligkeit);
 
 
 // Lauflicht über alle LED's auf dem Spielfeld
@@ -57,10 +59,12 @@ bool SF_StartDim(void);
 // Mit SF_LauflichtEnded() kann das Ende abgefragt werden
 void SF_StartLauflicht(GlobalTypes_Farbe_t farbe, uint8_t helligkeit);
 
+
 // Lauflicht über alle LED's auf dem Spielfeld
 // Return true, wenn noch am Laufen
 // Return false, wenn kein Lauflicht aktiv
 bool SF_LauflichtAmLaufen(void);
+
 
 // Beide Figuren beider Spieler werden auf dem Spielfeld auf den Anfang gesetzt
 // Vor dem Aufruf der Funktion müssen die "FigureData" initialisiert werden
@@ -81,6 +85,7 @@ void SF_FiguresSetToStart(void);
 // Player1_Figure1.BranchOn3 = ??;
 void SF_MovePlayerFigure(GlobalTypes_Spieler_t Spieler, GlobalTypes_Figur_t Figur);
 
+
 // Abfrage ob die Figur eines Spielers die neue Position erreicht hat
 // Return true, wenn die neue Position erreicht ist
 // Return false, wenn die neue Position noch nicht erreicht ist
@@ -90,6 +95,7 @@ bool SF_PlayerFigureHasMoved(GlobalTypes_Spieler_t Spieler, GlobalTypes_Figur_t 
 // Funktion muss im Main-Loop laufend aufgerufen werden
 // Die Funktion ist nicht blockierend
 void SF_OperateSpielfeld_Main(void);
+
 
 // Funktion berechnet auf Grund der "FigureData" den neuen Weg
 // Die Funktion darf nur im Modul "SpielfeldLed.cpp" aufgerufen werden
