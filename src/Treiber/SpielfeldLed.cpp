@@ -56,11 +56,11 @@ void SF_InitData(void)
   SF_dataPlayer1[SF_SegmVB3].Steps = 11;          // Segment bis Branch 3
   SF_dataPlayer1[SF_SegmVB3].StartID = 28;        // Start ID Hardware zu LED's oben
   SF_dataPlayer1[SF_SegmIB3].Steps = 4;           // Kürzeres Segment bei Branch 3
-  SF_dataPlayer1[SF_SegmIB3].StartID = 40;        // Start ID Hardware zu LED's oben *** Anstelle 40 vermutlich 39
+  SF_dataPlayer1[SF_SegmIB3].StartID = 39;        // Start ID Hardware zu LED's oben
   SF_dataPlayer1[SF_SegmB3].Steps = 13;           // Längeres Segment bei Branch 3
   SF_dataPlayer1[SF_SegmB3].StartID = 179;        // Start ID Hardware zu LED's oben
   SF_dataPlayer1[SF_SegmVK].Steps = 19;           // Segment bis zum Kreis
-  SF_dataPlayer1[SF_SegmVK].StartID = 44;         // Start ID Hardware zu LED's oben
+  SF_dataPlayer1[SF_SegmVK].StartID = 43;         // Start ID Hardware zu LED's oben
   SF_dataPlayer1[SF_SegmK].Steps = SF_K_Steps;    // Segment im Kreis
 
   // Spielfeld Teil Spieler 2
@@ -103,9 +103,8 @@ void SF_InitData(void)
   SF_Player1_Kreis[13] = 203;
   SF_Player1_Kreis[14] = 204;
   SF_Player1_Kreis[15] = 205;
-  SF_Player1_Kreis[16] = 206;
-  SF_Player1_Kreis[17] = 196;
-  SF_Player1_Kreis[18] = 192;
+  SF_Player1_Kreis[16] = 196;
+  SF_Player1_Kreis[17] = 192;
 
   SF_Player2_Kreis[0] = 252;
   SF_Player2_Kreis[1] = 251;
@@ -123,9 +122,8 @@ void SF_InitData(void)
   SF_Player2_Kreis[13] = 209;
   SF_Player2_Kreis[14] = 210;
   SF_Player2_Kreis[15] = 211;
-  SF_Player2_Kreis[16] = 212;
-  SF_Player2_Kreis[17] = 200;
-  SF_Player2_Kreis[18] = 192;
+  SF_Player2_Kreis[16] = 200;
+  SF_Player2_Kreis[17] = 192;
 
   SF_OldTimeS = millis();
   SF_OldTimeF = millis();
@@ -161,8 +159,14 @@ bool SF_StartDim(uint8_t Helligkeit)
   }
 
   // Alle LED's des Kreises setzen
-  for (id = SF_K_StartID, i = 0; i < SF_K_TotSteps; i++, id++)
+  for (i = 0; i <= SF_K_Steps ; i++)
   {
+    id = SF_Player1_Kreis[i];
+    LedTreiber_LedSetzen(id, Weiss, Helligkeit);
+  }
+  for (i = 0; i <= SF_K_Steps ; i++)
+  {
+    id = SF_Player2_Kreis[i];
     LedTreiber_LedSetzen(id, Weiss, Helligkeit);
   }
 

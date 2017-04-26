@@ -157,6 +157,7 @@ void EinsatzSetzen_Run(void)
         enablePotLedP2 = false;
         EinsaztGewaehletP1 = false;
         EinsaztGewaehletP2 = false;
+        PlayerManager_DeActivateEinsatzSetzen(SpielerEins);
         MinigameManager_EinsatzGesetzt(einsatzP1, einsatzP2);
       }
     }
@@ -251,6 +252,7 @@ void EinsatzSetzen_Run(void)
         enablePotLedP2 = false;
         EinsaztGewaehletP1 = false;
         EinsaztGewaehletP2 = false;
+        PlayerManager_DeActivateEinsatzSetzen(SpielerZwei);
         MinigameManager_EinsatzGesetzt(einsatzP1, einsatzP2);
       }
     }

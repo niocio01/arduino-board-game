@@ -41,8 +41,7 @@ bool PlayerManager_SpielerZweiAmZug(void)
 }
 
 
-// Schild: hier wird der Status des Passiven Spielers ausgegeben.
-// Und Vom Passiven Spieler zurückgesetzt.
+
 void PlayerManager_ActivateShield(GlobalTypes_Spieler_t spieler)
 {
   if (spieler == SpielerEins)

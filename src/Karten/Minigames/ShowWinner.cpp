@@ -3,6 +3,7 @@
 #include "Treiber/TasterLed.h"
 #include "Treiber/TasterHandler.h"
 #include "Treiber/LedTreiber.h"
+#include "PlayerManager.h"
 
 Messages_values leer2;
 
@@ -15,6 +16,25 @@ static bool ResultBestaetigtP2 = false;
 
 void ShowWinner_TellResults(MinigameManager_Winner_t gewinner)
 {
+  if (PlayerManager_SpielerEinsAmZug())
+  {
+    if (PlayerManager_IsGewinnGarantiertActive(SpielerEins))
+    {
+      if (PlayerManager_IsShieldActive(SpielerZwei))
+      gewinner = Win_SpielerEins;
+      PlayerManager_DeActivateGewinnGarantiert(SpielerEins);
+    }
+  }
+
+  else // spieler Zwei
+  {
+    if (PlayerManager_IsGewinnGarantiertActive(SpielerZwei))
+    {
+      gewinner = Win_SpielerZwei;
+      PlayerManager_DeActivateGewinnGarantiert(SpielerZwei);
+    }
+  }
+
   switch(gewinner)
   {
     case Win_SpielerEins:
@@ -154,7 +174,7 @@ void ShowWinner_Run(void)
       LedTreiber_LedSetzen(221, Blau, 80);
       LedTreiber_LedSetzen(229, Blau, 80);
       LedTreiber_LedSetzen(241, Blau, 80);
-      
+
       LedTreiber_LedAnzeigen();
     }
 
