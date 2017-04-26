@@ -52,8 +52,34 @@ void AktiveBuffsAnzeigen_Run(void)
 
     /*----------------------------------------------------------------------------
     Buffs auslesen
-    Jeden buff prüfen und fals dieser aktiv ist in das Array in die nächste position schreiben */
-
+    Jeden buff prüfen und fals dieser aktiv ist in das Array in die nächste position schreiben
+    ausserdem den zähler der aktiven buffs erhöhen. */
+    // Spieler Eins
+    if (PlayerManager_IsShieldActive(SpielerEins))
+    {
+      AktiveBuffs_P1[AnzahlAktiveBuffs_P1] = Schild;
+      AnzahlAktiveBuffs_P1 ++;
+    }
+    if (PlayerManager_IsSpeedActive(SpielerEins))
+    {
+      AktiveBuffs_P1[AnzahlAktiveBuffs_P1] = Speed;
+      AnzahlAktiveBuffs_P1 ++;
+    }
+    if (PlayerManager_IsGewinnGarantiertActive(SpielerEins))
+    {
+      AktiveBuffs_P1[AnzahlAktiveBuffs_P1] = GewinnGarantiert;
+      AnzahlAktiveBuffs_P1 ++;
+    }
+    if (PlayerManager_IsEinsatzSetzenActive(SpielerEins))
+    {
+      AktiveBuffs_P1[AnzahlAktiveBuffs_P1] = EinsatzSetzen;
+      AnzahlAktiveBuffs_P1 ++;
+    }
+    if (PlayerManager_IsAussetzenActive(SpielerEins))
+    {
+      AktiveBuffs_P1[AnzahlAktiveBuffs_P1] = Aussetzen;
+      AnzahlAktiveBuffs_P1 ++;
+    }
 
     // Spieler Zwei
     if (PlayerManager_IsShieldActive(SpielerZwei))
@@ -82,7 +108,72 @@ void AktiveBuffsAnzeigen_Run(void)
       AnzahlAktiveBuffs_P2 ++;
     }
   }
-  /*------------------------------------------------------------------------------*/
+  /*------------------------------------------------------------------------------
+  Warten auf bestätigug von Taster
+  Danach alle XX Ms Den Potentiometer auslesen und diesen wert
+  auf die anzahl aktive Buffs mappen
+  Die Auswahl entspricht dem arrayplatz, welcher ausgelesen wird und den gespeicherten
+  Buff ausgibt, welcher dann angezeigt wird.
+
+  Spieler Eins */
+  if (!MSGBestaetigt_P1)
+  {
+    if (TasterHandler_Klick(SpielerEins, TasterEins))
+    {
+      MSGBestaetigt_P1 = true;
+      PotiLed_Setzen(SpielerEins, Gruen);
+    }
+  }
+  else
+  {
+    if ((millis() - lastUpdateTime) > updateIntervall)
+    {
+    lastUpdateTime = millis();
+    aktuelleAuswahl_P1 = map(PotiTreiber_Get_Val(SpielerEins), 0, 255, 0, AnzahlAktiveBuffs_P1-1);
+
+    displayBuffNr_P1 = AktiveBuffs_P1[aktuelleAuswahl_P1]; // display Buff an Array pos. aktuelleAuswahl_P1
+
+    switch (displayBuffNr_P1)
+    {
+      case 0: // kein buff aktiv
+      Messages_ZeigeNachricht(SpielerEins, MSG_KeineBuffsAktiv, &leer5);
+      break;
+
+      case Schild: // 1
+      Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Schild_Aktiv, &leer5);
+      break;
+
+      case Speed: // 2
+      Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Speed_Aktiv, &leer5);
+      break;
+
+      case GewinnGarantiert: // 3
+      Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Gewinn_Aktiv, &leer5);
+      break;
+
+      case EinsatzSetzen: // 4
+      Messages_ZeigeNachricht(SpielerEins, MSG_Buff_EinsatzSetzen_Aktiv, &leer5);
+      break;
+
+      case Aussetzen: // 5
+      Messages_ZeigeNachricht(SpielerEins, MSG_Buff_Aussetzen_Aktiv, &leer5);
+      break;
+
+    }
+  }
+  /*------------------------------------------------------------------------------
+  Warten bis Taster gedrückt wird, um zu bestätigen, dass die buffs angeschaut
+  worden sind.*/
+      if (!BuffsBestaetigt_P1)
+    {
+      if (TasterHandler_Klick(SpielerEins, TasterEins))
+      {
+        BuffsBestaetigt_P1 = true;
+        PotiLed_Setzen(SpielerEins, Schwarz);
+        TasterLed_Setzen(SpielerEins, LedEins, Schwarz);
+      }
+    }
+  }
 
   /*------------------------------------------------------------------------------
   Spieler Zwei */
@@ -131,17 +222,20 @@ void AktiveBuffsAnzeigen_Run(void)
 
     }
   }
-
-    if (!BuffsBestaetigt_P2)
+  /*------------------------------------------------------------------------------
+  Warten bis Taster gedrückt wird, um zu bestätigen, dass die buffs angeschaut
+  worden sind.*/
+  if (!BuffsBestaetigt_P2)
+  {
+    if (TasterHandler_Klick(SpielerZwei, TasterEins))
     {
-      if (TasterHandler_Klick(SpielerZwei, TasterEins))
-      {
-      //  BuffsBestaetigt_P2 = true;
-        PotiLed_Setzen(SpielerZwei, Schwarz);
-        TasterLed_Setzen(SpielerZwei, LedEins, Schwarz);
-      }
+      BuffsBestaetigt_P2 = true;
+      PotiLed_Setzen(SpielerZwei, Schwarz);
+      TasterLed_Setzen(SpielerZwei, LedEins, Schwarz);
     }
   }
+}
+
 
   /*------------------------------------------------------------------------------
   Final check und Reset */

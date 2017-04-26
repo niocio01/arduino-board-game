@@ -101,15 +101,9 @@ void IRTreiber_Main(void)
           case IR_BUTTON_200:
           break;
 
-<<<<<<< HEAD
-        case IR_BUTTON_1:
-        SF_StartDim(5);
-        break;
-=======
           case IR_BUTTON_1:
-          SF_StartDim();
+          SF_StartDim(5);
           break;
->>>>>>> origin/master
 
           case IR_BUTTON_2:
           SF_StartLauflicht(Gruen, 50);

@@ -1,6 +1,7 @@
 #include <inttypes.h>
 #include "PlayerManager.h"
 #include "Karten/Minigames/EinsatzSetzen.h"
+#include "Treiber/LedTreiber.h"
 
 // Lokale Definitionen
 const uint8_t anzahlSpeicherstaende = 20;
@@ -139,7 +140,7 @@ void Zeitreise_BuffAnwenden(void)
   else // Spieler Zwei
   {
     // Array absuchen und anzahl gefüllter spielschritte zählen
-    for (spielSchritt = 0; spielSchritt <= (anzahlSpeicherstaende-1); spielSchritt++)
+      for (spielSchritt = 0; spielSchritt <= (anzahlSpeicherstaende-1); spielSchritt++)
     {
       if (Speicherstand_P2[spielSchritt].SpielschrittGefuellt == true)
       {
@@ -155,6 +156,7 @@ void Zeitreise_BuffAnwenden(void)
       {
         speicherstandKopieren_P1(spielSchritt, spielSchritt+(anzahlGefuellt-1));
         speicherstandKopieren_P2(spielSchritt, spielSchritt+(anzahlGefuellt-1));
+        LedTreiber_LedSchalten(spielSchritt, Rot);
       }
     }
     else // wenn alle "5" Zeilen gefüllt sind
@@ -169,7 +171,6 @@ void Zeitreise_BuffAnwenden(void)
     // Aktuelle Zeitreise-Daten an entsprechende Module weitergeben
     aktuelleSpielstaendeWeitergeben();
   }
-  //LedTreiber_AllBlack();
 }
 
 /* Aktuelle Zeitreise-Daten von Spieler 1 vom Quell-Schritt in Ziel-Schritt kopieren

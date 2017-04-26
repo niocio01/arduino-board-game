@@ -55,6 +55,7 @@ void KartenManager_Main(void)
 
     if (PlayerManager_SpielerEinsAmZug())
     {
+      LedTreiber_ControllsBlack();
       Messages_ZeigeNachricht(SpielerEins, MSG_Karte_EndGame, &leer4);
       Messages_ZeigeNachricht(SpielerZwei, MSG_Gegner_am_Zug, &leer4);
       StatusLedSituationSetzen(SpielerEins, Spielzug);
@@ -62,6 +63,7 @@ void KartenManager_Main(void)
     }
     else
     {
+      LedTreiber_ControllsBlack();
       Messages_ZeigeNachricht(SpielerZwei, MSG_Karte_EndGame, &leer4);
       Messages_ZeigeNachricht(SpielerEins, MSG_Gegner_am_Zug, &leer4);
       StatusLedSituationSetzen(SpielerZwei, Spielzug);
