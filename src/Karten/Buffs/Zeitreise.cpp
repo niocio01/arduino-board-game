@@ -4,8 +4,11 @@
 #include "Treiber/LedTreiber.h"
 
 // Lokale Definitionen
-const uint8_t anzahlSpeicherstaende = 20;
-const uint8_t anzahlSchritteZurueck = 5;
+const uint8_t anzahlSpeicherstaende = 10U;
+const uint8_t anzahlSchritteZurueck = 5U;
+// ACHTUNG: 'anzahlSpeicherstaende' muss immer mindestens doppelt so gross sein wie
+//          'anzahlSchritteZurueck' da sonst das "Zurücksetzen" in der Funktion
+//          'Zeitreise_BuffAnwenden()' nicht korrekt funktioniert (dieser Fall ist nicht abgefangen!)
 
 // Lokale Typendefinitionen
 typedef struct ZeitreiseDaten_tag
@@ -32,13 +35,13 @@ static ZeitreiseDaten_t Speicherstand_P2[anzahlSpeicherstaende];
 // Lokale Funktionen (Prototypen)
 static void speicherstandKopieren_P1(uint8_t zielSchritt, uint8_t quellSchritt);
 static void speicherstandKopieren_P2(uint8_t zielSchritt, uint8_t quellSchritt);
-static void speicherstandEinfuellen_P1(uint8_t zielSchritt);
-static void speicherstandEinfuellen_P2(uint8_t zielSchritt);
+static void speicherstandEinfuellen_P1(void);
+static void speicherstandEinfuellen_P2(void);
 static void aktuelleSpielstaendeWeitergeben(void);
 
 
-/* Alle Daten des Aktuellen Spielers einen Arrayplatz nach oben verschieben
-und den nun freien platz [0] mit den aktuellen daten füllen
+/* Alle Daten des aktuellen Spielers einen Arrayplatz "nach oben" verschieben
+und den nun freien Arrayplatz[0] mit den aktuellen Spielerdaten füllen
 ----------------------------------------------------------------------------------*/
 void Zeitreise_FillInNewSpielzug(void)
 {
@@ -46,126 +49,99 @@ void Zeitreise_FillInNewSpielzug(void)
 
   if (PlayerManager_SpielerEinsAmZug())
   {
-    for (spielSchritt = anzahlSpeicherstaende; spielSchritt >= 0; spielSchritt--)
+    // Alle Spielerdaten jeweils um einen Arrayplatz "nach oben" verschieben
+    for (spielSchritt = (anzahlSpeicherstaende - 1U); spielSchritt > 1U; spielSchritt--)
     {
-      if (spielSchritt != 0)
-      {
-        // Bei Array[!0] bestehende Daten je ein Feld nach oben kopieren
-        if (Speicherstand_P1[spielSchritt].SpielschrittGefuellt == true)
-        {
-          speicherstandKopieren_P1(spielSchritt, spielSchritt-1);
-        }
-      }
-      else
-      {
-        // Bei Array[0] neue Daten einfüllen
-        speicherstandEinfuellen_P1(spielSchritt);
-        // Setzte Variable um herauszufinden wieviele Ebenen bereits gefüllt worden sind.
-        Speicherstand_P1[spielSchritt].SpielschrittGefuellt = true;
-      }
+	  // Spielerdaten um einem Arrayplatz "nach oben" verschieben ([n-1]->[n], [n-2]->[n-1] bis [0]->[1])
+	  // Hinweis: Gefüllter oder nicht gefüllter Spielschritt spielt hier keine Rolle!
+	  speicherstandKopieren_P1(spielSchritt, (spielSchritt - 1U));
     }
+    // Neue Spielerdaten einfüllen (immer auf Arrayplatz[0])
+    speicherstandEinfuellen_P1();
   }
 
   if (PlayerManager_SpielerZweiAmZug())
   {
-    for (spielSchritt = anzahlSpeicherstaende; spielSchritt >= 0; spielSchritt--)
+    // Alle Spielerdaten jeweils um einen Arrayplatz "nach oben" verschieben
+    for (spielSchritt = (anzahlSpeicherstaende - 1U); spielSchritt > 1U; spielSchritt--)
     {
-      if (spielSchritt != 0)
-      {
-        // Bei Array[>0] bestehende Daten kopieren
-        if (Speicherstand_P2[spielSchritt].SpielschrittGefuellt == true)
-        {
-          speicherstandKopieren_P2(spielSchritt, spielSchritt-1);
-        }
-      }
-      else
-      {
-        // Bei Array[0] neue Daten einfüllen
-        speicherstandEinfuellen_P2(spielSchritt);
-        // Setzte Variable um herauszufinden wieviele Ebenen bereits gefüllt worden sind.
-        Speicherstand_P1[spielSchritt].SpielschrittGefuellt = true;
-      }
+	  // Spielerdaten um einem Arrayplatz "nach oben" verschieben ([n-1]->[n], [n-2]->[n-1] bis [0]->[1])
+	  // Hinweis: Gefüllter oder nicht gefüllter Spielschritt spielt hier keine Rolle!
+	  speicherstandKopieren_P2(spielSchritt, (spielSchritt - 1U));
     }
+    // Neue Spielerdaten einfüllen (immer auf Arrayplatz[0])
+    speicherstandEinfuellen_P2();
   }
 }
 
-/* Zerst prüfen, ob 5 spilschritte vorhanden sind, welche zurückgesetzt werden können
-falls ja, diese "löschen" und alle daten 5 nach unten verschieben
-Falls nein, den höchstmöglichen datensatzt auf platzt [0] verschieben
-
-danach dise neue "alte" Situation auf platz [0] in den jeweiligen Modulen mitteilen.
+/* Prüft zuerst, wie viele gefüllte Spielschritte vorhanden sind welche "zurückgesetzt" werden können.
+   Danach Spielerdaten um die Anzahl möglichen Arrayplätze "nach unten" verschieben und
+   alle nicht definierten (neuen) Arrayplätze löschen, d.h. auf "nicht gefüllt" setzen.
+   Zuletzt den aktuellen (veränderten) Spielstand auf Arrayplatz[0] den jeweiligen Modulen mitteilen.
 ----------------------------------------------------------------------------------*/
 void Zeitreise_BuffAnwenden(void)
 {
-  /* Array verschieben, um ausgelesen zu werden
-  ----------------------------------------------------------------------------------*/
   uint8_t spielSchritt;
-  uint8_t anzahlGefuellt;
-  // aktuellen Spieler pfüfen, denn dieser
-  // hat immer gleichviel oder weniger datenstaende gespichert
-  if (PlayerManager_SpielerEinsAmZug())
+  uint8_t anzahlSchritteGefuellt;
+
+  if (    (PlayerManager_SpielerEinsAmZug())
+       || (PlayerManager_SpielerZweiAmZug())
+     )
   {
-    // Array absuchen und anzahl gefüllter spielschritte zählen
-    for (spielSchritt = 0; spielSchritt <= (anzahlSpeicherstaende-1); spielSchritt++)
+    // Spieler 1: Anzahl gefüllte Spielschritte zählen und begrenzen
+	anzahlSchritteGefuellt = 0U;
+    for (spielSchritt = 0U; spielSchritt < (anzahlSpeicherstaende - 1U); spielSchritt++)
     {
       if (Speicherstand_P1[spielSchritt].SpielschrittGefuellt == true)
       {
-        anzahlGefuellt++ ;
+        if (anzahlSchritteGefuellt < anzahlSchritteZurueck)
+		{
+          anzahlSchritteGefuellt++;
+		}
       }
     }
 
-    // wenn Die anzahl gespeicherter datenstaenden kleiner als "5" (anzahlSchritteZurueck) ist,
-    // Ganzes Array (auch Gegner) anazahl gefüllter spielstände (anzahlGefuellt) herunter verschieben.
-    if (anzahlGefuellt < anzahlSchritteZurueck)
+	// Spieler 1: Spielerdaten "nach unten" verschieben
+    for (spielSchritt = 0U; spielSchritt < (anzahlSpeicherstaende - 1U); spielSchritt++)
     {
-      for (spielSchritt = 0; spielSchritt <= anzahlGefuellt-1 ; spielSchritt++) // von null bis zur letzten gefüllten zeile
-      {
-        speicherstandKopieren_P1(spielSchritt, spielSchritt+(anzahlGefuellt-1));
-        speicherstandKopieren_P2(spielSchritt, spielSchritt+(anzahlGefuellt-1));
-      }
-    }
-    else // wenn alle "5" Zeilen gefüllt sind
-    {
-      for (spielSchritt = 0; spielSchritt <= anzahlGefuellt-1; spielSchritt++)
-      {
-        speicherstandKopieren_P1(spielSchritt, spielSchritt+(anzahlSchritteZurueck-1));
-        speicherstandKopieren_P2(spielSchritt, spielSchritt+(anzahlSchritteZurueck-1));
-      }
+	  if (spielSchritt < (anzahlSpeicherstaende - anzahlSchritteGefuellt))
+	  {
+	    // Spielerdaten um 'anzahlSchritteGefuellt' "nach unten" verschieben
+        speicherstandKopieren_P1(spielSchritt, (spielSchritt + anzahlSchritteGefuellt));
+	  }
+	  else
+	  {
+	    // Restliche (nicht verschobene) Spielerdaten auf "nicht gefüllt" setzen
+	    Speicherstand_P1[spielSchritt].SpielschrittGefuellt = false;
+	  }
     }
 
-    // Aktuelle Zeitreise-Daten an entsprechende Module weitergeben
-    aktuelleSpielstaendeWeitergeben();
-  }
-
-  else // Spieler Zwei
-  {
-    // Array absuchen und anzahl gefüllter spielschritte zählen
-      for (spielSchritt = 0; spielSchritt <= (anzahlSpeicherstaende-1); spielSchritt++)
+    // Spieler 2: Anzahl gefüllte Spielschritte zählen und begrenzen
+	anzahlSchritteGefuellt = 0U;
+    for (spielSchritt = 0U; spielSchritt < (anzahlSpeicherstaende - 1U); spielSchritt++)
     {
       if (Speicherstand_P2[spielSchritt].SpielschrittGefuellt == true)
       {
-        anzahlGefuellt++ ;
+        if (anzahlSchritteGefuellt < anzahlSchritteZurueck)
+		{
+          anzahlSchritteGefuellt++;
+		}
       }
     }
 
-    // wenn Die anzahl gespeicherter datenstaenden kleiner als "5" (anzahlSchritteZurueck) ist,
-    // Ganzes Array (auch Gegner) anazahl gefüllter spielstände (anzahlGefuellt) herunter verschieben.
-    if (anzahlGefuellt < anzahlSchritteZurueck)
+	// Spieler 2: Spielerdaten "nach unten" verschieben
+    for (spielSchritt = 0U; spielSchritt < (anzahlSpeicherstaende - 1U); spielSchritt++)
     {
-      for (spielSchritt = 0; spielSchritt <= anzahlGefuellt-1 ; spielSchritt++) // von null bis zur letzten gefüllten zeile
-      {
-        speicherstandKopieren_P1(spielSchritt, spielSchritt+(anzahlGefuellt-1));
-        speicherstandKopieren_P2(spielSchritt, spielSchritt+(anzahlGefuellt-1));
-        LedTreiber_LedSchalten(spielSchritt, Rot);
-      }
-    }
-    else // wenn alle "5" Zeilen gefüllt sind
-    {
-      for (spielSchritt = 0; spielSchritt <= anzahlGefuellt-1; spielSchritt++)
-      {
-        speicherstandKopieren_P1(spielSchritt, spielSchritt+(anzahlSchritteZurueck-1));
-        speicherstandKopieren_P2(spielSchritt, spielSchritt+(anzahlSchritteZurueck-1));
-      }
+	  if (spielSchritt < (anzahlSpeicherstaende - anzahlSchritteGefuellt))
+	  {
+	    // Spielerdaten um 'anzahlSchritteGefuellt' "nach unten" verschieben
+        speicherstandKopieren_P2(spielSchritt, (spielSchritt + anzahlSchritteGefuellt));
+	  }
+	  else
+	  {
+	    // Restliche (nicht verschobene) Spielerdaten auf "nicht gefüllt" setzen
+	    Speicherstand_P2[spielSchritt].SpielschrittGefuellt = false;
+	  }
     }
 
     // Aktuelle Zeitreise-Daten an entsprechende Module weitergeben
@@ -174,6 +150,7 @@ void Zeitreise_BuffAnwenden(void)
 }
 
 /* Aktuelle Zeitreise-Daten von Spieler 1 vom Quell-Schritt in Ziel-Schritt kopieren
+   Hinweis: Kopiert auch nicht gefüllte Spielschritte!
 ----------------------------------------------------------------------------------*/
 static void speicherstandKopieren_P1(uint8_t zielSchritt, uint8_t quellSchritt)
 {
@@ -193,6 +170,7 @@ static void speicherstandKopieren_P1(uint8_t zielSchritt, uint8_t quellSchritt)
 }
 
 /* Aktuelle Zeitreise-Daten von Spieler 2 vom Quell-Schritt in Ziel-Schritt kopieren
+   Hinweis: Kopiert auch nicht gefüllte Spielschritte!
 ----------------------------------------------------------------------------------*/
 static void speicherstandKopieren_P2(uint8_t zielSchritt, uint8_t quellSchritt)
 {
@@ -211,40 +189,42 @@ static void speicherstandKopieren_P2(uint8_t zielSchritt, uint8_t quellSchritt)
   Speicherstand_P2[zielSchritt].GewinnGarantiertAktiv = Speicherstand_P2[quellSchritt].GewinnGarantiertAktiv;
 }
 
-/* Neue Zeitreise-Daten von Spieler 1 in Ziel-Schritt kopieren
+/* Neue Zeitreise-Daten von Spieler 1 in Arrayplatz[0] einfüllen
 ----------------------------------------------------------------------------------*/
-static void speicherstandEinfuellen_P1(uint8_t zielSchritt)
+static void speicherstandEinfuellen_P1(void)
 {
-  Speicherstand_P1[zielSchritt].Figur1Pos = 0U;  // TODO getFigurPos
-  Speicherstand_P1[zielSchritt].Figur2Pos = 0U; // TODO getFigurPos
-  Speicherstand_P1[zielSchritt].FallePos = 0U; // TODO ... ?
-  Speicherstand_P1[zielSchritt].EinsatzDepot = EinsatzSetzen_GetEinsatzDepot(SpielerEins);
-  Speicherstand_P1[zielSchritt].Umweg1Aktiv = false; // TODO ... ?
-  Speicherstand_P1[zielSchritt].Umweg2Aktiv = false; // TODO ... ?
-  Speicherstand_P1[zielSchritt].Umweg3Aktiv = false; // TODO ... ?
-  Speicherstand_P1[zielSchritt].SchildAktiv = PlayerManager_IsShieldActive(SpielerEins);
-  Speicherstand_P1[zielSchritt].SpeedAktiv = PlayerManager_IsSpeedActive(SpielerEins);
-  Speicherstand_P1[zielSchritt].AussetzenAktiv = PlayerManager_IsAussetzenActive(SpielerZwei); // fragt gegenspieler ab
-  Speicherstand_P1[zielSchritt].EinsatzSetzenAktiv = PlayerManager_IsEinsatzSetzenActive(SpielerEins);
-  Speicherstand_P1[zielSchritt].GewinnGarantiertAktiv = PlayerManager_IsGewinnGarantiertActive(SpielerEins);
+  Speicherstand_P1[0U].SpielschrittGefuellt = true;
+  Speicherstand_P1[0U].Figur1Pos = 0U;  // TODO getFigurPos
+  Speicherstand_P1[0U].Figur2Pos = 0U; // TODO getFigurPos
+  Speicherstand_P1[0U].FallePos = 0U; // TODO ... ?
+  Speicherstand_P1[0U].EinsatzDepot = EinsatzSetzen_GetEinsatzDepot(SpielerEins);
+  Speicherstand_P1[0U].Umweg1Aktiv = false; // TODO ... ?
+  Speicherstand_P1[0U].Umweg2Aktiv = false; // TODO ... ?
+  Speicherstand_P1[0U].Umweg3Aktiv = false; // TODO ... ?
+  Speicherstand_P1[0U].SchildAktiv = PlayerManager_IsShieldActive(SpielerEins);
+  Speicherstand_P1[0U].SpeedAktiv = PlayerManager_IsSpeedActive(SpielerEins);
+  Speicherstand_P1[0U].AussetzenAktiv = PlayerManager_IsAussetzenActive(SpielerZwei); // fragt gegenspieler ab
+  Speicherstand_P1[0U].EinsatzSetzenAktiv = PlayerManager_IsEinsatzSetzenActive(SpielerEins);
+  Speicherstand_P1[0U].GewinnGarantiertAktiv = PlayerManager_IsGewinnGarantiertActive(SpielerEins);
 }
 
-/* Neue Zeitreise-Daten von Spieler 2 in Ziel-Schritt kopieren
+/* Neue Zeitreise-Daten von Spieler 2 in Arrayplatz[0] einfüllen
 ----------------------------------------------------------------------------------*/
-static void speicherstandEinfuellen_P2(uint8_t zielSchritt)
+static void speicherstandEinfuellen_P2(void)
 {
-  Speicherstand_P2[zielSchritt].Figur1Pos = 0U;  // TODO getFigurPos
-  Speicherstand_P2[zielSchritt].Figur2Pos = 0U; // TODO getFigurPos
-  Speicherstand_P2[zielSchritt].FallePos = 0U; // TODO ... ?
-  Speicherstand_P2[zielSchritt].EinsatzDepot = EinsatzSetzen_GetEinsatzDepot(SpielerZwei);
-  Speicherstand_P2[zielSchritt].Umweg1Aktiv = false; // TODO ... ?
-  Speicherstand_P2[zielSchritt].Umweg2Aktiv = false; // TODO ... ?
-  Speicherstand_P2[zielSchritt].Umweg3Aktiv = false; // TODO ... ?
-  Speicherstand_P2[zielSchritt].SchildAktiv = PlayerManager_IsShieldActive(SpielerZwei);
-  Speicherstand_P2[zielSchritt].SpeedAktiv = PlayerManager_IsSpeedActive(SpielerZwei);
-  Speicherstand_P2[zielSchritt].AussetzenAktiv = PlayerManager_IsAussetzenActive(SpielerEins); // fragt gegenspieler ab
-  Speicherstand_P2[zielSchritt].EinsatzSetzenAktiv = PlayerManager_IsEinsatzSetzenActive(SpielerZwei);
-  Speicherstand_P2[zielSchritt].GewinnGarantiertAktiv = PlayerManager_IsGewinnGarantiertActive(SpielerZwei);
+  Speicherstand_P2[0U].SpielschrittGefuellt = true;
+  Speicherstand_P2[0U].Figur1Pos = 0U;  // TODO getFigurPos
+  Speicherstand_P2[0U].Figur2Pos = 0U; // TODO getFigurPos
+  Speicherstand_P2[0U].FallePos = 0U; // TODO ... ?
+  Speicherstand_P2[0U].EinsatzDepot = EinsatzSetzen_GetEinsatzDepot(SpielerZwei);
+  Speicherstand_P2[0U].Umweg1Aktiv = false; // TODO ... ?
+  Speicherstand_P2[0U].Umweg2Aktiv = false; // TODO ... ?
+  Speicherstand_P2[0U].Umweg3Aktiv = false; // TODO ... ?
+  Speicherstand_P2[0U].SchildAktiv = PlayerManager_IsShieldActive(SpielerZwei);
+  Speicherstand_P2[0U].SpeedAktiv = PlayerManager_IsSpeedActive(SpielerZwei);
+  Speicherstand_P2[0U].AussetzenAktiv = PlayerManager_IsAussetzenActive(SpielerEins); // fragt gegenspieler ab
+  Speicherstand_P2[0U].EinsatzSetzenAktiv = PlayerManager_IsEinsatzSetzenActive(SpielerZwei);
+  Speicherstand_P2[0U].GewinnGarantiertAktiv = PlayerManager_IsGewinnGarantiertActive(SpielerZwei);
 }
 
 /* Aktuelle Zeitreise-Daten an entsprechende Module weitergeben
@@ -252,27 +232,27 @@ static void speicherstandEinfuellen_P2(uint8_t zielSchritt)
 static void aktuelleSpielstaendeWeitergeben(void)
 {
   /* TODO Aktuellen Stand weitergeben ???
-  Speicherstand_P1[0].Figur1Pos;
-  Speicherstand_P2[0].Figur1Pos;
-  Speicherstand_P1[0].Figur2Pos;
-  Speicherstand_P2[0].Figur2Pos;
-  Speicherstand_P1[0].FallePos;
-  Speicherstand_P2[0].FallePos;
+  Speicherstand_P1[0U].Figur1Pos;
+  Speicherstand_P2[0U].Figur1Pos;
+  Speicherstand_P1[0U].Figur2Pos;
+  Speicherstand_P2[0U].Figur2Pos;
+  Speicherstand_P1[0U].FallePos;
+  Speicherstand_P2[0U].FallePos;
   */
   //--------------------------------------------------------
-  EinsatzSetzen_SetEinsatzDepot(SpielerEins, Speicherstand_P1[0].EinsatzDepot);
-  EinsatzSetzen_SetEinsatzDepot(SpielerZwei, Speicherstand_P2[0].EinsatzDepot);
+  EinsatzSetzen_SetEinsatzDepot(SpielerEins, Speicherstand_P1[0U].EinsatzDepot);
+  EinsatzSetzen_SetEinsatzDepot(SpielerZwei, Speicherstand_P2[0U].EinsatzDepot);
   //--------------------------------------------------------
   /* TODO Aktuellen Stand weitergeben ???
-  Speicherstand_P1[0].Umweg1Aktiv;
-  Speicherstand_P2[0].Umweg1Aktiv;
-  Speicherstand_P1[0].Umweg2Aktiv;
-  Speicherstand_P2[0].Umweg2Aktiv;
-  Speicherstand_P1[0].Umweg3Aktiv;
-  Speicherstand_P2[0].Umweg3Aktiv;
+  Speicherstand_P1[0U].Umweg1Aktiv;
+  Speicherstand_P2[0U].Umweg1Aktiv;
+  Speicherstand_P1[0U].Umweg2Aktiv;
+  Speicherstand_P2[0U].Umweg2Aktiv;
+  Speicherstand_P1[0U].Umweg3Aktiv;
+  Speicherstand_P2[0U].Umweg3Aktiv;
   */
   //--------------------------------------------------------
-  if (Speicherstand_P1[0].SchildAktiv)
+  if (Speicherstand_P1[0U].SchildAktiv)
   {
     PlayerManager_ActivateShield(SpielerEins);
   }
@@ -280,7 +260,7 @@ static void aktuelleSpielstaendeWeitergeben(void)
   {
     PlayerManager_DeActivateShield(SpielerEins);
   }
-  if (Speicherstand_P2[0].SchildAktiv)
+  if (Speicherstand_P2[0U].SchildAktiv)
   {
     PlayerManager_ActivateShield(SpielerZwei);
   }
@@ -289,7 +269,7 @@ static void aktuelleSpielstaendeWeitergeben(void)
     PlayerManager_DeActivateShield(SpielerZwei);
   }
   //--------------------------------------------------------
-  if (Speicherstand_P1[0].SpeedAktiv)
+  if (Speicherstand_P1[0U].SpeedAktiv)
   {
     PlayerManager_ActivateSpeed(SpielerEins);
   }
@@ -297,7 +277,7 @@ static void aktuelleSpielstaendeWeitergeben(void)
   {
     PlayerManager_DeActivateSpeed(SpielerEins);
   }
-  if (Speicherstand_P2[0].SpeedAktiv)
+  if (Speicherstand_P2[0U].SpeedAktiv)
   {
     PlayerManager_ActivateSpeed(SpielerZwei);
   }
@@ -306,7 +286,7 @@ static void aktuelleSpielstaendeWeitergeben(void)
     PlayerManager_DeActivateSpeed(SpielerZwei);
   }
   //--------------------------------------------------------
-  if (Speicherstand_P1[0].AussetzenAktiv)
+  if (Speicherstand_P1[0U].AussetzenAktiv)
   {
     PlayerManager_ActivateAussetzen(SpielerZwei); // setzt für gegenspieler
   }
@@ -314,7 +294,7 @@ static void aktuelleSpielstaendeWeitergeben(void)
   {
     PlayerManager_DeActivateAussetzen(SpielerZwei); // setzt für gegenspieler
   }
-  if (Speicherstand_P2[0].AussetzenAktiv)
+  if (Speicherstand_P2[0U].AussetzenAktiv)
   {
     PlayerManager_ActivateAussetzen(SpielerEins); // setzt für gegenspieler
   }
@@ -323,7 +303,7 @@ static void aktuelleSpielstaendeWeitergeben(void)
     PlayerManager_DeActivateAussetzen(SpielerEins); // setzt für gegenspieler
   }
   //--------------------------------------------------------
-  if (Speicherstand_P1[0].EinsatzSetzenAktiv)
+  if (Speicherstand_P1[0U].EinsatzSetzenAktiv)
   {
     PlayerManager_ActivateEinsatzSetzen(SpielerEins);
   }
@@ -331,7 +311,7 @@ static void aktuelleSpielstaendeWeitergeben(void)
   {
     PlayerManager_DeActivateEinsatzSetzen(SpielerEins);
   }
-  if (Speicherstand_P2[0].EinsatzSetzenAktiv)
+  if (Speicherstand_P2[0U].EinsatzSetzenAktiv)
   {
     PlayerManager_ActivateEinsatzSetzen(SpielerZwei);
   }
@@ -340,7 +320,7 @@ static void aktuelleSpielstaendeWeitergeben(void)
     PlayerManager_DeActivateEinsatzSetzen(SpielerZwei);
   }
   //--------------------------------------------------------
-  if (Speicherstand_P1[0].GewinnGarantiertAktiv)
+  if (Speicherstand_P1[0U].GewinnGarantiertAktiv)
   {
     PlayerManager_ActivateGewinnGarantiert(SpielerEins);
   }
@@ -348,7 +328,7 @@ static void aktuelleSpielstaendeWeitergeben(void)
   {
     PlayerManager_DeActivateGewinnGarantiert(SpielerEins);
   }
-  if (Speicherstand_P2[0].GewinnGarantiertAktiv)
+  if (Speicherstand_P2[0U].GewinnGarantiertAktiv)
   {
     PlayerManager_ActivateGewinnGarantiert(SpielerZwei);
   }
@@ -360,7 +340,7 @@ static void aktuelleSpielstaendeWeitergeben(void)
 
 void Zeitreise_DebugSituationErstellen (void)
 {
-  for (uint8_t i = 0; i < 10; i++)
+  for (uint8_t i = 0U; i < (anzahlSpeicherstaende - 1U); i++)
   {
   Speicherstand_P1[i].SpielschrittGefuellt = true;
   Speicherstand_P1[i].Figur1Pos = i * 2;

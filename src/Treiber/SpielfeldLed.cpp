@@ -581,73 +581,75 @@ void SF_OperateSpielfeld_Main(void)
                         SF_LedWeg[Pos] = SF_Player2_Kreis[i];
                       }
                     }
-                  }// end of SF_CalcPlayerWay()
+                  }
+
+                  // end of SF_CalcPlayerWay()
 
 
-/*  Beispiel auskommentiert
-void beispiel()
-{
-  int caseVal = 0;
-  bool isInit = false;
-  const int START = 0;
-  const int READY = 10;
-  const int WAIT = 20;
-  const int MOVE = 30;
+                  /*  Beispiel auskommentiert
+                  void beispiel()
+                  {
+                  int caseVal = 0;
+                  bool isInit = false;
+                  const int START = 0;
+                  const int READY = 10;
+                  const int WAIT = 20;
+                  const int MOVE = 30;
 
-  switch(caseVal)
-  {
-    case START:
-      SF_InitData();
-      isInit = true;
-      casVal = READY;
-    break;
+                  switch(caseVal)
+                  {
+                  case START:
+                  SF_InitData();
+                  isInit = true;
+                  casVal = READY;
+                  break;
 
-    case READY:
-      if(Taste ist gedrückt)
-      {
-        SF_StartLauflicht(Farbe, 25);
-        caseVAL = WAIT;
+                  case READY:
+                  if(Taste ist gedrückt)
+                  {
+                  SF_StartLauflicht(Farbe, 25);
+                  caseVAL = WAIT;
+                }
+                break;
+
+                case WAIT:
+                if(SF_LauflichtAmLaufen == false)
+                {
+                Player1_Figure1.NewPos = Player1_Figure2.NewPos = Player2_Figure1.NewPos = Player2_Figure2.NewPos =0;
+                Player1_Figure1.Farbe = Farbe1;
+                Player1_Figure2.Farbe = Farbe2;
+                Player2_Figure1.Farbe = Farbe3;
+                Player2_Figure2.Farbe = Farbe4;
+                Player1_Figure1.Helligkeit = Player1_Figure2.Helligkeit = Player2_Figure1.Helligkeit = Player2_Figure2.Helligkeit = 12;
+                Player1_Figure1.BranchOn1 = Player1_Figure2.BranchOn1 = Player2_Figure1.BranchOn1 = Player2_Figure2.BranchOn1 = false;
+                Player1_Figure1.BranchOn2 = Player1_Figure2.BranchOn2 = Player2_Figure1.BranchOn2 = Player2_Figure2.BranchOn2 = false;
+                Player1_Figure1.BranchOn3 = Player1_Figure2.BranchOn3 = Player2_Figure1.BranchOn3 = Player2_Figure2.BranchOn3 = false;
+                SF_FiguresSetToStart();
+                caseVal = MOVE;
+              }
+              break;
+
+              case MOVE:
+              {
+              if(Figur soll sich bewegen)
+              {
+              Player1_Figure1.NewPos = 5;
+              Player1_Figure1.BranchOn1 = true;
+              Player1_Figure1.BranchOn2 = false;
+              Player1_Figure1.BranchOn3 = false;
+              SF_MovePlayerFigure(Spieler, Figur);
+              caseVal = MOVED;
+            }
+          }
+
+          case MOVED:
+          if(SF_PlayerFigureHasMoved(Spieler, Figur) == true)
+          {
+          caseVAL = .........;
+        }
+        brake;
       }
-    break;
 
-    case WAIT:
-      if(SF_LauflichtAmLaufen == false)
-      {
-        Player1_Figure1.NewPos = Player1_Figure2.NewPos = Player2_Figure1.NewPos = Player2_Figure2.NewPos =0;
-        Player1_Figure1.Farbe = Farbe1;
-        Player1_Figure2.Farbe = Farbe2;
-        Player2_Figure1.Farbe = Farbe3;
-        Player2_Figure2.Farbe = Farbe4;
-        Player1_Figure1.Helligkeit = Player1_Figure2.Helligkeit = Player2_Figure1.Helligkeit = Player2_Figure2.Helligkeit = 12;
-        Player1_Figure1.BranchOn1 = Player1_Figure2.BranchOn1 = Player2_Figure1.BranchOn1 = Player2_Figure2.BranchOn1 = false;
-        Player1_Figure1.BranchOn2 = Player1_Figure2.BranchOn2 = Player2_Figure1.BranchOn2 = Player2_Figure2.BranchOn2 = false;
-        Player1_Figure1.BranchOn3 = Player1_Figure2.BranchOn3 = Player2_Figure1.BranchOn3 = Player2_Figure2.BranchOn3 = false;
-        SF_FiguresSetToStart();
-        caseVal = MOVE;
-      }
-    break;
+      if(isInit) SF_OperateSpielfeld_Main();
 
-    case MOVE:
-    {
-      if(Figur soll sich bewegen)
-      {
-        Player1_Figure1.NewPos = 5;
-        Player1_Figure1.BranchOn1 = true;
-        Player1_Figure1.BranchOn2 = false;
-        Player1_Figure1.BranchOn3 = false;
-        SF_MovePlayerFigure(Spieler, Figur);
-        caseVal = MOVED;
-      }
-    }
-
-    case MOVED:
-      if(SF_PlayerFigureHasMoved(Spieler, Figur) == true)
-      {
-        caseVAL = .........;
-      }
-    brake;
-  }
-
-if(isInit) SF_OperateSpielfeld_Main();
-
-}*/
+    }*/

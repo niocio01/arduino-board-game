@@ -4,6 +4,8 @@
 #define PIN 4
 #define NUMPIXELS 268
 
+// 268
+
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
@@ -61,7 +63,7 @@ void LedTreiber_ControllsBlack(void)
   pixels.show();
 }
 
-void LedTreiber_LedSchalten(uint16_t ledID, GlobalTypes_Farbe_t farbe, uint8_t helligkeit /* = 255 */ )
+void LedTreiber_LedSchalten(uint16_t ledID, GlobalTypes_Farbe_t farbe, uint8_t helligkeit)
 {
   switch (farbe)
   {
@@ -102,7 +104,7 @@ void LedTreiber_LedSchalten(uint16_t ledID, GlobalTypes_Farbe_t farbe, uint8_t h
   }
 }
 
-void LedTreiber_LedSetzen(uint16_t ledID, GlobalTypes_Farbe_t farbe, uint8_t helligkeit /* = 255 */ )
+void LedTreiber_LedSetzen(uint16_t ledID, GlobalTypes_Farbe_t farbe, uint8_t helligkeit)
 {
   switch (farbe)
   {
