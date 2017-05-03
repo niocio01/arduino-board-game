@@ -66,24 +66,33 @@ void SF_StartLauflicht(GlobalTypes_Farbe_t farbe, uint8_t helligkeit);
 bool SF_LauflichtAmLaufen(void);
 
 
-// Beide Figuren beider Spieler werden auf dem Spielfeld auf den Anfang gesetzt
-// Vor dem Aufruf der Funktion müssen die "FigureData" initialisiert werden
-// Player1_Figure1.NewPos = 0;
-// Player1_Figure1.Farbe = ....;
-// Player1_Figure1.Helligkeit = ...;
-// Player1_Figure1.BranchOn1 = false;
-// Player1_Figure1.BranchOn2 = false;
-// Player1_Figure1.BranchOn3 = false;
-void SF_FiguresSetToStart(void);
+// Die Figur eines Spielers wird auf dem Spielfeld auf den Anfang gesetzt.
+// Vor einem neuen Spiel muss diese Funktion für jeden Spieler und jede
+// Figur einmal aufgerufen werden (also 4 x).
+// Spieler: "Nummer" des Spielers
+// Figur: "Nummer" der Figur
+// Farbe: Farbe dieser Figur
+// Helligkeit: Helligkeit dieser Figur
+void SF_FiguresSetToStart(GlobalTypes_Spieler_t Spieler,
+                          GlobalTypes_Figur_t Figur,
+                          GlobalTypes_Farbe_t Farbe,
+                          int Helligkeit);
 
 
-// Eine Figur eines Spielers wird von der alten zur neuen Position verschoben
-// Vorgängig müssen die entsprechenden "FigureData" gesetzt werden
-// Player1_Figure1.NewPos = ??;
-// Player1_Figure1.BranchOn1 = ??;
-// Player1_Figure1.BranchOn2 = ??;
-// Player1_Figure1.BranchOn3 = ??;
-void SF_MovePlayerFigure(GlobalTypes_Spieler_t Spieler, GlobalTypes_Figur_t Figur);
+// Eine Figur eines Spielers wird von der alten zur neuen Position verschoben.
+// Die entsprechenden Daten müssen an die Funktion übergeben werden
+// Spieler: "Nummer" des Spielers
+// Figur: "Nummer" der Figur
+// NewPos: Neue Position der Figur
+// BranchOn1: true oder false
+// BranchOn2: true oder false
+// BranchOn3: true oder false
+void SF_MovePlayerFigure(GlobalTypes_Spieler_t Spieler,
+                         GlobalTypes_Figur_t Figur,
+                         int NewPos,
+                         bool BranchOn1,
+                         bool BranchOn2,
+                         bool BranchOn3);
 
 
 // Abfrage ob die Figur eines Spielers die neue Position erreicht hat
