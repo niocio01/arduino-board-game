@@ -32,9 +32,9 @@ void ShowGameAction_Run(void)
       Messages_ZeigeNachricht(SpielerZwei, MSG_Rot_Licht_druecken, &leer5);
       break;
 
-      case Simon:
-      Messages_ZeigeNachricht(SpielerEins, MSG_Sequenz, &leer5);
-      Messages_ZeigeNachricht(SpielerZwei, MSG_Sequenz, &leer5);
+      case Simon: // separat im game
+      actionBestaetigtP1 = true;
+      actionBestaetigtP2 = true;
       break;
 
       case ToneMaster: // separat im game

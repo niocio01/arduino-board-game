@@ -173,6 +173,10 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     LcdTreiber_DisplayMessage(spieler, (char *) "Sequenz", (char *) "nachmachen");
     break;
 
+    case MSG_GegnerSpielt:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Gegner spielt", (char *) "zuerst");
+    break;
+
     case MSG_Rot_Licht_druecken:
     LcdTreiber_DisplayMessage(spieler, (char *) "Bei rotem", (char *) "Licht druecken");
     break;

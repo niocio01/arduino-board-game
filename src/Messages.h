@@ -54,6 +54,7 @@ typedef enum {
   MSG_Tie,
   MSG_Next_Round,
   MSG_Sequenz,
+  MSG_GegnerSpielt,
   MSG_Rot_Licht_druecken,
   MSG_Zuhoeren,
   MSG_Gegner_hoert_zu,
