@@ -9,7 +9,6 @@
 #include "PlayerManager.h"
 #include "Karten/Minigames/ShowGameAction.h"
 #include "StatusLedSituation.h"
-#include "Karten/Minigames/Simon.h"
 
 MinigameManager_GameStatus_t currentGame;
 
@@ -156,7 +155,7 @@ void MinigameManager_Run(void)
       break;
 
       case Simon:
-      Simon_Run();
+      // code
       break;
 
       case ToneMaster:
