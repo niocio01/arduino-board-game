@@ -33,6 +33,10 @@ void Startup_check(void)
   IRGestartet = IRTreiber_Startup();
   PotiGestartet = PotiTreiber_Startup();
   SF_InitData();
+  SF_FiguresSetToStart(SpielerEins, FigureEins, Rot, 150);
+  SF_FiguresSetToStart(SpielerEins, FigureZwei, Gelb, 150);
+  SF_FiguresSetToStart(SpielerZwei, FigureEins, Blau, 150);
+  SF_FiguresSetToStart(SpielerZwei, FigureZwei, Gruen, 150);
 
 
   if (ledGestartet == true and lcdGestartet == true and rfidGestartet == true

@@ -96,9 +96,11 @@ void IRTreiber_Main(void)
           break;
 
           case IR_BUTTON_100:
+          SF_MovePlayerFigure(SpielerZwei, FigureEins, 5 ,true, false, true);
           break;
 
           case IR_BUTTON_200:
+          SF_MovePlayerFigure(SpielerZwei, FigureEins, 2 ,true, false, true);
           break;
 
           case IR_BUTTON_1:

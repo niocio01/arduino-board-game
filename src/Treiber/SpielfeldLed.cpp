@@ -18,7 +18,7 @@ int SF_Player2_Kreis[SF_K_Steps];
 uint16_t SF_LedWeg[SF_MAX_STEPS];
 
 const uint8_t SF_DIM_helligkeit = 5;
-const uint32_t SF_UpdateDelayS = 750;    // "Wanderzeit" LEDs im Spiel in ms
+const uint32_t SF_UpdateDelayS = 200;    // "Wanderzeit" LEDs im Spiel in ms
 const uint32_t SF_UpdateDelayF = 25;     // "Wanderzeit" der LEDs im Lauflicht
 uint32_t SF_OldTimeS;
 uint32_t SF_OldTimeF;
