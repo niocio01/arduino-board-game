@@ -8,6 +8,7 @@
 #include "Treiber/TasterHandler.h"
 #include "arduino.h"
 
+const uint8_t laengeStartSequenz = 3;
 const uint8_t DimHelligkeit = 10;
 const uint8_t BrightHelligkeit = 100;
 const uint16_t ZeitZwischenFarben = 1000;
@@ -47,13 +48,17 @@ static uint32_t lastUpdateTime;
 static uint32_t lastColorChange;
 static uint8_t aktuelleFarbe = 0;
 static uint8_t alteFarbe = 0;
+static uint8_t score_P1;
+static uint8_t score_P2;
+
 
 
 static bool MSGShown;
 static bool FirstPlayerMSGBestaetigt;
 static bool SecondPlayerMSGBestaetigt;
 static bool addToSequence = true;
-static bool playSequence;
+static bool playSequence = true;
+static bool sequenzNachmachen = false;
 
 
 void Simon_InitData(void);
@@ -97,61 +102,104 @@ void Simon_Run(void)
   }
   else if(FirstPlayerMSGBestaetigt)
   {
-    if (playSequence)
+    if (addToSequence)
     {
-      if (addToSequence)
+      addToSequence = false;
+      playSequence = true;
+      aktuellerSequenzZeigeSchritt = 0;
+      randomSeed(analogRead(4));
+      if (SequenzLaenge == 0)
       {
-        addToSequence = false;
+        for (SequenzLaenge = 0; SequenzLaenge <= laengeStartSequenz-1; SequenzLaenge++)
+        {
+          uint8_t newColor = random(1, 5);
+          sequence[SequenzLaenge] = newColor;
+        }
+      }
+      else
+      {
         uint8_t newColor = random(1, 4);
         sequence[SequenzLaenge] = newColor;
         SequenzLaenge ++;
       }
+    }
+
+    if (playSequence)
+    {
       if (aktuellerSequenzZeigeSchritt <= SequenzLaenge)
       {
         if ((millis() - lastUpdateTime) > ZeitZwischenFarben)
         {
+          lastUpdateTime = millis();
           aktuelleFarbe = sequence[aktuellerSequenzZeigeSchritt];
           aktuellerSequenzZeigeSchritt ++;
         }
       }
       else
       {
-        // playSequence = false;
+        playSequence = false;
+        sequenzNachmachen = true;
       }
-
     }
-    else // nachmachen
+
+    if (sequenzNachmachen)
     {
+      uint8_t aktuelleAuswahl;
+
       if (TasterHandler_Klick(aktiverSpieler, TasterEins))
       {
         aktuelleFarbe = rot;
+        aktuelleAuswahl = rot;
       }
       if (TasterHandler_Klick(aktiverSpieler, TasterZwei))
       {
         aktuelleFarbe = gruen;
+        aktuelleAuswahl = gruen;
       }
       if (TasterHandler_Klick(aktiverSpieler, TasterDrei))
       {
         aktuelleFarbe = gelb;
+        aktuelleAuswahl = gelb;
       }
       if (TasterHandler_Klick(aktiverSpieler, TasterVier))
       {
         aktuelleFarbe = blau;
+        aktuelleAuswahl = blau;
       }
-      if (aktuelleFarbe == sequence[aktuellerSequenzLoeseSchritt])
+      if (aktuelleAuswahl)
       {
-        aktuellerSequenzLoeseSchritt ++;
-        if (aktuellerSequenzLoeseSchritt == SequenzLaenge)
+        if (aktuelleAuswahl == sequence[aktuellerSequenzLoeseSchritt])
         {
-          playSequence = true;
-          addToSequence = true;
+          aktuellerSequenzLoeseSchritt ++;
+
+          if (aktuellerSequenzLoeseSchritt == SequenzLaenge)
+          {
+            playSequence = true;
+            addToSequence = true;
+            sequenzNachmachen = false;
+            aktuellerSequenzLoeseSchritt = 0;
+            lastUpdateTime = millis() + 2000;
+
+            if (aktiverSpieler == SpielerEins)
+            {
+              LedTreiber_LedSchalten(SequenzLaenge - laengeStartSequenz , Gruen, 100);
+            }
+            else // P2
+            {
+              LedTreiber_LedSchalten(SequenzLaenge - laengeStartSequenz + 62, Gruen, 100);
+            }
+          }
+        }
+        else // fehler gemacht
+        {
           if (aktiverSpieler == SpielerEins)
           {
-            LedTreiber_LedSchalten(aktuellerSequenzLoeseSchritt -1, Gruen, 100);
+            score_P1 = SequenzLaenge;
           }
-          else // P2
+          else
           {
-            LedTreiber_LedSchalten(aktuellerSequenzLoeseSchritt + 61, Gruen, 100);
+            score_P2 = SequenzLaenge;
+            LedTreiber_LedSchalten(192 , Rot, 100);
           }
         }
       }

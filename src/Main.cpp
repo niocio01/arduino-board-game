@@ -13,6 +13,7 @@
 #include "Treiber/IRTreiber.h"
 #include "Treiber/PotiTreiber.h"
 #include "Treiber/SpielfeldLed.h"
+#include "Treiber/SpeakerTreiber.h"
 
 
 void setup()
@@ -26,5 +27,5 @@ void loop()
   KartenManager_Main();
   IRTreiber_Main();
   SF_OperateSpielfeld_Main();
-  //LedTreiber_LedSchalten(72, Weiss, PotiTreiber_Get_Val(SpielerZwei));
+  //SpeakerTreiber_main();
 }

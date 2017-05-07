@@ -9,6 +9,8 @@
 #include "Treiber/SpielfeldLed.h"
 #include "Karten/Buffs/Zeitreise.h"
 #include "Karten/Buffs/AktiveBuffsAnzeigen.h"
+#include "Treiber/SpeakerTreiber.h"
+#include "pitches.h"
 
 IRdecodeNEC myDecoder; // Now declare an instance of that decoder.
 IRrecv myReceiver(6); //pin number for the receiver
@@ -76,6 +78,7 @@ void IRTreiber_Main(void)
           break;
 
           case IR_BUTTON_NEXT:
+          SpeakerTreiber_playTone(NOTE_C4, 2000);
           break;
 
           case IR_BUTTON_PLAY:
