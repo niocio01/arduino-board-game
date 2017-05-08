@@ -41,6 +41,13 @@ struct FigureData {
   int  ActLEDid;                // ID des aktuellen LED's. Nur im Modul "SpielfeldLed.cpp" verwenden
 };
 
+typedef enum
+{
+  Branch1,
+  Branch2,
+  Branch3
+} SpielfeldLed_Branches_t;
+
 
 // Funktion muss beim Start einmal aufgerufen werden
 // Funktion ist "blockierend"
@@ -87,9 +94,8 @@ void SF_FiguresSetToStart(GlobalTypes_Spieler_t Spieler,
 // BranchOn3: true oder false
 // Nur eine der BranchOn? darf auf true gesetzt werden !!
 void SF_SetBranchPlayer(GlobalTypes_Spieler_t Spieler,
-                        bool BranchOn1,
-                        bool BranchOn2,
-                        bool BranchOn3);
+                        SpielfeldLed_Branches_t branch,
+                        bool status);
 
 
 // Interne Funktion, wird durch obige Funktion aufgerufen

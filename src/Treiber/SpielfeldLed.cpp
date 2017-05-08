@@ -23,6 +23,13 @@ const uint32_t SF_UpdateDelayF = 25;     // "Wanderzeit" der LEDs im Lauflicht
 uint32_t SF_OldTimeS;
 uint32_t SF_OldTimeF;
 
+static bool BranchOn1_P1;
+static bool BranchOn2_P1;
+static bool BranchOn3_P1;
+static bool BranchOn1_P2;
+static bool BranchOn2_P2;
+static bool BranchOn3_P2;
+
 
 GlobalTypes_Spieler_t SF_ActSpieler;
 GlobalTypes_Figur_t SF_ActFigur;
@@ -290,14 +297,45 @@ bool SF_Player2IsWinner(void)
 
 // Kommentar siehe Headerfile
 // **************************
-void SF_SetBranchPlayer(GlobalTypes_Spieler_t Spieler,
-                        bool BranchOn1,
-                        bool BranchOn2,
-                        bool BranchOn3)
+void SF_SetBranchPlayer(GlobalTypes_Spieler_t Spieler, SpielfeldLed_Branches_t branch, bool status)
 {
 
-  SF_SetBranchPlayerFigure(Spieler, FigureEins, BranchOn1, BranchOn2, BranchOn3);
-  SF_SetBranchPlayerFigure(Spieler, FigureZwei, BranchOn1, BranchOn2, BranchOn3);
+  if (Spieler == SpielerEins)
+  {
+    switch (branch)
+    {
+      case Branch1:
+      BranchOn1_P1 = status;
+      break;
+
+      case Branch2:
+      BranchOn2_P1 = status;
+      break;
+
+      case Branch3:
+      BranchOn3_P1 = status;
+      break;
+    }
+  }
+  else
+  {
+    switch (branch)
+    {
+      case Branch1:
+      BranchOn1_P2 = status;
+      break;
+
+      case Branch2:
+      BranchOn2_P2 = status;
+      break;
+
+      case Branch3:
+      BranchOn3_P2 = status;
+      break;
+    }
+  }
+  SF_SetBranchPlayerFigure(Spieler, FigureEins, BranchOn1_P1, BranchOn2_P1, BranchOn3_P1);
+  SF_SetBranchPlayerFigure(Spieler, FigureZwei, BranchOn1_P2, BranchOn2_P2, BranchOn3_P2);
 
 }// end of SF_SetBranchPlayer()
 
