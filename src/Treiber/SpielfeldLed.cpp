@@ -444,10 +444,7 @@ void SF_SetBranchPlayerFigure(GlobalTypes_Spieler_t Spieler,
 // **************************
 void SF_MovePlayerFigure(GlobalTypes_Spieler_t Spieler,
                          GlobalTypes_Figur_t Figur,
-                         int Steps,
-                         bool BranchOn1,
-                         bool BranchOn2,
-                         bool BranchOn3)
+                         int Steps)
 {
   SF_ActSpieler = Spieler;
   SF_ActFigur = Figur;
@@ -456,30 +453,18 @@ void SF_MovePlayerFigure(GlobalTypes_Spieler_t Spieler,
   if((Spieler == SpielerEins) && (Figur == FigureEins))
   {
     SF_Player1_Figure1.NewPos = SF_Player1_Figure1.ActPos + Steps;
-    SF_Player1_Figure1.BranchOn1 = BranchOn1;
-    SF_Player1_Figure1.BranchOn2 = BranchOn2;
-    SF_Player1_Figure1.BranchOn3 = BranchOn3;
   }
   else if((Spieler == SpielerEins) && (Figur == FigureZwei))
   {
     SF_Player1_Figure2.NewPos = SF_Player1_Figure2.ActPos + Steps;
-    SF_Player1_Figure2.BranchOn1 = BranchOn1;
-    SF_Player1_Figure2.BranchOn2 = BranchOn2;
-    SF_Player1_Figure2.BranchOn3 = BranchOn3;
   }
   else if((Spieler == SpielerZwei) && (Figur == FigureEins))
   {
     SF_Player2_Figure1.NewPos = SF_Player2_Figure1.ActPos + Steps;
-    SF_Player2_Figure1.BranchOn1 = BranchOn1;
-    SF_Player2_Figure1.BranchOn2 = BranchOn2;
-    SF_Player2_Figure1.BranchOn3 = BranchOn3;
   }
   else if((Spieler == SpielerZwei) && (Figur == FigureZwei))
   {
     SF_Player2_Figure2.NewPos = SF_Player2_Figure2.ActPos + Steps;
-    SF_Player2_Figure2.BranchOn1 = BranchOn1;
-    SF_Player2_Figure2.BranchOn2 = BranchOn2;
-    SF_Player2_Figure2.BranchOn3 = BranchOn3;
   }
 
   if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureEins)) {

@@ -111,15 +111,9 @@ void SF_SetBranchPlayerFigure(GlobalTypes_Spieler_t Spieler,
 // Spieler: "Nummer" des Spielers
 // Figur: "Nummer" der Figur
 // Steps: Anzahl der Schritte vorwärts
-// BranchOn1: true oder false
-// BranchOn2: true oder false
-// BranchOn3: true oder false
 void SF_MovePlayerFigure(GlobalTypes_Spieler_t Spieler,
                          GlobalTypes_Figur_t Figur,
-                         int Steps,
-                         bool BranchOn1,
-                         bool BranchOn2,
-                         bool BranchOn3);
+                         int Steps);
 
 
 // Abfrage ob die Figur eines Spielers die neue Position erreicht hat
