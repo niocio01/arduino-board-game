@@ -79,17 +79,38 @@ void SF_FiguresSetToStart(GlobalTypes_Spieler_t Spieler,
                           int Helligkeit);
 
 
+// Die Branches/Umwege eines Spielers werden gesetzt. Die Wirkung gilt für beide Figuren
+// aber nur, wenn die Figur an der entsprechenden Abzweigung noch nicht vorbei ist.
+// Spieler: "Nummer" des Spielers
+// BranchOn1: true oder false
+// BranchOn2: true oder false
+// BranchOn3: true oder false
+// Nur eine der BranchOn? darf auf true gesetzt werden !!
+void SF_SetBranchPlayer(GlobalTypes_Spieler_t Spieler,
+                        bool BranchOn1,
+                        bool BranchOn2,
+                        bool BranchOn3);
+
+
+// Interne Funktion, wird durch obige Funktion aufgerufen
+void SF_SetBranchPlayerFigure(GlobalTypes_Spieler_t Spieler,
+                              GlobalTypes_Figur_t Figur,
+                              bool BranchOn1,
+                              bool BranchOn2,
+                              bool BranchOn3);
+
+
 // Eine Figur eines Spielers wird von der alten zur neuen Position verschoben.
 // Die entsprechenden Daten müssen an die Funktion übergeben werden
 // Spieler: "Nummer" des Spielers
 // Figur: "Nummer" der Figur
-// NewPos: Neue Position der Figur
+// Steps: Anzahl der Schritte vorwärts
 // BranchOn1: true oder false
 // BranchOn2: true oder false
 // BranchOn3: true oder false
 void SF_MovePlayerFigure(GlobalTypes_Spieler_t Spieler,
                          GlobalTypes_Figur_t Figur,
-                         int NewPos,
+                         int Steps,
                          bool BranchOn1,
                          bool BranchOn2,
                          bool BranchOn3);
@@ -99,6 +120,21 @@ void SF_MovePlayerFigure(GlobalTypes_Spieler_t Spieler,
 // Return true, wenn die neue Position erreicht ist
 // Return false, wenn die neue Position noch nicht erreicht ist
 bool SF_PlayerFigureHasMoved(GlobalTypes_Spieler_t Spieler, GlobalTypes_Figur_t Figur);
+
+
+// Meldet ob der entsprechende Spieler gewonnen hat
+// Return true, der Spieler hat gewonnen
+// Return false, der Spieler hat (noch) nicht gewonnen
+bool SF_Player1IsWinner(void);
+bool SF_Player2IsWinner(void);
+
+
+// Die Anzeige der Figuren in der regelmässig aufgerufenen Funktion
+// SF_OperateSpielfeld_Main() wird deaktiviert. Um die Anzeige
+// wieder zu aktivieren muss die Funktion SF_FiguresSetToStart()
+// mindestens einmal aufgerufen werden.
+// Die Ausführung des Lauflichtes wird nicht beeinflusst.
+void SF_SetSpielfeldOff(void);
 
 
 // Funktion muss im Main-Loop laufend aufgerufen werden

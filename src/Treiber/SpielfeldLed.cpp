@@ -33,7 +33,9 @@ bool SF_Player2Fig1Aktiv = false;
 GlobalTypes_Farbe_t SF_LauflichtFarbe;
 uint8_t SF_LauflichtHelligkeit;
 bool SF_LauflichtAktiv;
+bool SF_ShowPlayerAktiv = false;
 int SF_LauflichtCounter;
+int SF_LastLedCounter = 0;
 
 
 // Kommentar siehe Headerfile
@@ -127,6 +129,7 @@ void SF_InitData(void)
 
   SF_OldTimeS = millis();
   SF_OldTimeF = millis();
+  SF_LastLedCounter = 0;
 }
 
 
@@ -247,15 +250,163 @@ void SF_FiguresSetToStart(GlobalTypes_Spieler_t Spieler,
     SF_Player2_Figure2.BranchOn3 = false;
     SF_Player2_Figure2.ActLEDid = SF_dataPlayer2[0].StartID;
   }
+  SF_ShowPlayerAktiv = true;
 
 }// end of SF_FiguresSetToStart()
 
 
 // Kommentar siehe Headerfile
 // **************************
+void SF_SetSpielfeldOff(void)
+{
+  SF_ShowPlayerAktiv = false;
+}// end of SF_SetSpielfeldOff()
+
+
+// Kommentar siehe Headerfile
+// **************************
+bool SF_Player1IsWinner(void)
+{
+  if((SF_Player1_Figure1.ActLEDid == SF_Player1_Kreis[SF_K_Steps-1]) &&
+     (SF_Player1_Figure2.ActLEDid == SF_Player1_Kreis[SF_K_Steps-1]))
+     return(true);
+  else return(false);
+}// end of SF_Player1IsWinner()
+
+
+// Kommentar siehe Headerfile
+// **************************
+bool SF_Player2IsWinner(void)
+{
+  if((SF_Player2_Figure1.ActLEDid == SF_Player2_Kreis[SF_K_Steps-1]) &&
+     (SF_Player2_Figure2.ActLEDid == SF_Player2_Kreis[SF_K_Steps-1]))
+     return(true);
+  else return(false);
+}// end of SF_Player1IsWinner()
+
+
+
+
+
+// Kommentar siehe Headerfile
+// **************************
+void SF_SetBranchPlayer(GlobalTypes_Spieler_t Spieler,
+                        bool BranchOn1,
+                        bool BranchOn2,
+                        bool BranchOn3)
+{
+
+  SF_SetBranchPlayerFigure(Spieler, FigureEins, BranchOn1, BranchOn2, BranchOn3);
+  SF_SetBranchPlayerFigure(Spieler, FigureZwei, BranchOn1, BranchOn2, BranchOn3);
+
+}// end of SF_SetBranchPlayer()
+
+
+void SF_SetBranchPlayerFigure(GlobalTypes_Spieler_t Spieler,
+                              GlobalTypes_Figur_t Figur,
+                              bool BranchOn1,
+                              bool BranchOn2,
+                              bool BranchOn3)
+{
+  int SegmVB1, SegmIB1, SegmB1, SegmVB2, SegmIB2, SegmB2, SegmVB3;
+  int ActPos, CrossingB1, CrossingB2, CrossingB3;
+  bool ActBranchOn1, ActBranchOn2;
+
+  if( Spieler == SpielerEins)
+  {
+    SegmVB1 = SF_dataPlayer1[SF_SegmVB1].Steps;          // Segment bis Branch 1
+    SegmIB1 = SF_dataPlayer1[SF_SegmIB1].Steps;          // Kürzeres Segment bei Branch 1
+    SegmB1  = SF_dataPlayer1[SF_SegmB1].Steps;           // Längeres Segment bei Branch 1
+    SegmVB2 = SF_dataPlayer1[SF_SegmVB2].Steps;          // Segment bis Branch 2
+    SegmIB2 = SF_dataPlayer1[SF_SegmIB2].Steps;          // Kürzeres Segment bei Branch 2
+    SegmB2  = SF_dataPlayer1[SF_SegmB2].Steps;           // Längeres Segment bei Branch 2
+    SegmVB3 = SF_dataPlayer1[SF_SegmVB3].Steps;          // Segment bis Branch 3
+    if(Figur == FigureEins)
+    {
+      ActBranchOn1 = SF_Player1_Figure1.BranchOn1;
+      ActBranchOn2 = SF_Player1_Figure1.BranchOn2;
+      ActPos = SF_Player1_Figure1.ActPos;
+    }
+    else
+    {
+      ActBranchOn1 = SF_Player1_Figure2.BranchOn1;
+      ActBranchOn2 = SF_Player1_Figure2.BranchOn2;
+      ActPos = SF_Player1_Figure2.ActPos;
+    }
+  }
+  else // Spieler == SpielerZwei
+  {
+    SegmVB1 = SF_dataPlayer2[SF_SegmVB1].Steps;          // Segment bis Branch 1
+    SegmIB1 = SF_dataPlayer2[SF_SegmIB1].Steps;          // Kürzeres Segment bei Branch 1
+    SegmB1  = SF_dataPlayer2[SF_SegmB1].Steps;           // Längeres Segment bei Branch 1
+    SegmVB2 = SF_dataPlayer2[SF_SegmVB2].Steps;          // Segment bis Branch 2
+    SegmIB2 = SF_dataPlayer2[SF_SegmIB2].Steps;          // Kürzeres Segment bei Branch 2
+    SegmB2  = SF_dataPlayer2[SF_SegmB2].Steps;           // Längeres Segment bei Branch 2
+    SegmVB3 = SF_dataPlayer2[SF_SegmVB3].Steps;          // Segment bis Branch 3
+    if(Figur == FigureEins)
+    {
+      ActBranchOn1 = SF_Player2_Figure1.BranchOn1;
+      ActBranchOn2 = SF_Player2_Figure1.BranchOn2;
+      ActPos = SF_Player2_Figure1.ActPos;
+    }
+    else
+    {
+      ActBranchOn1 = SF_Player2_Figure2.BranchOn1;
+      ActBranchOn2 = SF_Player2_Figure2.BranchOn2;
+      ActPos = SF_Player2_Figure2.ActPos;
+    }
+  }
+
+  CrossingB1 = SegmVB1;
+  if(ActBranchOn1) CrossingB2 = SegmVB1 + SegmB1 + SegmVB2;
+  else CrossingB2 = SegmVB1 + SegmIB1 + SegmVB2;
+  if(ActBranchOn2) CrossingB3 = CrossingB2 + SegmB2 + SegmVB3;
+  else CrossingB3 = CrossingB2 + SegmIB2 + SegmVB3;
+
+  if(BranchOn1 && (ActPos < CrossingB1))
+  {
+    if((Spieler == SpielerEins) && (Figur == FigureEins))
+      SF_Player1_Figure1.BranchOn1 = true;
+    if((Spieler == SpielerEins) && (Figur == FigureZwei))
+      SF_Player1_Figure2.BranchOn1 = true;
+    if((Spieler == SpielerZwei) && (Figur == FigureEins))
+      SF_Player2_Figure1.BranchOn1 = true;
+    if((Spieler == SpielerZwei) && (Figur == FigureZwei))
+      SF_Player2_Figure2.BranchOn1 = true;
+  }
+
+  if(BranchOn2 && (ActPos < CrossingB2))
+  {
+    if((Spieler == SpielerEins) && (Figur == FigureEins))
+      SF_Player1_Figure1.BranchOn2 = true;
+    if((Spieler == SpielerEins) && (Figur == FigureZwei))
+      SF_Player1_Figure2.BranchOn2 = true;
+    if((Spieler == SpielerZwei) && (Figur == FigureEins))
+      SF_Player2_Figure1.BranchOn2 = true;
+    if((Spieler == SpielerZwei) && (Figur == FigureZwei))
+      SF_Player2_Figure2.BranchOn2 = true;
+  }
+
+  if(BranchOn3 && (ActPos < CrossingB3))
+  {
+    if((Spieler == SpielerEins) && (Figur == FigureEins))
+      SF_Player1_Figure1.BranchOn3 = true;
+    if((Spieler == SpielerEins) && (Figur == FigureZwei))
+      SF_Player1_Figure2.BranchOn3 = true;
+    if((Spieler == SpielerZwei) && (Figur == FigureEins))
+      SF_Player2_Figure1.BranchOn3 = true;
+    if((Spieler == SpielerZwei) && (Figur == FigureZwei))
+      SF_Player2_Figure2.BranchOn3 = true;
+  }
+
+}// end of SF_SetBranchPlayerFigure()
+
+
+// Kommentar siehe Headerfile
+// **************************
 void SF_MovePlayerFigure(GlobalTypes_Spieler_t Spieler,
                          GlobalTypes_Figur_t Figur,
-                         int NewPos,
+                         int Steps,
                          bool BranchOn1,
                          bool BranchOn2,
                          bool BranchOn3)
@@ -266,28 +417,28 @@ void SF_MovePlayerFigure(GlobalTypes_Spieler_t Spieler,
 
   if((Spieler == SpielerEins) && (Figur == FigureEins))
   {
-    SF_Player1_Figure1.NewPos = NewPos;
+    SF_Player1_Figure1.NewPos = SF_Player1_Figure1.ActPos + Steps;
     SF_Player1_Figure1.BranchOn1 = BranchOn1;
     SF_Player1_Figure1.BranchOn2 = BranchOn2;
     SF_Player1_Figure1.BranchOn3 = BranchOn3;
   }
   else if((Spieler == SpielerEins) && (Figur == FigureZwei))
   {
-    SF_Player1_Figure2.NewPos = NewPos;
+    SF_Player1_Figure2.NewPos = SF_Player1_Figure2.ActPos + Steps;
     SF_Player1_Figure2.BranchOn1 = BranchOn1;
     SF_Player1_Figure2.BranchOn2 = BranchOn2;
     SF_Player1_Figure2.BranchOn3 = BranchOn3;
   }
   else if((Spieler == SpielerZwei) && (Figur == FigureEins))
   {
-    SF_Player2_Figure1.NewPos = NewPos;
+    SF_Player2_Figure1.NewPos = SF_Player2_Figure1.ActPos + Steps;
     SF_Player2_Figure1.BranchOn1 = BranchOn1;
     SF_Player2_Figure1.BranchOn2 = BranchOn2;
     SF_Player2_Figure1.BranchOn3 = BranchOn3;
   }
   else if((Spieler == SpielerZwei) && (Figur == FigureZwei))
   {
-    SF_Player2_Figure2.NewPos = NewPos;
+    SF_Player2_Figure2.NewPos = SF_Player2_Figure2.ActPos + Steps;
     SF_Player2_Figure2.BranchOn1 = BranchOn1;
     SF_Player2_Figure2.BranchOn2 = BranchOn2;
     SF_Player2_Figure2.BranchOn3 = BranchOn3;
@@ -359,7 +510,7 @@ void SF_OperateSpielfeld_Main(void)
 
   // LED im Spielfeld abhängig von Spieler und Figur anzeigen
   // Update erfolgt alle SF_UpdateDelayS ms
-  if ((millis() - SF_OldTimeS) > SF_UpdateDelayS)
+  if (((millis() - SF_OldTimeS) > SF_UpdateDelayS) && SF_ShowPlayerAktiv)
   {
     SF_OldTimeS = millis();
 
@@ -435,26 +586,38 @@ void SF_OperateSpielfeld_Main(void)
       if(SF_Player1Fig1Aktiv == true)
       {
         SF_Player1Fig1Aktiv = false;
-        LedTreiber_LedSchalten(SF_Player1_Figure1.ActLEDid,
-                               SF_Player1_Figure1.Farbe,
-                               SF_Player1_Figure1.Helligkeit);
+        if(SF_Player1_Figure1.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
+        {
+          LedTreiber_LedSchalten(SF_Player1_Figure1.ActLEDid,
+                                 SF_Player1_Figure1.Farbe,
+                                 SF_Player1_Figure1.Helligkeit);
+        }
       }
       else
       {
         SF_Player1Fig1Aktiv = true;
-        LedTreiber_LedSchalten(SF_Player1_Figure2.ActLEDid,
-                               SF_Player1_Figure2.Farbe,
-                               SF_Player1_Figure2.Helligkeit);
+        if(SF_Player1_Figure2.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
+        {
+          LedTreiber_LedSchalten(SF_Player1_Figure2.ActLEDid,
+                                 SF_Player1_Figure2.Farbe,
+                                 SF_Player1_Figure2.Helligkeit);
+        }
       }
     }
     else
     {
-      LedTreiber_LedSchalten(SF_Player1_Figure1.ActLEDid,
-                             SF_Player1_Figure1.Farbe,
-                             SF_Player1_Figure1.Helligkeit);
-      LedTreiber_LedSchalten(SF_Player1_Figure2.ActLEDid,
-                             SF_Player1_Figure2.Farbe,
-                             SF_Player1_Figure2.Helligkeit);
+      if(SF_Player1_Figure1.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
+      {
+        LedTreiber_LedSchalten(SF_Player1_Figure1.ActLEDid,
+                               SF_Player1_Figure1.Farbe,
+                               SF_Player1_Figure1.Helligkeit);
+      }
+      if(SF_Player1_Figure2.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
+      {
+        LedTreiber_LedSchalten(SF_Player1_Figure2.ActLEDid,
+                               SF_Player1_Figure2.Farbe,
+                               SF_Player1_Figure2.Helligkeit);
+      }
     }
 
 
@@ -465,33 +628,83 @@ void SF_OperateSpielfeld_Main(void)
       if(SF_Player2Fig1Aktiv == true)
       {
         SF_Player2Fig1Aktiv = false;
-        LedTreiber_LedSchalten(SF_Player2_Figure1.ActLEDid,
-                               SF_Player2_Figure1.Farbe,
-                               SF_Player2_Figure1.Helligkeit);
+        if(SF_Player2_Figure1.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
+        {
+          LedTreiber_LedSchalten(SF_Player2_Figure1.ActLEDid,
+                                 SF_Player2_Figure1.Farbe,
+                                 SF_Player2_Figure1.Helligkeit);
+        }
       }
       else
       {
         SF_Player2Fig1Aktiv = true;
+        if(SF_Player2_Figure2.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
+        {
+          LedTreiber_LedSchalten(SF_Player2_Figure2.ActLEDid,
+                                 SF_Player2_Figure2.Farbe,
+                                 SF_Player2_Figure2.Helligkeit);
+        }
+      }
+    }
+    else
+    {
+      if(SF_Player2_Figure1.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
+      {
+        LedTreiber_LedSchalten(SF_Player2_Figure1.ActLEDid,
+                               SF_Player2_Figure1.Farbe,
+                               SF_Player2_Figure1.Helligkeit);
+      }
+      if(SF_Player2_Figure2.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
+      {
         LedTreiber_LedSchalten(SF_Player2_Figure2.ActLEDid,
                                SF_Player2_Figure2.Farbe,
                                SF_Player2_Figure2.Helligkeit);
       }
     }
-    else
+
+    // Wechselanzeige beim Ziel
+    // ------------------------
+    if(SF_LastLedCounter == 0)
     {
-      LedTreiber_LedSchalten(SF_Player2_Figure1.ActLEDid,
-                             SF_Player2_Figure1.Farbe,
-                             SF_Player2_Figure1.Helligkeit);
-      LedTreiber_LedSchalten(SF_Player2_Figure2.ActLEDid,
-                             SF_Player2_Figure2.Farbe,
-                             SF_Player2_Figure2.Helligkeit);
+      if(SF_Player1_Figure1.ActLEDid == SF_Player1_Kreis[SF_K_Steps-1])
+      {
+        LedTreiber_LedSchalten(SF_Player1_Figure1.ActLEDid,
+                               SF_Player1_Figure1.Farbe,
+                               SF_Player1_Figure1.Helligkeit);
+      }
     }
+    if(SF_LastLedCounter == 1)
+    {
+      if(SF_Player1_Figure2.ActLEDid == SF_Player1_Kreis[SF_K_Steps-1])
+      {
+        LedTreiber_LedSchalten(SF_Player1_Figure2.ActLEDid,
+                               SF_Player1_Figure2.Farbe,
+                               SF_Player1_Figure2.Helligkeit);
+      }
+    }
+    if(SF_LastLedCounter == 2)
+    {
+      if(SF_Player2_Figure1.ActLEDid == SF_Player2_Kreis[SF_K_Steps-1])
+      {
+        LedTreiber_LedSchalten(SF_Player2_Figure1.ActLEDid,
+                               SF_Player2_Figure1.Farbe,
+                               SF_Player2_Figure1.Helligkeit);
+      }
+    }
+    if(SF_LastLedCounter == 3)
+    {
+      if(SF_Player2_Figure2.ActLEDid == SF_Player2_Kreis[SF_K_Steps-1])
+      {
+        LedTreiber_LedSchalten(SF_Player2_Figure2.ActLEDid,
+                               SF_Player2_Figure2.Farbe,
+                               SF_Player2_Figure2.Helligkeit);
+      }
+    }
+    SF_LastLedCounter++;
+    if(SF_LastLedCounter > 3) SF_LastLedCounter = 0;
 
-    // Wechselanzeige beim Ziel noch regeln
-    // ------------------------------------
-    // ?????????????????????????????
+  } // end of Teil Anzeige "Spielfiguren"
 
-  }
 
   // LED Lauflicht durchlaufen
   // Update erfolgt alle SF_UpdateDelayF ms
@@ -501,223 +714,145 @@ void SF_OperateSpielfeld_Main(void)
 
     if(SF_LauflichtAktiv == true)
     {
+      LedTreiber_LedSetzen(SF_LauflichtCounter,
+                           SF_LauflichtFarbe,
+                           SF_LauflichtHelligkeit);
+      LedTreiber_LedAnzeigen();
+      SF_LauflichtCounter++;
+
       if(SF_LauflichtCounter >= SF_TOT_LEDS)
       {
-        LedTreiber_LedSetzen(SF_LauflichtCounter-1, Weiss, SF_DIM_helligkeit);
         SF_LauflichtAktiv = false;
       }
-      else
-      {
-        if (SF_LauflichtCounter > 0)
-        {
-          LedTreiber_LedSetzen(SF_LauflichtCounter-1, Weiss, SF_DIM_helligkeit);
-        }
-        LedTreiber_LedSetzen(SF_LauflichtCounter,
-                             SF_LauflichtFarbe,
-                             SF_LauflichtHelligkeit);
-                             SF_LauflichtCounter++;
-      }
-      LedTreiber_LedAnzeigen();
     }
-  }
+  }// end of Teil Lauflicht
 
 }// end of SF_OperateSpielfeld_Main()
 
 
-                  // Kommentar siehe Headerfile
-                  // **************************
-                  void SF_CalcPlayerWay(GlobalTypes_Spieler_t Spieler, GlobalTypes_Figur_t Figur)
-                  {
-                    int Pos;
-                    int i;
-                    bool BranchOn1, BranchOn2, BranchOn3;
-                    struct SpielfeldData SF_dataPlayer[SF_MaxSegm];
+// Kommentar siehe Headerfile
+// **************************
+void SF_CalcPlayerWay(GlobalTypes_Spieler_t Spieler, GlobalTypes_Figur_t Figur)
+{
+  int Pos;
+  int i;
+  bool BranchOn1, BranchOn2, BranchOn3;
+  struct SpielfeldData SF_dataPlayer[SF_MaxSegm];
 
-                    // Daten abhängig ob Spieler 1 oder 2
-                    for (i = 0; i < SF_MaxSegm; i++)
-                    {
-                      if(Spieler == SpielerEins)
-                      {
-                        SF_dataPlayer[i].Steps = SF_dataPlayer1[i].Steps;
-                        SF_dataPlayer[i].StartID = SF_dataPlayer1[i].StartID;
-                      }
-                      else
-                      {
-                        SF_dataPlayer[i].Steps = SF_dataPlayer2[i].Steps;
-                        SF_dataPlayer[i].StartID = SF_dataPlayer2[i].StartID;
-                      }
-                    }
+  // Daten abhängig ob Spieler 1 oder 2
+  for (i = 0; i < SF_MaxSegm; i++)
+    {
+    if(Spieler == SpielerEins)
+    {
+      SF_dataPlayer[i].Steps = SF_dataPlayer1[i].Steps;
+      SF_dataPlayer[i].StartID = SF_dataPlayer1[i].StartID;
+    }
+    else
+    {
+      SF_dataPlayer[i].Steps = SF_dataPlayer2[i].Steps;
+      SF_dataPlayer[i].StartID = SF_dataPlayer2[i].StartID;
+    }
+  }
 
-                    // Merken ob Branch eingeschaltet ist oder nicht
-                    if ((Spieler == SpielerEins) && (Figur == FigureEins)) {
-                      BranchOn1 = SF_Player1_Figure1.BranchOn1;
-                      BranchOn2 = SF_Player1_Figure1.BranchOn2;
-                      BranchOn3 = SF_Player1_Figure1.BranchOn3;
-                    }
-                    if ((Spieler == SpielerEins) && (Figur == FigureZwei)) {
-                      BranchOn1 = SF_Player1_Figure2.BranchOn1;
-                      BranchOn2 = SF_Player1_Figure2.BranchOn2;
-                      BranchOn3 = SF_Player1_Figure2.BranchOn3;
-                    }
-                    if ((Spieler == SpielerZwei) && (Figur == FigureEins)) {
-                      BranchOn1 = SF_Player2_Figure1.BranchOn1;
-                      BranchOn2 = SF_Player2_Figure1.BranchOn2;
-                      BranchOn3 = SF_Player2_Figure1.BranchOn3;
-                    }
-                    if ((Spieler == SpielerZwei) && (Figur == FigureZwei)) {
-                      BranchOn1 = SF_Player2_Figure2.BranchOn1;
-                      BranchOn2 = SF_Player2_Figure2.BranchOn2;
-                      BranchOn3 = SF_Player2_Figure2.BranchOn3;
-                    }
+  // Merken ob Branch eingeschaltet ist oder nicht
+  if ((Spieler == SpielerEins) && (Figur == FigureEins)) {
+    BranchOn1 = SF_Player1_Figure1.BranchOn1;
+    BranchOn2 = SF_Player1_Figure1.BranchOn2;
+    BranchOn3 = SF_Player1_Figure1.BranchOn3;
+  }
+  if ((Spieler == SpielerEins) && (Figur == FigureZwei)) {
+    BranchOn1 = SF_Player1_Figure2.BranchOn1;
+    BranchOn2 = SF_Player1_Figure2.BranchOn2;
+    BranchOn3 = SF_Player1_Figure2.BranchOn3;
+  }
+  if ((Spieler == SpielerZwei) && (Figur == FigureEins)) {
+    BranchOn1 = SF_Player2_Figure1.BranchOn1;
+    BranchOn2 = SF_Player2_Figure1.BranchOn2;
+    BranchOn3 = SF_Player2_Figure1.BranchOn3;
+  }
+  if ((Spieler == SpielerZwei) && (Figur == FigureZwei)) {
+    BranchOn1 = SF_Player2_Figure2.BranchOn1;
+    BranchOn2 = SF_Player2_Figure2.BranchOn2;
+    BranchOn3 = SF_Player2_Figure2.BranchOn3;
+  }
 
-                    // Segment vor Branch 1 abfüllen
-                    Pos = 0;
-                    for (i = 0; i < SF_dataPlayer[SF_SegmVB1].Steps; i++, Pos++)
-                    {
-                      SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmVB1].StartID + i;
-                    }
+  // Segment vor Branch 1 abfüllen
+  Pos = 0;
+  for (i = 0; i < SF_dataPlayer[SF_SegmVB1].Steps; i++, Pos++)
+  {
+    SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmVB1].StartID + i;
+  }
 
-                    // Segment Branch 1 innen/aussen abfüllen
-                    if (BranchOn1 == true)
-                    {
-                      for (i = 0; i < SF_dataPlayer[SF_SegmB1].Steps; i++, Pos++) {
-                        SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmB1].StartID + i;
-                      }
-                    }
-                    else
-                    {
-                      for (i = 0; i < SF_dataPlayer[SF_SegmIB1].Steps; i++, Pos++) {
-                        SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmIB1].StartID + i;
-                      }
-                    }
+  // Segment Branch 1 innen/aussen abfüllen
+  if (BranchOn1 == true)
+  {
+    for (i = 0; i < SF_dataPlayer[SF_SegmB1].Steps; i++, Pos++) {
+      SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmB1].StartID + i;
+    }
+  }
+  else
+  {
+    for (i = 0; i < SF_dataPlayer[SF_SegmIB1].Steps; i++, Pos++) {
+      SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmIB1].StartID + i;
+    }
+  }
 
-                    // Segment vor Branch 2 berechnen
-                    for (i = 0; i < SF_dataPlayer[SF_SegmVB2].Steps; i++, Pos++)
-                    {
-                      SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmVB2].StartID + i;
-                    }
+  // Segment vor Branch 2 berechnen
+  for (i = 0; i < SF_dataPlayer[SF_SegmVB2].Steps; i++, Pos++)
+  {
+    SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmVB2].StartID + i;
+  }
 
-                    // Segment Branch2 innen/aussen berechnen
-                    if (BranchOn2 == true)
-                    {
-                      for (i = 0; i < SF_dataPlayer[SF_SegmB2].Steps; i++, Pos++) {
-                        SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmB2].StartID + i;
-                      }
-                    }
-                    else
-                    {
-                      for (i = 0; i < SF_dataPlayer[SF_SegmIB2].Steps; i++, Pos++) {
-                        SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmIB2].StartID + i;
-                      }
-                    }
+  // Segment Branch2 innen/aussen berechnen
+  if (BranchOn2 == true)
+  {
+    for (i = 0; i < SF_dataPlayer[SF_SegmB2].Steps; i++, Pos++) {
+      SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmB2].StartID + i;
+    }
+  }
+  else
+  {
+    for (i = 0; i < SF_dataPlayer[SF_SegmIB2].Steps; i++, Pos++) {
+      SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmIB2].StartID + i;
+    }
+  }
 
-                    // Segment vor Branch 3 berechnen
-                    for (i = 0; i < SF_dataPlayer[SF_SegmVB3].Steps; i++, Pos++)
-                    {
-                      SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmVB3].StartID + i;
-                    }
+  // Segment vor Branch 3 berechnen
+  for (i = 0; i < SF_dataPlayer[SF_SegmVB3].Steps; i++, Pos++)
+  {
+    SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmVB3].StartID + i;
+  }
 
-                    // Segment Branch3 innen/aussen berechnen
-                    if (BranchOn3 == true)
-                    {
-                      for (i = 0; i < SF_dataPlayer[SF_SegmB3].Steps; i++, Pos++) {
-                        SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmB3].StartID + i;
-                      }
-                    }
-                    else
-                    {
-                      for (i = 0; i < SF_dataPlayer[SF_SegmIB3].Steps; i++, Pos++) {
-                        SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmIB3].StartID + i;
-                      }
-                    }
+  // Segment Branch3 innen/aussen berechnen
+  if (BranchOn3 == true)
+  {
+    for (i = 0; i < SF_dataPlayer[SF_SegmB3].Steps; i++, Pos++) {
+      SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmB3].StartID + i;
+    }
+  }
+  else
+  {
+    for (i = 0; i < SF_dataPlayer[SF_SegmIB3].Steps; i++, Pos++) {
+      SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmIB3].StartID + i;
+    }
+  }
 
-                    // Segment vor Kreis berechnen
-                    for (i = 0; i < SF_dataPlayer[SF_SegmVK].Steps; i++, Pos++)
-                    {
-                      SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmVK].StartID + i;
-                    }
+  // Segment vor Kreis berechnen
+  for (i = 0; i < SF_dataPlayer[SF_SegmVK].Steps; i++, Pos++)
+  {
+    SF_LedWeg[Pos] = SF_dataPlayer[SF_SegmVK].StartID + i;
+  }
 
-                    // Segment im Kreis berechnen
-                    for (i = 0; i < SF_dataPlayer[SF_SegmK].Steps; i++, Pos++)
-                    {
-                      if (Spieler == SpielerEins)
-                      {
-                        SF_LedWeg[Pos] = SF_Player1_Kreis[i];
-                      }
-                      else
-                      {
-                        SF_LedWeg[Pos] = SF_Player2_Kreis[i];
-                      }
-                    }
-                  }
-
-                  // end of SF_CalcPlayerWay()
-
-
-                  /*  Beispiel auskommentiert
-                  void beispiel()
-                  {
-                  int caseVal = 0;
-                  bool isInit = false;
-                  const int START = 0;
-                  const int READY = 10;
-                  const int WAIT = 20;
-                  const int MOVE = 30;
-
-                  switch(caseVal)
-                  {
-                  case START:
-                  SF_InitData();
-                  isInit = true;
-                  casVal = READY;
-                  break;
-
-                  case READY:
-                  if(Taste ist gedrückt)
-                  {
-                  SF_StartLauflicht(Farbe, 25);
-                  caseVAL = WAIT;
-                }
-                break;
-
-                case WAIT:
-                if(SF_LauflichtAmLaufen == false)
-                {
-                Player1_Figure1.NewPos = Player1_Figure2.NewPos = Player2_Figure1.NewPos = Player2_Figure2.NewPos =0;
-                Player1_Figure1.Farbe = Farbe1;
-                Player1_Figure2.Farbe = Farbe2;
-                Player2_Figure1.Farbe = Farbe3;
-                Player2_Figure2.Farbe = Farbe4;
-                Player1_Figure1.Helligkeit = Player1_Figure2.Helligkeit = Player2_Figure1.Helligkeit = Player2_Figure2.Helligkeit = 12;
-                Player1_Figure1.BranchOn1 = Player1_Figure2.BranchOn1 = Player2_Figure1.BranchOn1 = Player2_Figure2.BranchOn1 = false;
-                Player1_Figure1.BranchOn2 = Player1_Figure2.BranchOn2 = Player2_Figure1.BranchOn2 = Player2_Figure2.BranchOn2 = false;
-                Player1_Figure1.BranchOn3 = Player1_Figure2.BranchOn3 = Player2_Figure1.BranchOn3 = Player2_Figure2.BranchOn3 = false;
-                SF_FiguresSetToStart();
-                caseVal = MOVE;
-              }
-              break;
-
-              case MOVE:
-              {
-              if(Figur soll sich bewegen)
-              {
-              Player1_Figure1.NewPos = 5;
-              Player1_Figure1.BranchOn1 = true;
-              Player1_Figure1.BranchOn2 = false;
-              Player1_Figure1.BranchOn3 = false;
-              SF_MovePlayerFigure(Spieler, Figur);
-              caseVal = MOVED;
-            }
-          }
-
-          case MOVED:
-          if(SF_PlayerFigureHasMoved(Spieler, Figur) == true)
-          {
-          caseVAL = .........;
-        }
-        brake;
-      }
-
-      if(isInit) SF_OperateSpielfeld_Main();
-
-    }*/
+  // Segment im Kreis berechnen
+  for (i = 0; i < SF_dataPlayer[SF_SegmK].Steps; i++, Pos++)
+  {
+    if (Spieler == SpielerEins)
+    {
+      SF_LedWeg[Pos] = SF_Player1_Kreis[i];
+    }
+    else
+    {
+      SF_LedWeg[Pos] = SF_Player2_Kreis[i];
+    }
+  }
+}// end of SF_CalcPlayerWay()
