@@ -103,7 +103,7 @@ void IRTreiber_Main(void)
           break;
 
           case IR_BUTTON_200:
-          SF_MovePlayerFigure(SpielerZwei, FigureEins, 2);
+          SF_MovePlayerFigure(SpielerZwei, FigureEins, -2);
           break;
 
           case IR_BUTTON_1:
@@ -115,9 +115,12 @@ void IRTreiber_Main(void)
           break;
 
           case IR_BUTTON_3:
+          SF_SetBranchPlayer (SpielerZwei, Branch1, true);
+          LedTreiber_LedSchalten(193, Blau);
           break;
 
           case IR_BUTTON_4:
+          SF_SetSpielfeldOff();
           break;
 
           case IR_BUTTON_5:

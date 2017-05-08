@@ -89,10 +89,8 @@ void SF_FiguresSetToStart(GlobalTypes_Spieler_t Spieler,
 // Die Branches/Umwege eines Spielers werden gesetzt. Die Wirkung gilt für beide Figuren
 // aber nur, wenn die Figur an der entsprechenden Abzweigung noch nicht vorbei ist.
 // Spieler: "Nummer" des Spielers
-// BranchOn1: true oder false
-// BranchOn2: true oder false
-// BranchOn3: true oder false
-// Nur eine der BranchOn? darf auf true gesetzt werden !!
+// branch: auswahl des zu werändernden Branches
+// status: Bool ob branch ein oder aus ein soll
 void SF_SetBranchPlayer(GlobalTypes_Spieler_t Spieler,
                         SpielfeldLed_Branches_t branch,
                         bool status);
