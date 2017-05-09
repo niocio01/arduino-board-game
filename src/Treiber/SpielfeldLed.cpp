@@ -18,7 +18,7 @@ int SF_Player2_Kreis[SF_K_Steps];
 uint16_t SF_LedWeg[SF_MAX_STEPS];
 
 const uint8_t SF_DIM_helligkeit = 5;
-const uint32_t SF_UpdateDelayS = 200;    // "Wanderzeit" LEDs im Spiel in ms
+const uint32_t SF_UpdateDelayS = 500;    // "Wanderzeit" LEDs im Spiel in ms
 const uint32_t SF_UpdateDelayF = 25;     // "Wanderzeit" der LEDs im Lauflicht
 uint32_t SF_OldTimeS;
 uint32_t SF_OldTimeF;
@@ -142,45 +142,231 @@ void SF_InitData(void)
 
 // Kommentar siehe Headerfile
 // **************************
-bool SF_StartDim(uint8_t Helligkeit)
+bool SF_StartDim(void)
 {
   int Segment;
   int i;
   uint16_t id;
 
-  // Alle LED's Player 1 auf StartDim setzen
-  for (Segment = 0; Segment < SF_MaxSegm; Segment++)
+  // Umwege beleuchten, fals eine figur auf dem weg ist.
+
+  if (SF_Player1_Figure1.BranchOn1 == false or SF_Player1_Figure2.BranchOn1 == false) // P1 B1 normal
   {
-    for (id = SF_dataPlayer1[Segment].StartID, i = 0; i < SF_dataPlayer1[Segment].Steps; i++, id++)
+    for (id = SF_dataPlayer1[SF_SegmIB1].StartID, i = 0; i < SF_dataPlayer1[SF_SegmIB1].Steps; i++, id++)
     {
-      LedTreiber_LedSetzen(id, Weiss, Helligkeit);
+      LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
     }
-    //LedTreiber_LedAnzeigen();
+  }
+  else
+  {
+    for (id = SF_dataPlayer1[SF_SegmIB1].StartID, i = 0; i < SF_dataPlayer1[SF_SegmIB1].Steps; i++, id++)
+    {
+      LedTreiber_LedSetzen(id, Schwarz);
+    }
   }
 
-  // Alle LED's Player 2 auf StartDim setzen
-  for (Segment = 0; Segment < SF_MaxSegm; Segment++)
+  if (SF_Player1_Figure1.BranchOn1 == true or SF_Player1_Figure2.BranchOn1 == true) // P1 B1 umweg
   {
-    for (id = SF_dataPlayer2[Segment].StartID, i = 0; i < SF_dataPlayer2[Segment].Steps; i++, id++)
+    for (id = SF_dataPlayer1[SF_SegmB1].StartID, i = 0; i < SF_dataPlayer1[SF_SegmB1].Steps; i++, id++)
     {
-      LedTreiber_LedSetzen(id, Weiss, Helligkeit);
+      LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
     }
-    //LedTreiber_LedAnzeigen();
+  }
+  else
+  {
+    for (id = SF_dataPlayer1[SF_SegmB1].StartID, i = 0; i < SF_dataPlayer1[SF_SegmB1].Steps; i++, id++)
+    {
+      LedTreiber_LedSetzen(id, Schwarz);
+    }
   }
 
-  // Alle LED's des Kreises setzen
+  if (SF_Player1_Figure1.BranchOn2 == false or SF_Player1_Figure2.BranchOn2 == false) // P1 B2 normal
+  {
+    for (id = SF_dataPlayer1[SF_SegmIB2].StartID, i = 0; i < SF_dataPlayer1[SF_SegmIB2].Steps; i++, id++)
+    {
+      LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+    }
+  }
+  else
+  {
+    for (id = SF_dataPlayer1[SF_SegmIB2].StartID, i = 0; i < SF_dataPlayer1[SF_SegmIB2].Steps; i++, id++)
+    {
+      LedTreiber_LedSetzen(id, Schwarz);
+    }
+  }
+
+  if (SF_Player1_Figure1.BranchOn2 == true or SF_Player1_Figure2.BranchOn2 == true) // P1 B2 umweg
+  {
+    for (id = SF_dataPlayer1[SF_SegmB2].StartID, i = 0; i < SF_dataPlayer1[SF_SegmB2].Steps; i++, id++)
+    {
+      LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+    }
+  }
+  else
+  {
+    for (id = SF_dataPlayer1[SF_SegmB2].StartID, i = 0; i < SF_dataPlayer1[SF_SegmB2].Steps; i++, id++)
+    {
+      LedTreiber_LedSetzen(id, Schwarz);
+    }
+  }
+
+  if (SF_Player1_Figure1.BranchOn3 == false or SF_Player1_Figure2.BranchOn3 == false) // P1 B3 normal
+  {
+    for (id = SF_dataPlayer1[SF_SegmIB3].StartID, i = 0; i < SF_dataPlayer1[SF_SegmIB3].Steps; i++, id++)
+    {
+      LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+    }
+  }
+  else
+  {
+    for (id = SF_dataPlayer1[SF_SegmIB3].StartID, i = 0; i < SF_dataPlayer1[SF_SegmIB3].Steps; i++, id++)
+    {
+      LedTreiber_LedSetzen(id, Schwarz);
+    }
+  }
+
+  if (SF_Player1_Figure1.BranchOn3 == true or SF_Player1_Figure2.BranchOn3 == true) // P1 B3 umweg
+  {
+    for (id = SF_dataPlayer1[SF_SegmB3].StartID, i = 0; i < SF_dataPlayer1[SF_SegmB3].Steps; i++, id++)
+    {
+      LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+    }
+  }
+  else
+  {
+    for (id = SF_dataPlayer1[SF_SegmB3].StartID, i = 0; i < SF_dataPlayer1[SF_SegmB3].Steps; i++, id++)
+    {
+      LedTreiber_LedSetzen(id, Schwarz);
+    }
+  }
+
+// Spieler Zwei
+if (SF_Player2_Figure1.BranchOn1 == false or SF_Player2_Figure2.BranchOn1 == false) // P2 B1 normal
+{
+  for (id = SF_dataPlayer2[SF_SegmIB1].StartID, i = 0; i < SF_dataPlayer2[SF_SegmIB1].Steps; i++, id++)
+  {
+    LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+  }
+}
+else
+{
+  for (id = SF_dataPlayer2[SF_SegmIB1].StartID, i = 0; i < SF_dataPlayer2[SF_SegmIB1].Steps; i++, id++)
+  {
+    LedTreiber_LedSetzen(id, Schwarz);
+  }
+}
+
+if (SF_Player2_Figure1.BranchOn1 == true or SF_Player2_Figure2.BranchOn1 == true) // P2 B1 umweg
+{
+  for (id = SF_dataPlayer2[SF_SegmB1].StartID, i = 0; i < SF_dataPlayer2[SF_SegmB1].Steps; i++, id++)
+  {
+    LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+  }
+}
+else
+{
+  for (id = SF_dataPlayer2[SF_SegmB1].StartID, i = 0; i < SF_dataPlayer2[SF_SegmB1].Steps; i++, id++)
+  {
+    LedTreiber_LedSetzen(id, Schwarz);
+  }
+}
+
+if (SF_Player2_Figure1.BranchOn2 == false or SF_Player2_Figure2.BranchOn2 == false) // P2 B2 normal
+{
+  for (id = SF_dataPlayer2[SF_SegmIB2].StartID, i = 0; i < SF_dataPlayer2[SF_SegmIB2].Steps; i++, id++)
+  {
+    LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+  }
+}
+else
+{
+  for (id = SF_dataPlayer2[SF_SegmIB2].StartID, i = 0; i < SF_dataPlayer2[SF_SegmIB2].Steps; i++, id++)
+  {
+    LedTreiber_LedSetzen(id, Schwarz);
+  }
+}
+
+if (SF_Player2_Figure1.BranchOn2 == true or SF_Player2_Figure2.BranchOn2 == true) // P2 B2 umweg
+{
+  for (id = SF_dataPlayer2[SF_SegmB2].StartID, i = 0; i < SF_dataPlayer2[SF_SegmB2].Steps; i++, id++)
+  {
+    LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+  }
+}
+else
+{
+  for (id = SF_dataPlayer2[SF_SegmB2].StartID, i = 0; i < SF_dataPlayer2[SF_SegmB2].Steps; i++, id++)
+  {
+    LedTreiber_LedSetzen(id, Schwarz);
+  }
+}
+
+if (SF_Player2_Figure1.BranchOn3 == false or SF_Player2_Figure2.BranchOn3 == false) // P2 B3 normal
+{
+  for (id = SF_dataPlayer2[SF_SegmIB3].StartID, i = 0; i < SF_dataPlayer2[SF_SegmIB3].Steps; i++, id++)
+  {
+    LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+  }
+}
+else
+{
+  for (id = SF_dataPlayer2[SF_SegmIB3].StartID, i = 0; i < SF_dataPlayer2[SF_SegmIB3].Steps; i++, id++)
+  {
+    LedTreiber_LedSetzen(id, Schwarz);
+  }
+}
+
+if (SF_Player2_Figure1.BranchOn3 == true or SF_Player2_Figure2.BranchOn3 == true) // P2 B3 umweg
+{
+  for (id = SF_dataPlayer2[SF_SegmB3].StartID, i = 0; i < SF_dataPlayer2[SF_SegmB3].Steps; i++, id++)
+  {
+    LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+  }
+}
+else
+{
+  for (id = SF_dataPlayer2[SF_SegmB3].StartID, i = 0; i < SF_dataPlayer2[SF_SegmB3].Steps; i++, id++)
+  {
+    LedTreiber_LedSetzen(id, Schwarz);
+  }
+}
+
+// Segmente zwischen umwegen anzeigen
+  for (Segment = 0; Segment < SF_MaxSegm; Segment++)
+  {
+    if (Segment == 0 or Segment == 3 or Segment == 6 or Segment == 9)
+    {
+      for (id = SF_dataPlayer1[Segment].StartID, i = 0; i < SF_dataPlayer1[Segment].Steps; i++, id++)
+      {
+        LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+      }
+    }
+  }
+
+  // Spieler Zwei
+  for (Segment = 0; Segment < SF_MaxSegm; Segment++)
+  {
+    if (Segment == 0 or Segment == 3 or Segment == 6 or Segment == 9)
+    {
+      for (id = SF_dataPlayer2[Segment].StartID, i = 0; i < SF_dataPlayer2[Segment].Steps; i++, id++)
+      {
+        LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
+      }
+    }
+  }
+
+  // Alle LED's des Kreises anzeigen setzen
   for (i = 0; i <= SF_K_Steps ; i++)
   {
     id = SF_Player1_Kreis[i];
-    LedTreiber_LedSetzen(id, Weiss, Helligkeit);
+    LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
   }
   for (i = 0; i <= SF_K_Steps ; i++)
   {
     id = SF_Player2_Kreis[i];
-    LedTreiber_LedSetzen(id, Weiss, Helligkeit);
+    LedTreiber_LedSetzen(id, Weiss, SF_DIM_helligkeit);
   }
 
-  LedTreiber_LedAnzeigen();
   return(true);
 }
 
@@ -267,6 +453,7 @@ void SF_FiguresSetToStart(GlobalTypes_Spieler_t Spieler,
 void SF_SetSpielfeldOff(void)
 {
   SF_ShowPlayerAktiv = false;
+  LedTreiber_MapBlack();
 }// end of SF_SetSpielfeldOff()
 
 
@@ -537,21 +724,23 @@ void SF_OperateSpielfeld_Main(void)
   {
     SF_OldTimeS = millis();
 
+    SF_StartDim();
+
     if(SF_FigureMoving)
     {
       // Alte Position löschen
       // ---------------------
       if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureEins)) {
-        LedTreiber_LedSchalten(SF_Player1_Figure1.ActLEDid, Weiss, SF_DIM_helligkeit);
+        LedTreiber_LedSetzen(SF_Player1_Figure1.ActLEDid, Weiss, SF_DIM_helligkeit);
       }
       if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureZwei)) {
-        LedTreiber_LedSchalten(SF_Player1_Figure2.ActLEDid, Weiss, SF_DIM_helligkeit);
+        LedTreiber_LedSetzen(SF_Player1_Figure2.ActLEDid, Weiss, SF_DIM_helligkeit);
       }
       if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureEins)) {
-        LedTreiber_LedSchalten(SF_Player2_Figure1.ActLEDid, Weiss, SF_DIM_helligkeit);
+        LedTreiber_LedSetzen(SF_Player2_Figure1.ActLEDid, Weiss, SF_DIM_helligkeit);
       }
       if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureZwei)) {
-        LedTreiber_LedSchalten(SF_Player2_Figure2.ActLEDid, Weiss, SF_DIM_helligkeit);
+        LedTreiber_LedSetzen(SF_Player2_Figure2.ActLEDid, Weiss, SF_DIM_helligkeit);
       }
 
       // Neue Position setzten
@@ -611,7 +800,7 @@ void SF_OperateSpielfeld_Main(void)
         SF_Player1Fig1Aktiv = false;
         if(SF_Player1_Figure1.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
         {
-          LedTreiber_LedSchalten(SF_Player1_Figure1.ActLEDid,
+          LedTreiber_LedSetzen(SF_Player1_Figure1.ActLEDid,
                                  SF_Player1_Figure1.Farbe,
                                  SF_Player1_Figure1.Helligkeit);
         }
@@ -621,7 +810,7 @@ void SF_OperateSpielfeld_Main(void)
         SF_Player1Fig1Aktiv = true;
         if(SF_Player1_Figure2.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
         {
-          LedTreiber_LedSchalten(SF_Player1_Figure2.ActLEDid,
+          LedTreiber_LedSetzen(SF_Player1_Figure2.ActLEDid,
                                  SF_Player1_Figure2.Farbe,
                                  SF_Player1_Figure2.Helligkeit);
         }
@@ -631,13 +820,13 @@ void SF_OperateSpielfeld_Main(void)
     {
       if(SF_Player1_Figure1.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
       {
-        LedTreiber_LedSchalten(SF_Player1_Figure1.ActLEDid,
+        LedTreiber_LedSetzen(SF_Player1_Figure1.ActLEDid,
                                SF_Player1_Figure1.Farbe,
                                SF_Player1_Figure1.Helligkeit);
       }
       if(SF_Player1_Figure2.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
       {
-        LedTreiber_LedSchalten(SF_Player1_Figure2.ActLEDid,
+        LedTreiber_LedSetzen(SF_Player1_Figure2.ActLEDid,
                                SF_Player1_Figure2.Farbe,
                                SF_Player1_Figure2.Helligkeit);
       }
@@ -653,7 +842,7 @@ void SF_OperateSpielfeld_Main(void)
         SF_Player2Fig1Aktiv = false;
         if(SF_Player2_Figure1.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
         {
-          LedTreiber_LedSchalten(SF_Player2_Figure1.ActLEDid,
+          LedTreiber_LedSetzen(SF_Player2_Figure1.ActLEDid,
                                  SF_Player2_Figure1.Farbe,
                                  SF_Player2_Figure1.Helligkeit);
         }
@@ -663,7 +852,7 @@ void SF_OperateSpielfeld_Main(void)
         SF_Player2Fig1Aktiv = true;
         if(SF_Player2_Figure2.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
         {
-          LedTreiber_LedSchalten(SF_Player2_Figure2.ActLEDid,
+          LedTreiber_LedSetzen(SF_Player2_Figure2.ActLEDid,
                                  SF_Player2_Figure2.Farbe,
                                  SF_Player2_Figure2.Helligkeit);
         }
@@ -673,13 +862,13 @@ void SF_OperateSpielfeld_Main(void)
     {
       if(SF_Player2_Figure1.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
       {
-        LedTreiber_LedSchalten(SF_Player2_Figure1.ActLEDid,
+        LedTreiber_LedSetzen(SF_Player2_Figure1.ActLEDid,
                                SF_Player2_Figure1.Farbe,
                                SF_Player2_Figure1.Helligkeit);
       }
       if(SF_Player2_Figure2.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
       {
-        LedTreiber_LedSchalten(SF_Player2_Figure2.ActLEDid,
+        LedTreiber_LedSetzen(SF_Player2_Figure2.ActLEDid,
                                SF_Player2_Figure2.Farbe,
                                SF_Player2_Figure2.Helligkeit);
       }
@@ -691,7 +880,7 @@ void SF_OperateSpielfeld_Main(void)
     {
       if(SF_Player1_Figure1.ActLEDid == SF_Player1_Kreis[SF_K_Steps-1])
       {
-        LedTreiber_LedSchalten(SF_Player1_Figure1.ActLEDid,
+        LedTreiber_LedSetzen(SF_Player1_Figure1.ActLEDid,
                                SF_Player1_Figure1.Farbe,
                                SF_Player1_Figure1.Helligkeit);
       }
@@ -700,7 +889,7 @@ void SF_OperateSpielfeld_Main(void)
     {
       if(SF_Player1_Figure2.ActLEDid == SF_Player1_Kreis[SF_K_Steps-1])
       {
-        LedTreiber_LedSchalten(SF_Player1_Figure2.ActLEDid,
+        LedTreiber_LedSetzen(SF_Player1_Figure2.ActLEDid,
                                SF_Player1_Figure2.Farbe,
                                SF_Player1_Figure2.Helligkeit);
       }
@@ -709,7 +898,7 @@ void SF_OperateSpielfeld_Main(void)
     {
       if(SF_Player2_Figure1.ActLEDid == SF_Player2_Kreis[SF_K_Steps-1])
       {
-        LedTreiber_LedSchalten(SF_Player2_Figure1.ActLEDid,
+        LedTreiber_LedSetzen(SF_Player2_Figure1.ActLEDid,
                                SF_Player2_Figure1.Farbe,
                                SF_Player2_Figure1.Helligkeit);
       }
@@ -718,7 +907,7 @@ void SF_OperateSpielfeld_Main(void)
     {
       if(SF_Player2_Figure2.ActLEDid == SF_Player2_Kreis[SF_K_Steps-1])
       {
-        LedTreiber_LedSchalten(SF_Player2_Figure2.ActLEDid,
+        LedTreiber_LedSetzen(SF_Player2_Figure2.ActLEDid,
                                SF_Player2_Figure2.Farbe,
                                SF_Player2_Figure2.Helligkeit);
       }
@@ -727,7 +916,7 @@ void SF_OperateSpielfeld_Main(void)
     if(SF_LastLedCounter > 3) SF_LastLedCounter = 0;
 
   } // end of Teil Anzeige "Spielfiguren"
-
+  LedTreiber_LedAnzeigen();
 
   // LED Lauflicht durchlaufen
   // Update erfolgt alle SF_UpdateDelayF ms

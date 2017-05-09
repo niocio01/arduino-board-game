@@ -32,6 +32,8 @@ void LedTreiber_LedAnzeigen(void);
 /* function: LedTreiber_AllBlack:
 schaltet alle LEDs aus.
 */
+void LedTreiber_MapBlack(void);
+
 void LedTreiber_AllBlack(void);
 
 void LedTreiber_ControllsBlack(void);

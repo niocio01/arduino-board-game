@@ -11,6 +11,7 @@
 #include "Treiber/TasterLed.h"
 #include "Treiber/TasterHandler.h"
 #include "Karten/Buffs/AktiveBuffsAnzeigen.h"
+#include "Treiber/SpielfeldLed.h"
 
 uint8_t freeSteps = 1; // Anzahl schritte welche pro zug gratis gamacht werden können
 
@@ -104,6 +105,7 @@ void KartenManager_Main(void)
       else // für Minigames
       {
         minigameInProgress = true;
+        SF_SetSpielfeldOff();
         switch (kartenNrValue) {
 
           case 97:

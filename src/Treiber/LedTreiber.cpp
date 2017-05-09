@@ -25,9 +25,17 @@ void LedTreiber_LedAnzeigen(void)
   pixels.show();
 }
 
+void LedTreiber_MapBlack(void)
+{
+  for (uint16_t i = 0; i <= 252; i++)
+  {
+    pixels.setPixelColor(i, 0, 0, 0);
+  }
+}
+
 void LedTreiber_AllBlack(void)
 {
-  for (uint16_t i = 0; i < 252; i++)
+  for (uint16_t i = 0; i <= 252; i++)
   {
     pixels.setPixelColor(i, 0, 0, 0);
   }

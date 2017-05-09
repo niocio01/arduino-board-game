@@ -107,7 +107,6 @@ void IRTreiber_Main(void)
           break;
 
           case IR_BUTTON_1:
-          SF_StartDim(5);
           break;
 
           case IR_BUTTON_2:

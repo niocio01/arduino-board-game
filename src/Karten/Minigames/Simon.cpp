@@ -11,8 +11,8 @@
 const uint8_t laengeStartSequenz = 3;
 const uint8_t DimHelligkeit = 10;
 const uint8_t BrightHelligkeit = 100;
-const uint16_t ZeitZwischenFarben = 1000;
-const uint16_t AnzeigedauerFarbe = 500;
+const uint16_t ZeitZwischenFarben = 500;
+const uint16_t AnzeigedauerFarbe = 100;
 
 GlobalTypes_Spieler_t aktiverSpieler;
 Messages_values leer6;

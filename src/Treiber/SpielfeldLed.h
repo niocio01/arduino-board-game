@@ -58,7 +58,7 @@ void SF_InitData(void);
 // Funktion ist "blockierend"
 // "Helligkeit" gilt für alle LED's
 // Return true, wenn abgeschlossen
-bool SF_StartDim(uint8_t Helligkeit);
+bool SF_StartDim(void);
 
 
 // Lauflicht über alle LED's auf dem Spielfeld
