@@ -720,94 +720,112 @@ void SF_OperateSpielfeld_Main(void)
 
   // LED im Spielfeld abhängig von Spieler und Figur anzeigen
   // Update erfolgt alle SF_UpdateDelayS ms
-  if (((millis() - SF_OldTimeS) > SF_UpdateDelayS) && SF_ShowPlayerAktiv)
+  if (SF_ShowPlayerAktiv)
   {
-    SF_OldTimeS = millis();
-
-    SF_StartDim();
-
-    if(SF_FigureMoving)
+    if ((millis() - SF_OldTimeS) > SF_UpdateDelayS)
     {
-      // Alte Position löschen
-      // ---------------------
-      if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureEins)) {
-        LedTreiber_LedSetzen(SF_Player1_Figure1.ActLEDid, Weiss, SF_DIM_helligkeit);
-      }
-      if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureZwei)) {
-        LedTreiber_LedSetzen(SF_Player1_Figure2.ActLEDid, Weiss, SF_DIM_helligkeit);
-      }
-      if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureEins)) {
-        LedTreiber_LedSetzen(SF_Player2_Figure1.ActLEDid, Weiss, SF_DIM_helligkeit);
-      }
-      if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureZwei)) {
-        LedTreiber_LedSetzen(SF_Player2_Figure2.ActLEDid, Weiss, SF_DIM_helligkeit);
-      }
+      SF_OldTimeS = millis();
 
-      // Neue Position setzten
-      // ---------------------
-      if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureEins))
-      {
-        SF_Player1_Figure1.ActPos++;
-        SF_Player1_Figure1.ActLEDid = SF_LedWeg[SF_Player1_Figure1.ActPos];
-        SF_Player1Fig1Aktiv = true;
-      }
-      if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureZwei))
-      {
-        SF_Player1_Figure2.ActPos++;
-        SF_Player1_Figure2.ActLEDid = SF_LedWeg[SF_Player1_Figure2.ActPos];
-        SF_Player1Fig1Aktiv = false;
-      }
-      if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureEins))
-      {
-        SF_Player2_Figure1.ActPos++;
-        SF_Player2_Figure1.ActLEDid = SF_LedWeg[SF_Player2_Figure1.ActPos];
-        SF_Player2Fig1Aktiv = true;
-      }
-      if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureZwei))
-      {
-        SF_Player2_Figure2.ActPos++;
-        SF_Player2_Figure2.ActLEDid = SF_LedWeg[SF_Player2_Figure2.ActPos];
-        SF_Player2Fig1Aktiv = false;
-      }
+      SF_StartDim();
 
-      // Kontrolle ob Moving abgeschlossen
-      // ---------------------------------
-      if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureEins))
+      if(SF_FigureMoving)
       {
-        if(SF_Player1_Figure1.ActPos >= SF_Player1_Figure1.NewPos) { SF_FigureMoving = false; }
-      }
-      if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureZwei))
-      {
-        if(SF_Player1_Figure2.ActPos >= SF_Player1_Figure2.NewPos) { SF_FigureMoving = false; }
-      }
-      if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureEins))
-      {
-        if(SF_Player2_Figure1.ActPos >= SF_Player2_Figure1.NewPos) { SF_FigureMoving = false; }
-      }
-      if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureZwei))
-      {
-        if(SF_Player2_Figure2.ActPos >= SF_Player2_Figure2.NewPos) { SF_FigureMoving = false; }
-      }
-    }// end of if(SF_FigureMoving)
+        // Alte Position löschen
+        // ---------------------
+        if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureEins)) {
+          LedTreiber_LedSetzen(SF_Player1_Figure1.ActLEDid, Weiss, SF_DIM_helligkeit);
+        }
+        if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureZwei)) {
+          LedTreiber_LedSetzen(SF_Player1_Figure2.ActLEDid, Weiss, SF_DIM_helligkeit);
+        }
+        if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureEins)) {
+          LedTreiber_LedSetzen(SF_Player2_Figure1.ActLEDid, Weiss, SF_DIM_helligkeit);
+        }
+        if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureZwei)) {
+          LedTreiber_LedSetzen(SF_Player2_Figure2.ActLEDid, Weiss, SF_DIM_helligkeit);
+        }
+
+        // Neue Position setzten
+        // ---------------------
+        if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureEins))
+        {
+          SF_Player1_Figure1.ActPos++;
+          SF_Player1_Figure1.ActLEDid = SF_LedWeg[SF_Player1_Figure1.ActPos];
+          SF_Player1Fig1Aktiv = true;
+        }
+        if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureZwei))
+        {
+          SF_Player1_Figure2.ActPos++;
+          SF_Player1_Figure2.ActLEDid = SF_LedWeg[SF_Player1_Figure2.ActPos];
+          SF_Player1Fig1Aktiv = false;
+        }
+        if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureEins))
+        {
+          SF_Player2_Figure1.ActPos++;
+          SF_Player2_Figure1.ActLEDid = SF_LedWeg[SF_Player2_Figure1.ActPos];
+          SF_Player2Fig1Aktiv = true;
+        }
+        if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureZwei))
+        {
+          SF_Player2_Figure2.ActPos++;
+          SF_Player2_Figure2.ActLEDid = SF_LedWeg[SF_Player2_Figure2.ActPos];
+          SF_Player2Fig1Aktiv = false;
+        }
+
+        // Kontrolle ob Moving abgeschlossen
+        // ---------------------------------
+        if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureEins))
+        {
+          if(SF_Player1_Figure1.ActPos >= SF_Player1_Figure1.NewPos) { SF_FigureMoving = false; }
+        }
+        if ((SF_ActSpieler == SpielerEins) && (SF_ActFigur == FigureZwei))
+        {
+          if(SF_Player1_Figure2.ActPos >= SF_Player1_Figure2.NewPos) { SF_FigureMoving = false; }
+        }
+        if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureEins))
+        {
+          if(SF_Player2_Figure1.ActPos >= SF_Player2_Figure1.NewPos) { SF_FigureMoving = false; }
+        }
+        if ((SF_ActSpieler == SpielerZwei) && (SF_ActFigur == FigureZwei))
+        {
+          if(SF_Player2_Figure2.ActPos >= SF_Player2_Figure2.NewPos) { SF_FigureMoving = false; }
+        }
+      }// end of if(SF_FigureMoving)
 
 
-    // Anzeige LED Player 1
-    // ------------------------------------------------
-    if(SF_Player1_Figure1.ActLEDid == SF_Player1_Figure2.ActLEDid)
-    {
-      if(SF_Player1Fig1Aktiv == true)
+      // Anzeige LED Player 1
+      // ------------------------------------------------
+      if(SF_Player1_Figure1.ActLEDid == SF_Player1_Figure2.ActLEDid)
       {
-        SF_Player1Fig1Aktiv = false;
+        if(SF_Player1Fig1Aktiv == true)
+        {
+          SF_Player1Fig1Aktiv = false;
+          if(SF_Player1_Figure1.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
+          {
+            LedTreiber_LedSetzen(SF_Player1_Figure1.ActLEDid,
+                                   SF_Player1_Figure1.Farbe,
+                                   SF_Player1_Figure1.Helligkeit);
+          }
+        }
+        else
+        {
+          SF_Player1Fig1Aktiv = true;
+          if(SF_Player1_Figure2.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
+          {
+            LedTreiber_LedSetzen(SF_Player1_Figure2.ActLEDid,
+                                   SF_Player1_Figure2.Farbe,
+                                   SF_Player1_Figure2.Helligkeit);
+          }
+        }
+      }
+      else
+      {
         if(SF_Player1_Figure1.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
         {
           LedTreiber_LedSetzen(SF_Player1_Figure1.ActLEDid,
                                  SF_Player1_Figure1.Farbe,
                                  SF_Player1_Figure1.Helligkeit);
         }
-      }
-      else
-      {
-        SF_Player1Fig1Aktiv = true;
         if(SF_Player1_Figure2.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
         {
           LedTreiber_LedSetzen(SF_Player1_Figure2.ActLEDid,
@@ -815,41 +833,41 @@ void SF_OperateSpielfeld_Main(void)
                                  SF_Player1_Figure2.Helligkeit);
         }
       }
-    }
-    else
-    {
-      if(SF_Player1_Figure1.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
-      {
-        LedTreiber_LedSetzen(SF_Player1_Figure1.ActLEDid,
-                               SF_Player1_Figure1.Farbe,
-                               SF_Player1_Figure1.Helligkeit);
-      }
-      if(SF_Player1_Figure2.ActLEDid != SF_Player1_Kreis[SF_K_Steps-1])
-      {
-        LedTreiber_LedSetzen(SF_Player1_Figure2.ActLEDid,
-                               SF_Player1_Figure2.Farbe,
-                               SF_Player1_Figure2.Helligkeit);
-      }
-    }
 
 
-    // Anzeige LED Player 2
-    // ------------------------------------------------
-    if(SF_Player2_Figure1.ActLEDid == SF_Player2_Figure2.ActLEDid)
-    {
-      if(SF_Player2Fig1Aktiv == true)
+      // Anzeige LED Player 2
+      // ------------------------------------------------
+      if(SF_Player2_Figure1.ActLEDid == SF_Player2_Figure2.ActLEDid)
       {
-        SF_Player2Fig1Aktiv = false;
+        if(SF_Player2Fig1Aktiv == true)
+        {
+          SF_Player2Fig1Aktiv = false;
+          if(SF_Player2_Figure1.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
+          {
+            LedTreiber_LedSetzen(SF_Player2_Figure1.ActLEDid,
+                                   SF_Player2_Figure1.Farbe,
+                                   SF_Player2_Figure1.Helligkeit);
+          }
+        }
+        else
+        {
+          SF_Player2Fig1Aktiv = true;
+          if(SF_Player2_Figure2.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
+          {
+            LedTreiber_LedSetzen(SF_Player2_Figure2.ActLEDid,
+                                   SF_Player2_Figure2.Farbe,
+                                   SF_Player2_Figure2.Helligkeit);
+          }
+        }
+      }
+      else
+      {
         if(SF_Player2_Figure1.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
         {
           LedTreiber_LedSetzen(SF_Player2_Figure1.ActLEDid,
                                  SF_Player2_Figure1.Farbe,
                                  SF_Player2_Figure1.Helligkeit);
         }
-      }
-      else
-      {
-        SF_Player2Fig1Aktiv = true;
         if(SF_Player2_Figure2.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
         {
           LedTreiber_LedSetzen(SF_Player2_Figure2.ActLEDid,
@@ -857,88 +875,71 @@ void SF_OperateSpielfeld_Main(void)
                                  SF_Player2_Figure2.Helligkeit);
         }
       }
-    }
-    else
-    {
-      if(SF_Player2_Figure1.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
-      {
-        LedTreiber_LedSetzen(SF_Player2_Figure1.ActLEDid,
-                               SF_Player2_Figure1.Farbe,
-                               SF_Player2_Figure1.Helligkeit);
-      }
-      if(SF_Player2_Figure2.ActLEDid != SF_Player2_Kreis[SF_K_Steps-1])
-      {
-        LedTreiber_LedSetzen(SF_Player2_Figure2.ActLEDid,
-                               SF_Player2_Figure2.Farbe,
-                               SF_Player2_Figure2.Helligkeit);
-      }
-    }
 
-    // Wechselanzeige beim Ziel
-    // ------------------------
-    if(SF_LastLedCounter == 0)
-    {
-      if(SF_Player1_Figure1.ActLEDid == SF_Player1_Kreis[SF_K_Steps-1])
+      // Wechselanzeige beim Ziel
+      // ------------------------
+      if(SF_LastLedCounter == 0)
       {
-        LedTreiber_LedSetzen(SF_Player1_Figure1.ActLEDid,
-                               SF_Player1_Figure1.Farbe,
-                               SF_Player1_Figure1.Helligkeit);
+        if(SF_Player1_Figure1.ActLEDid == SF_Player1_Kreis[SF_K_Steps-1])
+        {
+          LedTreiber_LedSetzen(SF_Player1_Figure1.ActLEDid,
+                                 SF_Player1_Figure1.Farbe,
+                                 SF_Player1_Figure1.Helligkeit);
+        }
       }
-    }
-    if(SF_LastLedCounter == 1)
-    {
-      if(SF_Player1_Figure2.ActLEDid == SF_Player1_Kreis[SF_K_Steps-1])
+      if(SF_LastLedCounter == 1)
       {
-        LedTreiber_LedSetzen(SF_Player1_Figure2.ActLEDid,
-                               SF_Player1_Figure2.Farbe,
-                               SF_Player1_Figure2.Helligkeit);
+        if(SF_Player1_Figure2.ActLEDid == SF_Player1_Kreis[SF_K_Steps-1])
+        {
+          LedTreiber_LedSetzen(SF_Player1_Figure2.ActLEDid,
+                                 SF_Player1_Figure2.Farbe,
+                                 SF_Player1_Figure2.Helligkeit);
+        }
       }
-    }
-    if(SF_LastLedCounter == 2)
-    {
-      if(SF_Player2_Figure1.ActLEDid == SF_Player2_Kreis[SF_K_Steps-1])
+      if(SF_LastLedCounter == 2)
       {
-        LedTreiber_LedSetzen(SF_Player2_Figure1.ActLEDid,
-                               SF_Player2_Figure1.Farbe,
-                               SF_Player2_Figure1.Helligkeit);
+        if(SF_Player2_Figure1.ActLEDid == SF_Player2_Kreis[SF_K_Steps-1])
+        {
+          LedTreiber_LedSetzen(SF_Player2_Figure1.ActLEDid,
+                                 SF_Player2_Figure1.Farbe,
+                                 SF_Player2_Figure1.Helligkeit);
+        }
       }
-    }
-    if(SF_LastLedCounter == 3)
-    {
-      if(SF_Player2_Figure2.ActLEDid == SF_Player2_Kreis[SF_K_Steps-1])
+      if(SF_LastLedCounter == 3)
       {
-        LedTreiber_LedSetzen(SF_Player2_Figure2.ActLEDid,
-                               SF_Player2_Figure2.Farbe,
-                               SF_Player2_Figure2.Helligkeit);
+        if(SF_Player2_Figure2.ActLEDid == SF_Player2_Kreis[SF_K_Steps-1])
+        {
+          LedTreiber_LedSetzen(SF_Player2_Figure2.ActLEDid,
+                                 SF_Player2_Figure2.Farbe,
+                                 SF_Player2_Figure2.Helligkeit);
+        }
       }
-    }
-    SF_LastLedCounter++;
-    if(SF_LastLedCounter > 3) SF_LastLedCounter = 0;
+      SF_LastLedCounter++;
+      if(SF_LastLedCounter > 3) SF_LastLedCounter = 0;
 
-  } // end of Teil Anzeige "Spielfiguren"
-  LedTreiber_LedAnzeigen();
+    } // end of Teil Anzeige "Spielfiguren"
+    LedTreiber_LedAnzeigen();
 
-  // LED Lauflicht durchlaufen
-  // Update erfolgt alle SF_UpdateDelayF ms
-  if ((millis() - SF_OldTimeF) > SF_UpdateDelayF)
-  {
-    SF_OldTimeF = millis();
-
+    // LED Lauflicht durchlaufen
+    // Update erfolgt alle SF_UpdateDelayF ms
     if(SF_LauflichtAktiv == true)
     {
-      LedTreiber_LedSetzen(SF_LauflichtCounter,
-                           SF_LauflichtFarbe,
-                           SF_LauflichtHelligkeit);
-      LedTreiber_LedAnzeigen();
-      SF_LauflichtCounter++;
-
-      if(SF_LauflichtCounter >= SF_TOT_LEDS)
+      if ((millis() - SF_OldTimeF) > SF_UpdateDelayF)
       {
-        SF_LauflichtAktiv = false;
-      }
-    }
-  }// end of Teil Lauflicht
+        SF_OldTimeF = millis();
+        LedTreiber_LedSetzen(SF_LauflichtCounter,
+                             SF_LauflichtFarbe,
+                             SF_LauflichtHelligkeit);
+        LedTreiber_LedAnzeigen();
+        SF_LauflichtCounter++;
 
+        if(SF_LauflichtCounter >= SF_TOT_LEDS)
+        {
+          SF_LauflichtAktiv = false;
+        }
+      }
+    }// end of Teil Lauflicht
+  }
 }// end of SF_OperateSpielfeld_Main()
 
 

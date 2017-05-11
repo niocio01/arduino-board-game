@@ -9,10 +9,11 @@
 #include "arduino.h"
 
 const uint8_t laengeStartSequenz = 3;
-const uint8_t DimHelligkeit = 10;
-const uint8_t BrightHelligkeit = 100;
-const uint16_t ZeitZwischenFarben = 500;
-const uint16_t AnzeigedauerFarbe = 100;
+const uint8_t DimHelligkeit = 10; // helligkeit die nicht aktive felder erhalten
+const uint8_t BrightHelligkeit = 100; // helligkeit die aktive felder erhalten
+const uint16_t ZeitZwischenFarben = 800;
+const uint16_t AnzeigedauerFarbe = 500;
+const uint16_t ZeitZwischenSequenzen = 10000;
 
 GlobalTypes_Spieler_t aktiverSpieler;
 Messages_values leer6;
@@ -22,6 +23,7 @@ const uint8_t rot = 1;
 const uint8_t gruen = 2;
 const uint8_t gelb = 3;
 const uint8_t blau = 4;
+const uint8_t alle = 5;
 
 
 const uint8_t ID_1 = 0;
@@ -44,7 +46,8 @@ uint8_t sequence[20];
 static uint8_t SequenzLaenge;
 static uint8_t aktuellerSequenzZeigeSchritt;
 static uint8_t aktuellerSequenzLoeseSchritt;
-static uint32_t lastUpdateTime;
+static uint32_t currentTime;
+static uint32_t lastFarbeTime;
 static uint32_t lastColorChange;
 static uint8_t aktuelleFarbe = 0;
 static uint8_t alteFarbe = 0;
@@ -95,8 +98,8 @@ void Simon_Run(void)
     {
       TasterLed_Setzen(aktiverSpieler, LedEins, Rot);
       TasterLed_Setzen(aktiverSpieler, LedZwei, Gruen);
-      TasterLed_Setzen(aktiverSpieler, LedDrei, Gelb);
-      TasterLed_Setzen(aktiverSpieler, LedVier, Blau);
+      TasterLed_Setzen(aktiverSpieler, LedDrei, Blau);
+      TasterLed_Setzen(aktiverSpieler, LedVier, Gelb);
       FirstPlayerMSGBestaetigt = true;
     }
   }
@@ -128,9 +131,9 @@ void Simon_Run(void)
     {
       if (aktuellerSequenzZeigeSchritt <= SequenzLaenge)
       {
-        if ((millis() - lastUpdateTime) > ZeitZwischenFarben)
+        if (currentTime - lastFarbeTime > ZeitZwischenFarben)
         {
-          lastUpdateTime = millis();
+          lastFarbeTime = currentTime;
           aktuelleFarbe = sequence[aktuellerSequenzZeigeSchritt];
           aktuellerSequenzZeigeSchritt ++;
         }
@@ -144,7 +147,7 @@ void Simon_Run(void)
 
     if (sequenzNachmachen)
     {
-      uint8_t aktuelleAuswahl;
+      uint8_t aktuelleAuswahl = 0;
 
       if (TasterHandler_Klick(aktiverSpieler, TasterEins))
       {
@@ -158,27 +161,28 @@ void Simon_Run(void)
       }
       if (TasterHandler_Klick(aktiverSpieler, TasterDrei))
       {
-        aktuelleFarbe = gelb;
-        aktuelleAuswahl = gelb;
-      }
-      if (TasterHandler_Klick(aktiverSpieler, TasterVier))
-      {
         aktuelleFarbe = blau;
         aktuelleAuswahl = blau;
       }
-      if (aktuelleAuswahl)
+      if (TasterHandler_Klick(aktiverSpieler, TasterVier))
+      {
+        aktuelleFarbe = gelb;
+        aktuelleAuswahl = gelb;
+      }
+      if (aktuelleAuswahl != 0)
       {
         if (aktuelleAuswahl == sequence[aktuellerSequenzLoeseSchritt])
         {
           aktuellerSequenzLoeseSchritt ++;
 
-          if (aktuellerSequenzLoeseSchritt == SequenzLaenge)
+          if (aktuellerSequenzLoeseSchritt == SequenzLaenge) // sequenz gelöst
           {
             playSequence = true;
             addToSequence = true;
             sequenzNachmachen = false;
             aktuellerSequenzLoeseSchritt = 0;
-            lastUpdateTime = millis() + 2000;
+            aktuelleFarbe = alle;
+            lastFarbeTime = millis() + 120000;
 
             if (aktiverSpieler == SpielerEins)
             {
@@ -209,9 +213,11 @@ void Simon_Run(void)
 
 void Simon_ShowColor_Run(void)
 {
-  if (((millis() - lastColorChange) > AnzeigedauerFarbe) or aktuelleFarbe != alteFarbe)
+  currentTime = millis();
+
+  if ((currentTime - lastColorChange) > AnzeigedauerFarbe or aktuelleFarbe != alteFarbe)
   {
-    if ((millis() - lastColorChange) > AnzeigedauerFarbe)
+    if ((currentTime - lastColorChange) > AnzeigedauerFarbe)
     {
       aktuelleFarbe = keine;
       alteFarbe = keine;
@@ -222,7 +228,7 @@ void Simon_ShowColor_Run(void)
       alteFarbe = aktuelleFarbe;
     }
 
-    lastColorChange = millis();
+    lastColorChange = currentTime;
 
     switch (aktuelleFarbe)
     {
@@ -276,6 +282,16 @@ void Simon_ShowColor_Run(void)
         LedTreiber_LedSetzen(FeldBlau[i], Blau, BrightHelligkeit);
       }
       break;
+
+      case alle:
+      for (uint8_t i = 0; i <= 10 ; i++)
+      {
+        LedTreiber_LedSetzen(FeldRot[i], Rot, BrightHelligkeit);
+        LedTreiber_LedSetzen(FeldGruen[i], Gruen, BrightHelligkeit);
+        LedTreiber_LedSetzen(FeldGelb[i], Gelb, BrightHelligkeit);
+        LedTreiber_LedSetzen(FeldBlau[i], Blau, BrightHelligkeit);
+      }
+      break;
     }
     LedTreiber_LedAnzeigen();
   }
@@ -296,39 +312,39 @@ void Simon_InitData(void)
   FeldRot[ID_10] = 251;
   FeldRot[ID_11] = 252;
 
-  FeldGruen[ID_1] = 198;
-  FeldGruen[ID_2] = 208;
-  FeldGruen[ID_3] = 209;
-  FeldGruen[ID_4] = 222;
-  FeldGruen[ID_5] = 223;
-  FeldGruen[ID_6] = 224;
-  FeldGruen[ID_7] = 242;
-  FeldGruen[ID_8] = 243;
-  FeldGruen[ID_9] = 244;
-  FeldGruen[ID_10] = 245;
-  FeldGruen[ID_11] = 246;
+  FeldGruen[ID_1] = 194;
+  FeldGruen[ID_2] = 202;
+  FeldGruen[ID_3] = 203;
+  FeldGruen[ID_4] = 214;
+  FeldGruen[ID_5] = 215;
+  FeldGruen[ID_6] = 216;
+  FeldGruen[ID_7] = 230;
+  FeldGruen[ID_8] = 231;
+  FeldGruen[ID_9] = 232;
+  FeldGruen[ID_10] = 233;
+  FeldGruen[ID_11] = 234;
 
-  FeldGelb[ID_1] = 196;
-  FeldGelb[ID_2] = 205;
-  FeldGelb[ID_3] = 206;
-  FeldGelb[ID_4] = 218;
-  FeldGelb[ID_5] = 219;
-  FeldGelb[ID_6] = 220;
-  FeldGelb[ID_7] = 236;
-  FeldGelb[ID_8] = 237;
-  FeldGelb[ID_9] = 238;
-  FeldGelb[ID_10] = 239;
-  FeldGelb[ID_11] = 240;
+  FeldGelb[ID_1] = 198;
+  FeldGelb[ID_2] = 208;
+  FeldGelb[ID_3] = 209;
+  FeldGelb[ID_4] = 222;
+  FeldGelb[ID_5] = 223;
+  FeldGelb[ID_6] = 224;
+  FeldGelb[ID_7] = 242;
+  FeldGelb[ID_8] = 243;
+  FeldGelb[ID_9] = 244;
+  FeldGelb[ID_10] = 245;
+  FeldGelb[ID_11] = 246;
 
-  FeldBlau[ID_1] = 194;
-  FeldBlau[ID_2] = 202;
-  FeldBlau[ID_3] = 203;
-  FeldBlau[ID_4] = 214;
-  FeldBlau[ID_5] = 215;
-  FeldBlau[ID_6] = 216;
-  FeldBlau[ID_7] = 230;
-  FeldBlau[ID_8] = 231;
-  FeldBlau[ID_9] = 232;
-  FeldBlau[ID_10] = 233;
-  FeldBlau[ID_11] = 234;
+  FeldBlau[ID_1] = 196;
+  FeldBlau[ID_2] = 205;
+  FeldBlau[ID_3] = 206;
+  FeldBlau[ID_4] = 218;
+  FeldBlau[ID_5] = 219;
+  FeldBlau[ID_6] = 220;
+  FeldBlau[ID_7] = 236;
+  FeldBlau[ID_8] = 237;
+  FeldBlau[ID_9] = 238;
+  FeldBlau[ID_10] = 239;
+  FeldBlau[ID_11] = 240;
 }

@@ -27,5 +27,4 @@ void loop()
   KartenManager_Main();
   IRTreiber_Main();
   SF_OperateSpielfeld_Main();
-  //SpeakerTreiber_main();
 }

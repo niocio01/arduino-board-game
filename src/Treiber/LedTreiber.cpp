@@ -12,7 +12,7 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ80
 bool LedTreiber_Startup(void)
 {
   pixels.begin();
-  for (uint16_t i = 0; i < NUMPIXELS + 1 ; i++)
+  for (uint16_t i = 0; i <= NUMPIXELS ; i++)
   {
     pixels.setPixelColor(i, 0, 0, 0);
   }
