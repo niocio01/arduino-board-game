@@ -25,12 +25,12 @@ uint32_t SF_OldTimeS;
 uint32_t SF_OldTimeB;
 uint32_t SF_OldTimeF;
 
-static bool BranchOn1_P1;
-static bool BranchOn2_P1;
-static bool BranchOn3_P1;
-static bool BranchOn1_P2;
-static bool BranchOn2_P2;
-static bool BranchOn3_P2;
+static bool BranchOn1_P1 = false;       // mit false initialisiert
+static bool BranchOn2_P1 = false;
+static bool BranchOn3_P1 = false;
+static bool BranchOn1_P2 = false;
+static bool BranchOn2_P2 = false;
+static bool BranchOn3_P2 = false;
 
 static bool branchesChanged = true;
 
@@ -529,8 +529,16 @@ branchesChanged = true;
       break;
     }
   }
-  SF_SetBranchPlayerFigure(Spieler, FigureEins, BranchOn1_P1, BranchOn2_P1, BranchOn3_P1);
-  SF_SetBranchPlayerFigure(Spieler, FigureZwei, BranchOn1_P2, BranchOn2_P2, BranchOn3_P2);
+  if(Spieler == SpielerEins)
+  {
+    SF_SetBranchPlayerFigure(Spieler, FigureEins, BranchOn1_P1, BranchOn2_P1, BranchOn3_P1);
+    SF_SetBranchPlayerFigure(Spieler, FigureZwei, BranchOn1_P1, BranchOn2_P1, BranchOn3_P1);
+  }
+  else // Spieler Zwei
+  {
+    SF_SetBranchPlayerFigure(Spieler, FigureEins, BranchOn1_P2, BranchOn2_P2, BranchOn3_P2);
+    SF_SetBranchPlayerFigure(Spieler, FigureZwei, BranchOn1_P2, BranchOn2_P2, BranchOn3_P2);
+  }
 
 }// end of SF_SetBranchPlayer()
 
