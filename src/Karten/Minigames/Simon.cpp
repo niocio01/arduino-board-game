@@ -11,9 +11,9 @@
 const uint8_t laengeStartSequenz = 3;
 const uint8_t DimHelligkeit = 10; // helligkeit die nicht aktive felder erhalten
 const uint8_t BrightHelligkeit = 100; // helligkeit die aktive felder erhalten
-const uint16_t ZeitZwischenFarben = 800;
-const uint16_t AnzeigedauerFarbe = 500;
-const uint16_t ZeitZwischenSequenzen = 10000;
+const uint16_t ZeitZwischenFarben = 400;
+const int32_t AnzeigedauerFarbe = 300;
+const uint16_t ZeitZwischenSequenzen = 2000;
 
 GlobalTypes_Spieler_t aktiverSpieler;
 Messages_values leer6;
@@ -181,8 +181,14 @@ void Simon_Run(void)
             addToSequence = true;
             sequenzNachmachen = false;
             aktuellerSequenzLoeseSchritt = 0;
-            aktuelleFarbe = alle;
-            lastFarbeTime = millis() + 120000;
+            for (uint8_t i = 0; i <= 10 ; i++)
+            {
+              LedTreiber_LedSetzen(FeldRot[i], Rot, BrightHelligkeit);
+              LedTreiber_LedSetzen(FeldGruen[i], Gruen, BrightHelligkeit);
+              LedTreiber_LedSetzen(FeldGelb[i], Gelb, BrightHelligkeit);
+              LedTreiber_LedSetzen(FeldBlau[i], Blau, BrightHelligkeit);
+            }
+            lastFarbeTime = millis() - ZeitZwischenSequenzen;
 
             if (aktiverSpieler == SpielerEins)
             {

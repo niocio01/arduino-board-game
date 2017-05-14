@@ -28,9 +28,9 @@ void Startup_check(void)
   ledGestartet  = LedTreiber_Startup();
   lcdGestartet  = LcdTreiber_Startup();
   rfidGestartet = RfidTreiber_Startup();
-  tonGestartet  = SpeakerTreiber_Startup();
+  //tonGestartet  = SpeakerTreiber_Startup();
   tasterGestartet = TasterTreiber_Startup();
-  IRGestartet = IRTreiber_Startup();
+  // IRGestartet = IRTreiber_Startup();
   PotiGestartet = PotiTreiber_Startup();
   SF_InitData();
   SF_FiguresSetToStart(SpielerEins, FigureEins, Rot, 150);
@@ -40,8 +40,7 @@ void Startup_check(void)
 
 
   if (ledGestartet == true and lcdGestartet == true and rfidGestartet == true
-    and tonGestartet and tasterGestartet == true and IRGestartet == true
-    and PotiGestartet == true)
+    and tasterGestartet == true and PotiGestartet == true)
   {
 
     Messages_ZeigeNachricht(SpielerEins, MSG_Startup_OK, &Leer);

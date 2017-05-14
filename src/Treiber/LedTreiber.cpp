@@ -2,7 +2,7 @@
 #include <Adafruit_NeoPixel.h>
 
 #define PIN 4
-#define NUMPIXELS 268
+#define NUMPIXELS 269
 
 // 268
 
