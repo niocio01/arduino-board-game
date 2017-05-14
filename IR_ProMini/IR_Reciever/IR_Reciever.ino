@@ -7,6 +7,8 @@ static uint8_t IRBuffer;
 
 #define I2CAdress 8
 #define IRRecieverPin 2
+#define SystemResetPin 4
+#define VCCPin 3
 
 #define MYPROTOCOL NEC //IR Protocoll
 
@@ -61,13 +63,17 @@ IRrecv myReceiver(IRRecieverPin); //pin number for the receiver
 
 void setup()
 {
+  pinMode(SystemResetPin, OUTPUT); //RestPin
+  digitalWrite(SystemResetPin, HIGH); //RestPin
+  pinMode(VCCPin, OUTPUT);
+  digitalWrite(VCCPin, HIGH);
+  pinMode(LED_BUILTIN, OUTPUT); //debug Led
+  digitalWrite(LED_BUILTIN, LOW); //RestPin
+
   myReceiver.enableIRIn(); // Start the receiver
 
-  Wire.begin(I2CAdress);                // join i2c bus with address #8
+  Wire.begin(I2CAdress);        // join i2c bus
   Wire.onRequest(requestEvent); // register event
-
-  pinMode(LED_BUILTIN, OUTPUT); //debug Led
-   Serial.println(F("Ready to receive IR signals"));
 }
 
 
@@ -169,7 +175,10 @@ void loop()
           break;
 
           case IR_BUTTON_9:
-          IRBuffer = PressedButton_9;
+          digitalWrite(SystemResetPin, LOW); //RestPin
+          delay(100);
+          digitalWrite(SystemResetPin, HIGH); //RestPin
+          digitalWrite(LED_BUILTIN, LOW); // debug Led
           break;
 
         }

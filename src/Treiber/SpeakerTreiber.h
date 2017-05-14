@@ -3,12 +3,7 @@
 
 #include "inttypes.h"
 
-typedef enum
-{
-  Tune
-}SpeakerTreiber_Tunes_t;
-
 bool SpeakerTreiber_Startup(void);
-void SpeakerTreiber_playTune(void);
+void SpeakerTreiber_playTone(uint16_t frequency, uint16_t duration);
 
 #endif

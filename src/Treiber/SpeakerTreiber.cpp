@@ -1,44 +1,37 @@
+#include <Wire.h>
 #include "Treiber/SpeakerTreiber.h"
-#include "pitches.h"
-#include "arduino.h"
 #include "Treiber/LedTreiber.h"
+#include "inttypes.h"
 
-#define SPEAKERPIN (13)
-#define MUTEPIN (45)
+#define I2CAdressSound 9
 
-int melody[] = {
-  NOTE_C4, NOTE_G3, NOTE_G3, NOTE_A3, NOTE_G3, 0, NOTE_B3, NOTE_C4
-};
-
-// note durations: 4 = quarter note, 8 = eighth note, etc.:
-int noteDurations[] = {
-  4, 8, 8, 4, 4, 4, 4, 4
-};
+const uint8_t Select_Stop = 1;
+const uint8_t Select_Tone = 2;
 
 bool SpeakerTreiber_Startup(void)
 {
-  pinMode(MUTEPIN, OUTPUT);
-  digitalWrite(MUTEPIN, HIGH);
-  tone(SPEAKERPIN, NOTE_C4, 200);
-  //digitalWrite(MUTEPIN, LOW);
-  return true;
+Wire.begin();        // join i2c bus (address optional for master)
+return true;
 }
 
-void SpeakerTreiber_playTune(void)
-{
-for (int thisNote = 0; thisNote < 8; thisNote++)
-{
-  // to calculate the note duration, take one second
-   // divided by the note type.
-   //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-   int noteDuration = 1000 / noteDurations[thisNote];
-   tone(13, melody[thisNote], noteDuration);
 
-   // to distinguish the notes, set a minimum time between them.
-   // the note's duration + 30% seems to work well:
-   int pauseBetweenNotes = noteDuration * 1.30;
-   delay(pauseBetweenNotes);
-   // stop the tone playing:
-   noTone(13);
- }
+void SpeakerTreiber_playTone(uint16_t frequency, uint16_t duration)
+{
+
+  //uint8_t FreqByte1 = (frequency >> 8) & 0xFF;
+  //uint8_t FreqByte2 = frequency & 0xFF;
+
+  uint8_t DurArray[2];
+  DurArray[0] = (duration >> 8) & 0xFF;
+  DurArray[1] = duration & 0xFF;
+
+  Wire.beginTransmission(I2CAdressSound); // transmit to device
+  //Wire.write(Select_Tone);        // select Tone
+  Wire.write(frequency >> 8);
+  Wire.write(frequency & 255);
+  //Wire.write(DurArray, 2);
+
+  //Wire.write(frequency);
+  //Wire.write(duration);
+  Wire.endTransmission();    // stop transmitting
 }

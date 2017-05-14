@@ -7,6 +7,7 @@
 #include "Karten/Buffs/Zeitreise.h"
 #include "Karten/Buffs/AktiveBuffsAnzeigen.h"
 #include <Wire.h>
+#include "Treiber/SpeakerTreiber.h"
 
 #define I2CAdress 8
 
@@ -56,6 +57,7 @@ void IRTreiber_Main(void)
     {
       Wire.requestFrom(I2CAdress, 1); // send command to request 8 bytes (uint8_t)
 
+      int8_t PushedButton = Wire.read(); // receive a byte
 
       switch (PushedButton)
       {
@@ -122,9 +124,11 @@ void IRTreiber_Main(void)
         break;
 
         case PressedButton_5:
+        SpeakerTreiber_playTone(150, 150);
         break;
 
         case PressedButton_6:
+        SpeakerTreiber_playTone(1500, 250);
         break;
 
         case PressedButton_7:
@@ -136,7 +140,7 @@ void IRTreiber_Main(void)
         break;
 
         case PressedButton_9:
-        soft_restart();
+        //soft_restart();
         break;
       }
     }

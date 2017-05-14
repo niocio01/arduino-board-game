@@ -28,9 +28,9 @@ void Startup_check(void)
   ledGestartet  = LedTreiber_Startup();
   lcdGestartet  = LcdTreiber_Startup();
   rfidGestartet = RfidTreiber_Startup();
-  //tonGestartet  = SpeakerTreiber_Startup();
+  tonGestartet  = SpeakerTreiber_Startup();
   tasterGestartet = TasterTreiber_Startup();
-  // IRGestartet = IRTreiber_Startup();
+  IRGestartet = IRTreiber_Startup();
   PotiGestartet = PotiTreiber_Startup();
   SF_InitData();
   SF_FiguresSetToStart(SpielerEins, FigureEins, Rot, 150);
