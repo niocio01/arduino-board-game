@@ -242,8 +242,8 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     case MSGxx_Felder_vorwaerts:
     if ((millis() - lastUpdateTime) > updateIntervall)
     {
-      sprintf(Text1, "%s %d", "es geht", MessageVal->AnzFelder);
-      LcdTreiber_DisplayMessage(spieler, Text1, (char *) "Felder vorwaerts");
+      sprintf(Text1, "%d %s", MessageVal->AnzFelder, "Felder vor");
+      LcdTreiber_DisplayMessage(spieler, Text1, (char *) "Figur auswaehlen");
       lastUpdateTime = millis();
     }
     break;

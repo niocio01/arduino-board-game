@@ -7,6 +7,8 @@
 #include "Treiber/TasterLed.h"
 #include "Treiber/TasterHandler.h"
 #include "arduino.h"
+#include "Pitches.h"
+#include "Treiber/SpeakerTreiber.h"
 
 const uint8_t laengeStartSequenz = 3;
 const uint8_t DimHelligkeit = 10; // helligkeit die nicht aktive felder erhalten
@@ -14,6 +16,7 @@ const uint8_t BrightHelligkeit = 100; // helligkeit die aktive felder erhalten
 const uint16_t ZeitZwischenFarben = 400;
 const int32_t AnzeigedauerFarbe = 200;
 const uint16_t ZeitZwischenSequenzen = 1000;
+const uint16_t TonDauer = 300;
 
 GlobalTypes_Spieler_t aktiverSpieler;
 Messages_values leer6;
@@ -54,10 +57,9 @@ static uint8_t score_P1;
 static uint8_t score_P2;
 
 
-
+static bool PlayerDecided;
 static bool MSGShown;
-static bool FirstPlayerMSGBestaetigt;
-static bool SecondPlayerMSGBestaetigt;
+static bool MSGBestaetigt;
 static bool addToSequence = true;
 static bool playSequence = true;
 static bool sequenzNachmachen = false;
@@ -71,6 +73,17 @@ void Simon_ShowColor_Run(void);
 
 void Simon_Run(void)
 {
+  if (!PlayerDecided)
+  {
+    if (PlayerManager_SpielerEinsAmZug())
+    {
+      aktiverSpieler = SpielerEins;
+    }
+    else
+    {
+
+    }
+  }
   Simon_ShowColor_Run();
   if (!MSGShown)
   {
@@ -94,7 +107,7 @@ void Simon_Run(void)
       TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
     }
   }
-  else if(!FirstPlayerMSGBestaetigt)
+  else if(!MSGBestaetigt)
   {
     if (TasterHandler_Klick(aktiverSpieler, TasterEins))
     {
@@ -102,11 +115,11 @@ void Simon_Run(void)
       TasterLed_Setzen(aktiverSpieler, LedZwei, Gruen);
       TasterLed_Setzen(aktiverSpieler, LedDrei, Blau);
       TasterLed_Setzen(aktiverSpieler, LedVier, Gelb);
-      FirstPlayerMSGBestaetigt = true;
+      MSGBestaetigt = true;
       lastFarbeTime = currentTime + ZeitZwischenFarben;
     }
   }
-  else if(FirstPlayerMSGBestaetigt)
+  else if(MSGBestaetigt)
   {
     if (addToSequence)
     {
@@ -118,13 +131,13 @@ void Simon_Run(void)
       {
         for (SequenzLaenge = 0; SequenzLaenge <= laengeStartSequenz-1; SequenzLaenge++)
         {
-          uint8_t newColor = random(rot, blau);
+          uint8_t newColor = random(rot, blau+1);
           sequence[SequenzLaenge] = newColor;
         }
       }
       else
       {
-        uint8_t newColor = random(rot, blau);
+        uint8_t newColor = random(rot, blau+1);
         sequence[SequenzLaenge] = newColor;
         SequenzLaenge ++;
       }
@@ -165,21 +178,25 @@ void Simon_Run(void)
       {
         neueFarbe = rot;
         aktuelleAuswahl = rot;
+        SpeakerTreiber_PlayTone(NOTE_C4, TonDauer);
       }
       if (TasterHandler_Klick(aktiverSpieler, TasterZwei))
       {
         neueFarbe = gruen;
         aktuelleAuswahl = gruen;
+        SpeakerTreiber_PlayTone(NOTE_G3, TonDauer);
       }
       if (TasterHandler_Klick(aktiverSpieler, TasterDrei))
       {
         neueFarbe = blau;
         aktuelleAuswahl = blau;
+        SpeakerTreiber_PlayTone(NOTE_E3, TonDauer);
       }
       if (TasterHandler_Klick(aktiverSpieler, TasterVier))
       {
         neueFarbe = gelb;
         aktuelleAuswahl = gelb;
+        SpeakerTreiber_PlayTone(NOTE_C3, TonDauer);
       }
       if (aktuelleAuswahl != 0)
       {
@@ -221,6 +238,7 @@ void Simon_Run(void)
           if (aktiverSpieler == SpielerEins)
           {
             score_P1 = SequenzLaenge;
+
           }
           else
           {
@@ -273,6 +291,7 @@ void Simon_ShowColor_Run(void)
         LedTreiber_LedSetzen(FeldGruen[i], Gruen, DimHelligkeit);
         LedTreiber_LedSetzen(FeldGelb[i], Gelb, DimHelligkeit);
         LedTreiber_LedSetzen(FeldBlau[i], Blau, DimHelligkeit);
+        SpeakerTreiber_PlayTone(NOTE_C4, TonDauer);
       }
       break;
 
@@ -283,6 +302,7 @@ void Simon_ShowColor_Run(void)
         LedTreiber_LedSetzen(FeldGruen[i], Gruen, BrightHelligkeit);
         LedTreiber_LedSetzen(FeldGelb[i], Gelb, DimHelligkeit);
         LedTreiber_LedSetzen(FeldBlau[i], Blau, DimHelligkeit);
+        SpeakerTreiber_PlayTone(NOTE_G3, TonDauer);
       }
       break;
 
@@ -293,6 +313,7 @@ void Simon_ShowColor_Run(void)
         LedTreiber_LedSetzen(FeldGruen[i], Gruen, DimHelligkeit);
         LedTreiber_LedSetzen(FeldGelb[i], Gelb, BrightHelligkeit);
         LedTreiber_LedSetzen(FeldBlau[i], Blau, DimHelligkeit);
+        SpeakerTreiber_PlayTone(NOTE_E3, TonDauer);
       }
       break;
 
@@ -303,6 +324,7 @@ void Simon_ShowColor_Run(void)
         LedTreiber_LedSetzen(FeldGruen[i], Gruen, DimHelligkeit);
         LedTreiber_LedSetzen(FeldGelb[i], Gelb, DimHelligkeit);
         LedTreiber_LedSetzen(FeldBlau[i], Blau, BrightHelligkeit);
+        SpeakerTreiber_PlayTone(NOTE_C3, TonDauer);
       }
       break;
     }

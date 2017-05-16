@@ -185,7 +185,6 @@ void BuffManager_Run(void)
     {
       MGSShown = false;
       MSGBestaetigt = false;
-      LedTreiber_LedSchalten(50,Rot);
       Kartenmanager_BuffProcessed();
     }
     if (karte == Zeitreise)

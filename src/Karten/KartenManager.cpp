@@ -19,6 +19,7 @@ static bool minigameInProgress = false;
 static bool buffInProgress = false;
 static bool MSGShown = false;
 static bool AktiveBuffsAnzeigen = false;
+static bool ScanForCard = true;
 Messages_values leer4;
 
 
@@ -26,12 +27,14 @@ void Kartenmanager_MinigameEnded(void)
 {
   minigameInProgress = false;
   MSGShown = false;
+  ScanForCard = true;
 }
 
 void Kartenmanager_BuffProcessed(void)
 {
   buffInProgress = false;
   MSGShown = false;
+  ScanForCard = true;
 }
 
 void Kartenmanager_AktiveBuffAnzeigen(bool anzeigen)
@@ -86,73 +89,75 @@ void KartenManager_Main(void)
     AktiveBuffsAnzeigen_Run();
   }
 
-  if (MSGShown and minigameInProgress == false and buffInProgress == false
-  and AktiveBuffsAnzeigen == false)
+  if (ScanForCard)
   {
-    uint8_t * kartenNrRef;
-    uint8_t  kartenNrValue;
-
-    kartenNrRef = &kartenNrValue;
-    bool success = RfidTreiber_ReadCard(kartenNrRef);
-    if (success)
     {
-      if (kartenNrValue < 80) // Für Buffs
+      uint8_t * kartenNrRef;
+      uint8_t  kartenNrValue;
+
+      kartenNrRef = &kartenNrValue;
+      bool success = RfidTreiber_ReadCard(kartenNrRef);
+      if (success)
       {
-        BuffManager_TellBuff(kartenNrValue);
-        buffInProgress = true;
-      }
-
-      else // für Minigames
-      {
-        minigameInProgress = true;
-        SF_SetSpielfeldOff();
-        switch (kartenNrValue) {
-
-          case 97:
-          MinigameManager_SetGame(Reaktion);
-          break;
-
-          case 98:
-          MinigameManager_SetGame(Simon);
-          break;
-
-          case 99:
-          MinigameManager_SetGame(ToneMaster);
-          break;
-
-          case 100:
-          MinigameManager_SetGame(QuickFinger);
-          break;
-
-          case 101:
-          MinigameManager_SetGame(FastCounter);
-          break;
-
-          case 102:
-          MinigameManager_SetGame(Timing);
-          break;
-        }
-        MinigameManager_StartNewGame();
-      }
-    }
-    else
-    {
-      if (PlayerManager_SpielerEinsAmZug())
-      {
-        if (TasterHandler_Klick(SpielerEins, TasterEins))
+        ScanForCard = false;
+        if (kartenNrValue < 80) // Für Buffs
         {
-          LedTreiber_ControllsBlack();
-          MinigameManager_EinsatzGesetzt(freeSteps, 0, true);
+          BuffManager_TellBuff(kartenNrValue);
+          buffInProgress = true;
+        }
+
+        else // für Minigames
+        {
           minigameInProgress = true;
+          SF_SetSpielfeldOff();
+          switch (kartenNrValue) {
+
+            case 97:
+            MinigameManager_SetGame(Reaktion);
+            break;
+
+            case 98:
+            MinigameManager_SetGame(Simon);
+            break;
+
+            case 99:
+            MinigameManager_SetGame(ToneMaster);
+            break;
+
+            case 100:
+            MinigameManager_SetGame(QuickFinger);
+            break;
+
+            case 101:
+            MinigameManager_SetGame(FastCounter);
+            break;
+
+            case 102:
+            MinigameManager_SetGame(Timing);
+            break;
+          }
+          MinigameManager_StartNewGame();
         }
       }
       else
       {
-        if (TasterHandler_Klick(SpielerZwei, TasterEins))
+        if (PlayerManager_SpielerEinsAmZug())
         {
-          LedTreiber_ControllsBlack();
-          MinigameManager_EinsatzGesetzt(0, freeSteps, true);
-          minigameInProgress = true;
+          if (TasterHandler_Klick(SpielerEins, TasterEins))
+          {
+            LedTreiber_ControllsBlack();
+            MinigameManager_EinsatzGesetzt(freeSteps, 0, true);
+            minigameInProgress = true;
+          }
+        }
+        else
+        {
+          if (TasterHandler_Klick(SpielerZwei, TasterEins))
+          {
+            LedTreiber_ControllsBlack();
+            MinigameManager_EinsatzGesetzt(0, freeSteps, true);
+            minigameInProgress = true;
+          }
         }
       }
     }

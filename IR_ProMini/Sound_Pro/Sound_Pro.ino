@@ -4,21 +4,12 @@
 #define SPEAKERPIN 2
 #define MUTEPIN 3
 
-static uint16_t MinFreq = 120;
-static uint16_t MaxFreq = 1500;
 
-const uint8_t Select_Stop = 1;
-const uint8_t Select_Tone = 2;
-
-static uint8_t PotiWert = 1;
-static uint8_t MelodyNr = 1;
-
-static bool tonePlaying;
-static uint32_t TimeStartTone;
-static uint32_t duration;
-static uint16_t Freqency;
-static uint16_t oldFreq;
-static bool NewTone;
+static bool TonePlaying = false;
+static uint32_t ToneStartTime;
+static uint32_t ToneDuration;
+static uint16_t ToneFreqency;
+static bool NewTone = false;
 
 
 void setup ()
@@ -40,22 +31,22 @@ void setup ()
 
 void loop()
 {
-  if (tonePlaying)
+  if (TonePlaying)
   {
     uint32_t currentTime = millis();
     {
-      if ((millis() - TimeStartTone) > duration)
+      if ((millis() - ToneStartTime) > ToneDuration)
       {
         noTone(SPEAKERPIN);
         digitalWrite(MUTEPIN, LOW);
         digitalWrite(LED_BUILTIN, LOW);
-        tonePlaying = false;
+        TonePlaying = false;
       }
 
       if (NewTone)
       {
         digitalWrite(MUTEPIN, HIGH);
-        tone(SPEAKERPIN, Freqency, 0);
+        tone(SPEAKERPIN, ToneFreqency, 0);
         digitalWrite(LED_BUILTIN, HIGH);
         NewTone = false;
       }
@@ -65,38 +56,19 @@ void loop()
 
 void receiveEvent(int howMany)
 {
-  uint8_t ModeSelect;
-  int frequency;
-  uint8_t a, b;
-  uint8_t duration2;
+  uint16_t frequency;
+  uint16_t duration;
 
-  //ModeSelect = Wire.read();
-  /*
-  if (ModeSelect = Select_Stop)
-  {
-  noTone(SPEAKERPIN);
-  digitalWrite(MUTEPIN, LOW);
-}
-*/
-//  if (ModeSelect = Select_Tone)
-{
-  //a = Wire.read();
-  // b = Wire.read();
-  // Freqency = a;
-  //frequency = (frequency << 8) bitor b;
-  frequency = Wire.read() << 8;
-  frequency |= Wire.read();
+  frequency = ((uint16_t)Wire.read()) << 8;      // High Byte
+  frequency |= ((uint16_t)Wire.read() & 0x00FF); // Low Byte
+  duration = ((uint16_t)Wire.read()) << 8;       // High Byte
+  duration |= ((uint16_t)Wire.read() & 0x00FF);  // Low Byte
 
-//  a = Wire.read();
-  //b = Wire.read();
-  duration = a;
-  //duration2 = (duration2 << 8) | b;
+  tone(SPEAKERPIN, frequency, duration);
 
-
-  //tone(SPEAKERPIN, frequency, duration2);
-  duration = 500;
-  tonePlaying = true;
-  TimeStartTone = millis();
+  ToneFreqency = frequency;
+  ToneDuration = (uint32_t)duration;
+  TonePlaying = true;
+  ToneStartTime = millis();
   NewTone = true;
-  }
 }

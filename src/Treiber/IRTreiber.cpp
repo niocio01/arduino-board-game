@@ -126,11 +126,11 @@ void IRTreiber_Main(void)
         break;
 
         case PressedButton_5:
-        SpeakerTreiber_PlayTone(150, 150);
+        SpeakerTreiber_PlayTone(150, 400);
         break;
 
         case PressedButton_6:
-        SpeakerTreiber_PlayTone(1500, 250);
+        SpeakerTreiber_PlayTone(1500, 800);
         break;
 
         case PressedButton_7:

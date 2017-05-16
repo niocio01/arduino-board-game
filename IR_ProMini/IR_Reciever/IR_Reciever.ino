@@ -175,12 +175,12 @@ void loop()
           break;
 
           case IR_BUTTON_9:
+          IRBuffer = PressedButton_8;
           digitalWrite(SystemResetPin, LOW); //RestPin
           delay(100);
           digitalWrite(SystemResetPin, HIGH); //RestPin
           digitalWrite(LED_BUILTIN, LOW); // debug Led
           break;
-
         }
       }
       myReceiver.enableIRIn();
