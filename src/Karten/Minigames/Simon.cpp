@@ -181,6 +181,7 @@ void Simon_Run(void)
             addToSequence = true;
             sequenzNachmachen = false;
             aktuellerSequenzLoeseSchritt = 0;
+            lastFarbeTime = millis() + ZeitZwischenSequenzen;
             for (uint8_t i = 0; i <= 10 ; i++)
             {
               LedTreiber_LedSetzen(FeldRot[i], Rot, BrightHelligkeit);
@@ -188,7 +189,6 @@ void Simon_Run(void)
               LedTreiber_LedSetzen(FeldGelb[i], Gelb, BrightHelligkeit);
               LedTreiber_LedSetzen(FeldBlau[i], Blau, BrightHelligkeit);
             }
-            lastFarbeTime = millis() - ZeitZwischenSequenzen;
 
             if (aktiverSpieler == SpielerEins)
             {
