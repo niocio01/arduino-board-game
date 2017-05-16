@@ -15,23 +15,16 @@ return true;
 }
 
 
-void SpeakerTreiber_playTone(uint16_t frequency, uint16_t duration)
+void SpeakerTreiber_PlayTone(uint16_t frequency, uint16_t duration)
 {
+  uint8_t tuneArray[4];
 
-  //uint8_t FreqByte1 = (frequency >> 8) & 0xFF;
-  //uint8_t FreqByte2 = frequency & 0xFF;
+  tuneArray[0] = (uint8_t)((frequency >> 8) & 0x00FF); // High Byte
+  tuneArray[1] = (uint8_t)(frequency & 0x00FF);        // Low Byte
+  tuneArray[2] = (uint8_t)((duration >> 8) & 0x00FF);  // High Byte
+  tuneArray[3] = (uint8_t)(duration & 0x00FF);         // Low Byte
 
-  uint8_t DurArray[2];
-  DurArray[0] = (duration >> 8) & 0xFF;
-  DurArray[1] = duration & 0xFF;
-
-  Wire.beginTransmission(I2CAdressSound); // transmit to device
-  //Wire.write(Select_Tone);        // select Tone
-  Wire.write(frequency >> 8);
-  Wire.write(frequency & 255);
-  //Wire.write(DurArray, 2);
-
-  //Wire.write(frequency);
-  //Wire.write(duration);
-  Wire.endTransmission();    // stop transmitting
+  Wire.beginTransmission(I2CAdressSound); // transmit to sound-device
+  Wire.write(tuneArray, 4);               // transmit 4 Bytes (Index 0...3)
+  Wire.endTransmission();                 // stop transmitting
 }

@@ -4,6 +4,6 @@
 #include <inttypes.h>
 
 void FigurAuswahl_Run(void);
-void FigurAuswahl_TellResults(GlobalTypes_Spieler_t gewinner, uint8_t einsatz);
+void FigurAuswahl_ReportResults(GlobalTypes_Spieler_t gewinner, uint8_t einsatz);
 
 #endif

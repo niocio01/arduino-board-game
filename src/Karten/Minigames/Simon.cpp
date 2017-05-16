@@ -12,19 +12,17 @@ const uint8_t laengeStartSequenz = 3;
 const uint8_t DimHelligkeit = 10; // helligkeit die nicht aktive felder erhalten
 const uint8_t BrightHelligkeit = 100; // helligkeit die aktive felder erhalten
 const uint16_t ZeitZwischenFarben = 400;
-const int32_t AnzeigedauerFarbe = 300;
-const uint16_t ZeitZwischenSequenzen = 2000;
+const int32_t AnzeigedauerFarbe = 200;
+const uint16_t ZeitZwischenSequenzen = 1000;
 
 GlobalTypes_Spieler_t aktiverSpieler;
 Messages_values leer6;
 
-const uint8_t keine = 0;
-const uint8_t rot = 1;
-const uint8_t gruen = 2;
-const uint8_t gelb = 3;
-const uint8_t blau = 4;
-const uint8_t alle = 5;
-
+const uint8_t keine = 1;
+const uint8_t rot = 2;
+const uint8_t gruen = 3;
+const uint8_t gelb = 4;
+const uint8_t blau = 5;
 
 const uint8_t ID_1 = 0;
 const uint8_t ID_2 = 1;
@@ -49,8 +47,9 @@ static uint8_t aktuellerSequenzLoeseSchritt;
 static uint32_t currentTime;
 static uint32_t lastFarbeTime;
 static uint32_t lastColorChange;
-static uint8_t aktuelleFarbe = 0;
+static uint8_t aktuelleFarbe = keine;
 static uint8_t alteFarbe = 0;
+static uint8_t neueFarbe = keine;
 static uint8_t score_P1;
 static uint8_t score_P2;
 
@@ -62,6 +61,8 @@ static bool SecondPlayerMSGBestaetigt;
 static bool addToSequence = true;
 static bool playSequence = true;
 static bool sequenzNachmachen = false;
+static bool switchColor = true;
+static bool preNextSequenz;
 
 
 void Simon_InitData(void);
@@ -76,7 +77,8 @@ void Simon_Run(void)
     MSGShown = true;
     LedTreiber_ControllsBlack();
     Simon_InitData();
-
+    neueFarbe = keine;
+    Simon_ShowColor_Run();
     if (PlayerManager_SpielerEinsAmZug())
     {
       aktiverSpieler = SpielerEins;
@@ -101,6 +103,7 @@ void Simon_Run(void)
       TasterLed_Setzen(aktiverSpieler, LedDrei, Blau);
       TasterLed_Setzen(aktiverSpieler, LedVier, Gelb);
       FirstPlayerMSGBestaetigt = true;
+      lastFarbeTime = currentTime + ZeitZwischenFarben;
     }
   }
   else if(FirstPlayerMSGBestaetigt)
@@ -115,13 +118,13 @@ void Simon_Run(void)
       {
         for (SequenzLaenge = 0; SequenzLaenge <= laengeStartSequenz-1; SequenzLaenge++)
         {
-          uint8_t newColor = random(1, 5);
+          uint8_t newColor = random(rot, blau);
           sequence[SequenzLaenge] = newColor;
         }
       }
       else
       {
-        uint8_t newColor = random(1, 4);
+        uint8_t newColor = random(rot, blau);
         sequence[SequenzLaenge] = newColor;
         SequenzLaenge ++;
       }
@@ -129,12 +132,21 @@ void Simon_Run(void)
 
     if (playSequence)
     {
-      if (aktuellerSequenzZeigeSchritt <= SequenzLaenge)
+      if (preNextSequenz)
       {
-        if (currentTime - lastFarbeTime > ZeitZwischenFarben)
+        if (currentTime > lastFarbeTime + ZeitZwischenSequenzen)
+        {
+          preNextSequenz = false;
+          lastFarbeTime = millis();
+          neueFarbe = keine;
+        }
+      }
+      else if (aktuellerSequenzZeigeSchritt <= SequenzLaenge)
+      {
+        if (currentTime > lastFarbeTime + ZeitZwischenFarben)
         {
           lastFarbeTime = currentTime;
-          aktuelleFarbe = sequence[aktuellerSequenzZeigeSchritt];
+          neueFarbe = sequence[aktuellerSequenzZeigeSchritt];
           aktuellerSequenzZeigeSchritt ++;
         }
       }
@@ -151,22 +163,22 @@ void Simon_Run(void)
 
       if (TasterHandler_Klick(aktiverSpieler, TasterEins))
       {
-        aktuelleFarbe = rot;
+        neueFarbe = rot;
         aktuelleAuswahl = rot;
       }
       if (TasterHandler_Klick(aktiverSpieler, TasterZwei))
       {
-        aktuelleFarbe = gruen;
+        neueFarbe = gruen;
         aktuelleAuswahl = gruen;
       }
       if (TasterHandler_Klick(aktiverSpieler, TasterDrei))
       {
-        aktuelleFarbe = blau;
+        neueFarbe = blau;
         aktuelleAuswahl = blau;
       }
       if (TasterHandler_Klick(aktiverSpieler, TasterVier))
       {
-        aktuelleFarbe = gelb;
+        neueFarbe = gelb;
         aktuelleAuswahl = gelb;
       }
       if (aktuelleAuswahl != 0)
@@ -181,7 +193,10 @@ void Simon_Run(void)
             addToSequence = true;
             sequenzNachmachen = false;
             aktuellerSequenzLoeseSchritt = 0;
-            lastFarbeTime = millis() + ZeitZwischenSequenzen;
+            preNextSequenz = true;
+            lastFarbeTime = millis();
+            neueFarbe = 0;
+            aktuelleFarbe = keine;
             for (uint8_t i = 0; i <= 10 ; i++)
             {
               LedTreiber_LedSetzen(FeldRot[i], Rot, BrightHelligkeit);
@@ -192,12 +207,13 @@ void Simon_Run(void)
 
             if (aktiverSpieler == SpielerEins)
             {
-              LedTreiber_LedSchalten(SequenzLaenge - laengeStartSequenz , Gruen, 100);
+              LedTreiber_LedSetzen(SequenzLaenge - laengeStartSequenz , Gruen, 100);
             }
             else // P2
             {
-              LedTreiber_LedSchalten(SequenzLaenge - laengeStartSequenz + 62, Gruen, 100);
+              LedTreiber_LedSetzen(SequenzLaenge - laengeStartSequenz + 62, Gruen, 100);
             }
+            LedTreiber_LedAnzeigen();
           }
         }
         else // fehler gemacht
@@ -221,24 +237,25 @@ void Simon_ShowColor_Run(void)
 {
   currentTime = millis();
 
-  if ((currentTime - lastColorChange) > AnzeigedauerFarbe or aktuelleFarbe != alteFarbe)
+  if (currentTime > (lastColorChange + AnzeigedauerFarbe) and aktuelleFarbe != keine)
   {
-    if ((currentTime - lastColorChange) > AnzeigedauerFarbe)
-    {
-      aktuelleFarbe = keine;
-      alteFarbe = keine;
-    }
+    aktuelleFarbe = keine;
+    switchColor = true;
+  }
 
-    if (aktuelleFarbe != alteFarbe)
-    {
-      alteFarbe = aktuelleFarbe;
-    }
-
+  if (neueFarbe != 0) //else
+  {
+    aktuelleFarbe = neueFarbe;
+    neueFarbe = 0;
+    switchColor = true;
     lastColorChange = currentTime;
+  }
 
+  if (switchColor)
+  {
+    switchColor = false;
     switch (aktuelleFarbe)
     {
-
       case keine:
       for (uint8_t i = 0; i <= 10 ; i++)
       {
@@ -288,20 +305,11 @@ void Simon_ShowColor_Run(void)
         LedTreiber_LedSetzen(FeldBlau[i], Blau, BrightHelligkeit);
       }
       break;
-
-      case alle:
-      for (uint8_t i = 0; i <= 10 ; i++)
-      {
-        LedTreiber_LedSetzen(FeldRot[i], Rot, BrightHelligkeit);
-        LedTreiber_LedSetzen(FeldGruen[i], Gruen, BrightHelligkeit);
-        LedTreiber_LedSetzen(FeldGelb[i], Gelb, BrightHelligkeit);
-        LedTreiber_LedSetzen(FeldBlau[i], Blau, BrightHelligkeit);
-      }
-      break;
     }
     LedTreiber_LedAnzeigen();
   }
 }
+
 
 
 void Simon_InitData(void)

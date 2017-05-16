@@ -123,12 +123,12 @@ void MinigameManager_WinnerShown(void)
 
   if (SpielerEinsHatGewonnen)
   {
-    //  FigurAuswahl_TellResults (SpielerEins, einsatzP1 + 1);
+    // figur auswahl mitteilen
   }
 
   if (SpielerZweiHatGewonnen)
   {
-    //  FigurAuswahl_TellResults (SpielerZwei, einsatzP2 + 1);
+    //  figur auswahl mitteilen
   }
 }
 

@@ -87,9 +87,11 @@ void IRTreiber_Main(void)
         break;
 
         case PressedButton_VOL_DOWN:
+          SF_MovePlayerFigure(SpielerZwei, FigureEins, -2);
         break;
 
         case PressedButton_VOL_UP:
+        SF_MovePlayerFigure(SpielerZwei, FigureEins, 10);
         break;
 
         case PressedButton_EQ:
@@ -100,23 +102,23 @@ void IRTreiber_Main(void)
         break;
 
         case PressedButton_100:
-        SF_MovePlayerFigure(SpielerZwei, FigureEins, 50);
+        SF_MovePlayerFigure(SpielerZwei, FigureZwei, 10);
         break;
 
         case PressedButton_200:
-        SF_MovePlayerFigure(SpielerZwei, FigureEins, -2);
+        SF_MovePlayerFigure(SpielerZwei, FigureZwei, -2);
         break;
 
         case PressedButton_1:
+        SF_SetBranchPlayer (SpielerZwei, Branch1, true);
         break;
 
         case PressedButton_2:
-        SF_StartLauflicht(Gruen, 50);
+        SF_SetBranchPlayer (SpielerZwei, Branch2, true);
         break;
 
         case PressedButton_3:
-        SF_SetBranchPlayer (SpielerZwei, Branch1, true);
-        LedTreiber_LedSchalten(193, Blau);
+        SF_SetBranchPlayer (SpielerZwei, Branch3, true);
         break;
 
         case PressedButton_4:
@@ -124,11 +126,11 @@ void IRTreiber_Main(void)
         break;
 
         case PressedButton_5:
-        SpeakerTreiber_playTone(150, 150);
+        SpeakerTreiber_PlayTone(150, 150);
         break;
 
         case PressedButton_6:
-        SpeakerTreiber_playTone(1500, 250);
+        SpeakerTreiber_PlayTone(1500, 250);
         break;
 
         case PressedButton_7:
@@ -140,7 +142,7 @@ void IRTreiber_Main(void)
         break;
 
         case PressedButton_9:
-        //soft_restart();
+        soft_restart();
         break;
       }
     }
