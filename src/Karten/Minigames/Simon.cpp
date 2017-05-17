@@ -65,7 +65,7 @@ static bool playSequence = true;
 static bool sequenzNachmachen = false;
 static bool switchColor = true;
 static bool preNextSequenz;
-
+static bool afterGame;
 
 void Simon_InitData(void);
 void Simon_ShowColor_Run(void);
@@ -81,7 +81,7 @@ void Simon_Run(void)
     }
     else
     {
-
+      aktiverSpieler = SpielerZwei;
     }
   }
   Simon_ShowColor_Run();
@@ -92,16 +92,15 @@ void Simon_Run(void)
     Simon_InitData();
     neueFarbe = keine;
     Simon_ShowColor_Run();
-    if (PlayerManager_SpielerEinsAmZug())
+
+    if (aktiverSpieler == SpielerEins)
     {
-      aktiverSpieler = SpielerEins;
       Messages_ZeigeNachricht(SpielerEins, MSG_Sequenz, &leer6);
       Messages_ZeigeNachricht(SpielerZwei, MSG_GegnerSpielt, &leer6);
       TasterLed_Setzen(SpielerEins, LedEins, Gruen);
     }
     else
     {
-      aktiverSpieler = SpielerZwei;
       Messages_ZeigeNachricht(SpielerZwei, MSG_Sequenz, &leer6);
       Messages_ZeigeNachricht(SpielerEins, MSG_GegnerSpielt, &leer6);
       TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
@@ -235,18 +234,35 @@ void Simon_Run(void)
         }
         else // fehler gemacht
         {
+          for (uint8_t i = 0; i <= 10 ; i++)
+          {
+            LedTreiber_LedSetzen(FeldRot[i], Rot, DimHelligkeit);
+            LedTreiber_LedSetzen(FeldGruen[i], Rot, DimHelligkeit);
+            LedTreiber_LedSetzen(FeldGelb[i], Rot, DimHelligkeit);
+            LedTreiber_LedSetzen(FeldBlau[i], Rot, DimHelligkeit);
+          }
+          aktuelleFarbe = keine;
+          neueFarbe = 0;
+          Messages_ZeigeNachricht(aktiverSpieler, MSG_Sequenz_Fehler, &leer6);
+          SpeakerTreiber_PlayTone(NOTE_A2, 400);
+          afterGame = true;
+
           if (aktiverSpieler == SpielerEins)
           {
             score_P1 = SequenzLaenge;
-
+            aktiverSpieler = SpielerZwei;
           }
           else
           {
             score_P2 = SequenzLaenge;
-            LedTreiber_LedSchalten(192 , Rot, 100);
+            aktiverSpieler = SpielerEins;
           }
         }
       }
+    }
+    if (afterGame)
+    {
+
     }
   }
 }

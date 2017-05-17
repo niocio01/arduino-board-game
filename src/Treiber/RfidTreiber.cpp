@@ -43,7 +43,7 @@ bool RfidTreiber_ReadCard(uint8_t* kartenDaten)
     uint8_t keya[6] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }; // set Key
     success = nfc.mifareclassic_AuthenticateBlock(uid, uidLength, 4, 0, keya); //authenticate using Key
     success = nfc.mifareclassic_ReadDataBlock(4, kartenDaten); // Karte lesen
+    //Serial.println(*kartenDaten);
   }
-
   return success;
   }

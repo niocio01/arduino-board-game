@@ -70,7 +70,6 @@ bool TasterTreiber_TasteGedrueckt (uint8_t tastenNr)
   return false;
 }
 
-
 void TasterTreiber_Main (void)
 {
   uint8_t bufferAktuell = 0x00;
@@ -118,9 +117,4 @@ void TasterTreiber_Main (void)
     bufferAlt = bufferAktuell;
     lastDebounceTime = millis();
   }
-
-
-
-
-
 }

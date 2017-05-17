@@ -12,10 +12,9 @@ const uint8_t Select_Tone = 2;
 bool SpeakerTreiber_Startup(void)
 {
 Wire.begin();        // join i2c bus (address optional for master)
-Serial.begin(9600);
+//Serial.begin(9600);
 return true;
 }
-
 
 void SpeakerTreiber_PlayTone(uint16_t frequency, uint16_t duration)
 {
@@ -31,10 +30,5 @@ void SpeakerTreiber_PlayTone(uint16_t frequency, uint16_t duration)
   Wire.write(tuneArray[1]);
   Wire.write(tuneArray[2]);
   Wire.write(tuneArray[3]);
-
-  Serial.println(tuneArray[0]);               // transmit 4 Bytes (Index 0...3)
-  Serial.println(tuneArray[1]);
-  Serial.println(tuneArray[2]);
-  Serial.println(tuneArray[3]);
   Wire.endTransmission();                 // stop transmitting
 }
