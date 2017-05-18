@@ -118,7 +118,7 @@ void ShowWinner_Run(void)
       ResultBestaetigtP1 = false;
       ResultBestaetigtP2 = false;
       LedTreiber_AllBlack();
-      MinigameManager_WinnerShown();
+      MinigameManager_WinnerShown(SpielerEins);
     }
   }
 
@@ -181,7 +181,7 @@ void ShowWinner_Run(void)
       ResultBestaetigtP1 = false;
       ResultBestaetigtP2 = false;
       LedTreiber_AllBlack();
-      MinigameManager_WinnerShown();
+      MinigameManager_WinnerShown(SpielerZwei);
     }
   }
 

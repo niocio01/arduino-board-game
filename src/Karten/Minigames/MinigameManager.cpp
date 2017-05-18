@@ -70,6 +70,14 @@ void MinigameManager_EinsatzGesetzt(uint8_t newEinsatzP1, uint8_t newEinsatzP2, 
   if (continueWithFigurAuswahl == true)
   {
     figurAuswaehlen = true;
+    if (PlayerManager_SpielerEinsAmZug())
+    {
+      FigurAuswahl_ReportResults(SpielerEins, einsatzP1);
+    }
+    else
+    {
+      FigurAuswahl_ReportResults(SpielerZwei, einsatzP2);
+    }
   }
   else
   {
@@ -100,14 +108,10 @@ void MinigameManager_GameEnded(MinigameManager_Winner_t gewinner, bool SkipShowW
   switch (gewinner)
   {
     case Win_SpielerEins:
-    SpielerEinsHatGewonnen = true;
-    SpielerZweiHatGewonnen = false;
     ShowWinner_TellResults(Win_SpielerEins);
     break;
 
     case Win_SpielerZwei:
-    SpielerEinsHatGewonnen = false;
-    SpielerZweiHatGewonnen = true;
     ShowWinner_TellResults(Win_SpielerZwei);
     break;
 
@@ -117,19 +121,18 @@ void MinigameManager_GameEnded(MinigameManager_Winner_t gewinner, bool SkipShowW
   }
 }
 
-void MinigameManager_WinnerShown(void)
+void MinigameManager_WinnerShown(GlobalTypes_Spieler_t gewinner)
 {
   showWinner = false;
   figurAuswaehlen = true;
-
-  if (SpielerEinsHatGewonnen)
+  
+  if (gewinner == SpielerEins)
   {
-    // figur auswahl mitteilen
+    FigurAuswahl_ReportResults(SpielerEins, einsatzP1);
   }
-
-  if (SpielerZweiHatGewonnen)
+  else
   {
-    //  figur auswahl mitteilen
+    FigurAuswahl_ReportResults(SpielerZwei, einsatzP2);
   }
 }
 
@@ -192,6 +195,6 @@ void MinigameManager_Run(void)
 
   else if (figurAuswaehlen)
   {
-    //figur auswaehlen
+    FigurAuswahl_Run();
   }
 }

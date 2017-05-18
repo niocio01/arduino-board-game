@@ -74,7 +74,8 @@ void EinsatzSetzen_SetEinsatzDepot(GlobalTypes_Spieler_t spieler, uint8_t newEin
 
 void EinsatzSetzen_Run(void)
 {
-
+  /*-----------------------------------------------------------------
+  Einsatz für Spieler Eins und Zwei von Spieler Eins wählen. */
   if (PlayerManager_SpielerEinsAmZug())
   {
     if (PlayerManager_IsEinsatzSetzenActive(SpielerEins))
@@ -112,6 +113,7 @@ void EinsatzSetzen_Run(void)
         if (TasterHandler_Klick(SpielerEins, TasterEins))
         {
           EinsaztGewaehletP1 = true;
+          einsatzDepotP1 = einsatzDepotP1 - einsatzP1;
           TasterLed_Setzen(SpielerEins, LedEins, Gruen);
           PotiLed_Setzen(SpielerEins, Schwarz);
           Messages_ZeigeNachricht(SpielerEins, MSG_Einsatz_fuer_Gegner, &leer);
@@ -144,6 +146,7 @@ void EinsatzSetzen_Run(void)
         if (TasterHandler_Klick(SpielerEins, TasterEins))
         {
           EinsaztGewaehletP2 = true;
+          einsatzDepotP2 = einsatzDepotP2 - einsatzP2;
           TasterLed_Setzen(SpielerEins, LedEins, Schwarz);
           PotiLed_Setzen(SpielerEins, Schwarz);
         }
@@ -206,6 +209,7 @@ void EinsatzSetzen_Run(void)
 
         if (TasterHandler_Klick(SpielerZwei, TasterEins))
         {
+          einsatzDepotP2 = einsatzDepotP2 - einsatzP2;
           EinsaztGewaehletP2 = true;
           TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
           PotiLed_Setzen(SpielerZwei, Schwarz);
@@ -239,6 +243,7 @@ void EinsatzSetzen_Run(void)
         if (TasterHandler_Klick(SpielerZwei, TasterEins))
         {
           EinsaztGewaehletP1 = true;
+          einsatzDepotP1 = einsatzDepotP1 - einsatzP1;
           TasterLed_Setzen(SpielerZwei, LedEins, Schwarz);
           PotiLed_Setzen(SpielerZwei, Schwarz);
         }
@@ -303,6 +308,7 @@ void EinsatzSetzen_Run(void)
       if (TasterHandler_Klick(SpielerEins, TasterEins))
       {
         EinsaztGewaehletP1 = true;
+        einsatzDepotP1 = einsatzDepotP1 - einsatzP1;
         TasterLed_Setzen(SpielerEins, LedEins, Schwarz);
         PotiLed_Setzen(SpielerEins, Schwarz);
       }
@@ -335,6 +341,7 @@ void EinsatzSetzen_Run(void)
       if (TasterHandler_Klick(SpielerZwei, TasterEins))
       {
         EinsaztGewaehletP2 = true;
+        einsatzDepotP2 = einsatzDepotP2 - einsatzP2;
         TasterLed_Setzen(SpielerZwei, LedEins, Schwarz);
         PotiLed_Setzen(SpielerZwei, Schwarz);
       }

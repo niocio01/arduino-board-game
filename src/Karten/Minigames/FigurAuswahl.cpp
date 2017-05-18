@@ -14,7 +14,7 @@ Messages_values leer7;
 static uint8_t zuFahrendeFelder;
 GlobalTypes_Spieler_t spieler;
 
-static bool PlayerDecided;
+static bool LooserMsgShown;
 static bool AussetzenMSGShown;
 static bool ShowFelder;
 static bool FigureChosen;
@@ -24,22 +24,22 @@ GlobalTypes_Figur_t ChosenFigure;
 
 void FigurAuswahl_ReportResults(GlobalTypes_Spieler_t gewinner, uint8_t einsatz)
 {
+  spieler = gewinner;
   zuFahrendeFelder = einsatz;
 }
 
 void FigurAuswahl_Run(void)
 {
-  if (!PlayerDecided)
+  if (!LooserMsgShown)
   {
+    LooserMsgShown = true;
     SF_SetSpielfeldOn();
-    if(PlayerManager_SpielerEinsAmZug())
+    if (spieler == SpielerEins)
     {
-      spieler = SpielerEins;
       Messages_ZeigeNachricht(SpielerZwei, MSG_Gegner_WaehltFigur, & leer7);
     }
     else
     {
-      spieler = SpielerZwei;
       Messages_ZeigeNachricht(SpielerEins, MSG_Gegner_WaehltFigur, & leer7);
     }
   }
@@ -71,16 +71,16 @@ void FigurAuswahl_Run(void)
       }
       if (spieler == SpielerEins)
       {
-        TasterLed_Setzen(spieler, LedDrei, Rot); // Figur Eins
-        TasterLed_Setzen(spieler, LedVier, Gelb); // Figur Zwei
+        TasterLed_Setzen(SpielerEins, LedDrei, Rot); // Figur Eins
+        TasterLed_Setzen(SpielerEins, LedVier, Gelb); // Figur Zwei
       }
       else
       {
-        TasterLed_Setzen(spieler, LedDrei, Blau); // Figur Eins
-        TasterLed_Setzen(spieler, LedVier, Gruen); // Figur Zwei
+        TasterLed_Setzen(SpielerZwei, LedDrei, Blau); // Figur Eins
+        TasterLed_Setzen(SpielerZwei, LedVier, Gruen); // Figur Zwei
       }
       felder.AnzFelder = zuFahrendeFelder;
-      Messages_ZeigeNachricht(spieler, MSGxx_Felder_vorwaerts, & felder);
+      Messages_ZeigeNachricht(spieler, MSGxx_Felder_vorwaerts, &felder);
     }
 
 
@@ -105,6 +105,10 @@ void FigurAuswahl_Run(void)
     {
       if (SF_PlayerFigureHasMoved(spieler,ChosenFigure))
       {
+        LooserMsgShown = false;
+        AussetzenMSGShown = false;
+        ShowFelder = false;
+        FigureChosen = false;
         MinigameManager_FigurAusgewaehlt();
       }
     }
