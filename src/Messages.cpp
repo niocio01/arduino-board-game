@@ -241,6 +241,10 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     LcdTreiber_DisplayMessage(spieler, (char *) "Aussetzen", (char *) "");
     break;
 
+    case MSG_Gegner_WaehltFigur:
+    LcdTreiber_DisplayMessage(spieler, (char *) "Gegner bewegt", (char *) "seine Figur");
+    break;
+
 
 
     case MSGxx_Felder_vorwaerts:

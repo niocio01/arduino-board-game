@@ -463,6 +463,12 @@ void SF_SetSpielfeldOff(void)
   LedTreiber_MapBlack();
 }// end of SF_SetSpielfeldOff()
 
+void SF_SetSpielfeldOn(void)
+{
+  SF_ShowPlayerAktiv = true;
+  branchesChanged = true;
+}// end of SF_SetSpielfeldOn()
+
 
 // Kommentar siehe Headerfile
 // **************************

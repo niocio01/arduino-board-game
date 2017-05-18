@@ -10,7 +10,7 @@
 #include "PlayerManager.h"
 
 const uint8_t AnzahlZusaezlicherEinsatzt = 10; //bei Buff Mehr Einsatz
-static uint8_t einsatzDepotP1 = 3;
+static uint8_t einsatzDepotP1 = 30;
 static uint8_t einsatzDepotP2 = 30;
 const uint8_t maxPunkte = 5;
 

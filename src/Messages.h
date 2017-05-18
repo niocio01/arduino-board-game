@@ -73,7 +73,8 @@ typedef enum {
   MSG_Buff_Speed_Aktiv,
   MSG_Buff_Gewinn_Aktiv,
   MSG_Buff_EinsatzSetzen_Aktiv,
-  MSG_Buff_Aussetzen_Aktiv
+  MSG_Buff_Aussetzen_Aktiv,
+  MSG_Gegner_WaehltFigur
   } Messages_Nachrichten_t;
 
 /*

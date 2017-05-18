@@ -129,10 +129,17 @@ bool SF_Player2IsWinner(void);
 
 // Die Anzeige der Figuren in der regelmässig aufgerufenen Funktion
 // SF_OperateSpielfeld_Main() wird deaktiviert. Um die Anzeige
-// wieder zu aktivieren muss die Funktion SF_FiguresSetToStart()
-// mindestens einmal aufgerufen werden.
+// wieder zu aktivieren muss die Funktion SF_SetSpielfeldOn()
+// aufgerufen werden.
 // Die Ausführung des Lauflichtes wird nicht beeinflusst.
 void SF_SetSpielfeldOff(void);
+
+// Die Anzeige der Figuren in der regelmässig aufgerufenen Funktion
+// SF_OperateSpielfeld_Main() wird aktiviert.Um die Anzeige
+// zu deaktivieren muss die Funktion SF_SetSpielfeldOff()
+// aufgerufen werden.
+// Die Ausführung des Lauflichtes wird nicht beeinflusst.
+void SF_SetSpielfeldOn(void);
 
 
 // Funktion muss im Main-Loop laufend aufgerufen werden

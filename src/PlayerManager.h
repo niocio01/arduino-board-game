@@ -3,6 +3,7 @@
 
 #include "globaltypes.h"
 
+void PlayerManager_SpielzugBeendet(void);
 
 bool PlayerManager_SpielerEinsAmZug(void);
 bool PlayerManager_SpielerZweiAmZug(void);

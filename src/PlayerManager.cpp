@@ -16,6 +16,18 @@ static bool P2_AussetzenAktiv = false;
 static bool P2_EinsatzSetzenAktiv = false;
 static bool P2_GewinnGarantiertAktiv = false;
 
+void PlayerManager_SpielzugBeendet(void)
+{
+  if (P1_AmZug)
+  {
+    P1_AmZug = false;
+  }
+  else
+  {
+    P1_AmZug = true;
+  }
+}
+
 bool PlayerManager_SpielerEinsAmZug(void)
 {
   if (P1_AmZug == true)

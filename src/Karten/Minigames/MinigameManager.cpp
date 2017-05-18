@@ -10,6 +10,7 @@
 #include "Karten/Minigames/ShowGameAction.h"
 #include "StatusLedSituation.h"
 #include "Karten/Minigames/Simon.h"
+#include "Karten/KartenManager.h"
 
 MinigameManager_GameStatus_t currentGame;
 
@@ -130,6 +131,13 @@ void MinigameManager_WinnerShown(void)
   {
     //  figur auswahl mitteilen
   }
+}
+
+void MinigameManager_FigurAusgewaehlt(void)
+{
+  figurAuswaehlen = false;
+  PlayerManager_SpielzugBeendet();
+  Kartenmanager_MinigameEnded();
 }
 
 

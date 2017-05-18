@@ -30,5 +30,6 @@ typedef enum
     void MinigameManager_WinnerShown(void);
     void MinigameManager_GameNameShown(void);
     void MinigameManager_GameActionShown(void);
+    void MinigameManager_FigurAusgewaehlt(void);
 
 #endif
