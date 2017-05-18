@@ -178,7 +178,7 @@ void Messages_ZeigeNachricht(GlobalTypes_Spieler_t spieler, Messages_Nachrichten
     break;
 
     case MSG_GegnerSpielt:
-    LcdTreiber_DisplayMessage(spieler, (char *) "Gegner spielt", (char *) "zuerst");
+    LcdTreiber_DisplayMessage(spieler, (char *) "Gegner spielt", (char *) "jetzt");
     break;
 
     case MSG_Rot_Licht_druecken:

@@ -9,8 +9,10 @@
 #include "arduino.h"
 #include "Pitches.h"
 #include "Treiber/SpeakerTreiber.h"
+#include "Karten/Minigames/MinigameManager.h"
 
 const uint8_t laengeStartSequenz = 3;
+const uint8_t maxSequenzLaenge = 20;
 const uint8_t DimHelligkeit = 10; // helligkeit die nicht aktive felder erhalten
 const uint8_t BrightHelligkeit = 100; // helligkeit die aktive felder erhalten
 const uint16_t ZeitZwischenFarben = 400;
@@ -43,7 +45,7 @@ uint16_t FeldRot[11];
 uint16_t FeldGruen[11];
 uint16_t FeldGelb[11];
 uint16_t FeldBlau[11];
-uint8_t sequence[20];
+uint8_t sequence[maxSequenzLaenge];
 static uint8_t SequenzLaenge;
 static uint8_t aktuellerSequenzZeigeSchritt;
 static uint8_t aktuellerSequenzLoeseSchritt;
@@ -53,8 +55,8 @@ static uint32_t lastColorChange;
 static uint8_t aktuelleFarbe = keine;
 static uint8_t alteFarbe = 0;
 static uint8_t neueFarbe = keine;
-static uint8_t score_P1;
-static uint8_t score_P2;
+static uint8_t score_P1 = 0;
+static uint8_t score_P2 = 0;
 
 
 static bool PlayerDecided;
@@ -65,7 +67,6 @@ static bool playSequence = true;
 static bool sequenzNachmachen = false;
 static bool switchColor = true;
 static bool preNextSequenz;
-static bool afterGame;
 
 void Simon_InitData(void);
 void Simon_ShowColor_Run(void);
@@ -189,13 +190,14 @@ void Simon_Run(void)
       {
         neueFarbe = blau;
         aktuelleAuswahl = blau;
-        SpeakerTreiber_PlayTone(NOTE_E3, TonDauer);
+        SpeakerTreiber_PlayTone(NOTE_C3, TonDauer);
       }
       if (TasterHandler_Klick(aktiverSpieler, TasterVier))
       {
         neueFarbe = gelb;
         aktuelleAuswahl = gelb;
-        SpeakerTreiber_PlayTone(NOTE_C3, TonDauer);
+        SpeakerTreiber_PlayTone(NOTE_E3, TonDauer);
+
       }
       if (aktuelleAuswahl != 0)
       {
@@ -205,6 +207,14 @@ void Simon_Run(void)
 
           if (aktuellerSequenzLoeseSchritt == SequenzLaenge) // sequenz gelöst
           {
+            for (uint8_t i = 0; i <= 10 ; i++)
+            {
+              LedTreiber_LedSetzen(FeldRot[i], Rot, BrightHelligkeit);
+              LedTreiber_LedSetzen(FeldGruen[i], Gruen, BrightHelligkeit);
+              LedTreiber_LedSetzen(FeldGelb[i], Gelb, BrightHelligkeit);
+              LedTreiber_LedSetzen(FeldBlau[i], Blau, BrightHelligkeit);
+            }
+
             playSequence = true;
             addToSequence = true;
             sequenzNachmachen = false;
@@ -213,13 +223,6 @@ void Simon_Run(void)
             lastFarbeTime = millis();
             neueFarbe = 0;
             aktuelleFarbe = keine;
-            for (uint8_t i = 0; i <= 10 ; i++)
-            {
-              LedTreiber_LedSetzen(FeldRot[i], Rot, BrightHelligkeit);
-              LedTreiber_LedSetzen(FeldGruen[i], Gruen, BrightHelligkeit);
-              LedTreiber_LedSetzen(FeldGelb[i], Gelb, BrightHelligkeit);
-              LedTreiber_LedSetzen(FeldBlau[i], Blau, BrightHelligkeit);
-            }
 
             if (aktiverSpieler == SpielerEins)
             {
@@ -234,19 +237,6 @@ void Simon_Run(void)
         }
         else // fehler gemacht
         {
-          for (uint8_t i = 0; i <= 10 ; i++)
-          {
-            LedTreiber_LedSetzen(FeldRot[i], Rot, DimHelligkeit);
-            LedTreiber_LedSetzen(FeldGruen[i], Rot, DimHelligkeit);
-            LedTreiber_LedSetzen(FeldGelb[i], Rot, DimHelligkeit);
-            LedTreiber_LedSetzen(FeldBlau[i], Rot, DimHelligkeit);
-          }
-          aktuelleFarbe = keine;
-          neueFarbe = 0;
-          Messages_ZeigeNachricht(aktiverSpieler, MSG_Sequenz_Fehler, &leer6);
-          SpeakerTreiber_PlayTone(NOTE_A2, 400);
-          afterGame = true;
-
           if (aktiverSpieler == SpielerEins)
           {
             score_P1 = SequenzLaenge;
@@ -257,12 +247,53 @@ void Simon_Run(void)
             score_P2 = SequenzLaenge;
             aktiverSpieler = SpielerEins;
           }
+
+          LedTreiber_ControllsBlack();
+          aktuelleFarbe = keine;
+          neueFarbe = 0;
+          SpeakerTreiber_PlayTone(NOTE_A2, 400);
+
+          PlayerDecided = true; // reset for next Player
+          MSGShown = false;
+          MSGBestaetigt = false;
+          addToSequence = true;
+          playSequence = false;
+          sequenzNachmachen = false;
+          preNextSequenz = false;
+          aktuellerSequenzZeigeSchritt = 0;
+          aktuellerSequenzLoeseSchritt = 0;
+          SequenzLaenge = 0;
+          for (uint8_t i = 0; i <= maxSequenzLaenge; i++)
+          {
+            sequence[i] = 0;
+          }
+
+          if (score_P1 != 0 and score_P2 != 0) // reset the rest and end game
+          {
+            if (score_P1 < score_P2)
+            {
+              PlayerDecided = false;
+              score_P1 = 0;
+              score_P2 = 0;
+              MinigameManager_GameEnded(Win_SpielerZwei);
+            }
+            else if (score_P1 < score_P2)
+            {
+              PlayerDecided = false;
+              score_P1 = 0;
+              score_P2 = 0;
+              MinigameManager_GameEnded(Win_SpielerEins);
+            }
+            else if (score_P1 == score_P2)
+            {
+              PlayerDecided = false;
+              score_P1 = 0;
+              score_P2 = 0;
+              MinigameManager_GameEnded(Win_Unentschieden);
+            }
+          }
         }
       }
-    }
-    if (afterGame)
-    {
-
     }
   }
 }
@@ -307,8 +338,8 @@ void Simon_ShowColor_Run(void)
         LedTreiber_LedSetzen(FeldGruen[i], Gruen, DimHelligkeit);
         LedTreiber_LedSetzen(FeldGelb[i], Gelb, DimHelligkeit);
         LedTreiber_LedSetzen(FeldBlau[i], Blau, DimHelligkeit);
-        SpeakerTreiber_PlayTone(NOTE_C4, TonDauer);
       }
+      SpeakerTreiber_PlayTone(NOTE_C4, TonDauer);
       break;
 
       case gruen:
@@ -318,8 +349,8 @@ void Simon_ShowColor_Run(void)
         LedTreiber_LedSetzen(FeldGruen[i], Gruen, BrightHelligkeit);
         LedTreiber_LedSetzen(FeldGelb[i], Gelb, DimHelligkeit);
         LedTreiber_LedSetzen(FeldBlau[i], Blau, DimHelligkeit);
-        SpeakerTreiber_PlayTone(NOTE_G3, TonDauer);
       }
+      SpeakerTreiber_PlayTone(NOTE_G3, TonDauer);
       break;
 
       case gelb:
@@ -329,8 +360,8 @@ void Simon_ShowColor_Run(void)
         LedTreiber_LedSetzen(FeldGruen[i], Gruen, DimHelligkeit);
         LedTreiber_LedSetzen(FeldGelb[i], Gelb, BrightHelligkeit);
         LedTreiber_LedSetzen(FeldBlau[i], Blau, DimHelligkeit);
-        SpeakerTreiber_PlayTone(NOTE_E3, TonDauer);
       }
+      SpeakerTreiber_PlayTone(NOTE_E3, TonDauer);
       break;
 
       case blau:
@@ -340,8 +371,8 @@ void Simon_ShowColor_Run(void)
         LedTreiber_LedSetzen(FeldGruen[i], Gruen, DimHelligkeit);
         LedTreiber_LedSetzen(FeldGelb[i], Gelb, DimHelligkeit);
         LedTreiber_LedSetzen(FeldBlau[i], Blau, BrightHelligkeit);
-        SpeakerTreiber_PlayTone(NOTE_C3, TonDauer);
       }
+      SpeakerTreiber_PlayTone(NOTE_C3, TonDauer);
       break;
     }
     LedTreiber_LedAnzeigen();

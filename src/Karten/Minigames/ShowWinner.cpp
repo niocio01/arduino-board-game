@@ -63,7 +63,7 @@ void ShowWinner_Run(void)
   {
     if (!ResultMSGShown)
     {
-      LedTreiber_AllBlack();
+      LedTreiber_ControllsBlack();
       Messages_ZeigeNachricht(SpielerEins, MSG_Win, &leer2);
       Messages_ZeigeNachricht(SpielerZwei, MSG_Lose, &leer2);
       TasterLed_Setzen(SpielerEins, LedEins, Gruen);
@@ -93,16 +93,6 @@ void ShowWinner_Run(void)
       for (uint16_t i = 242; i <= 252; i++) {  // Vierter Kreis Seite Spieler 2
         LedTreiber_LedSetzen(i, Rot, 80);
       }
-      LedTreiber_LedSetzen(192, Blau, 80);
-      LedTreiber_LedSetzen(193, Blau, 80);
-      LedTreiber_LedSetzen(197, Blau, 80);
-      LedTreiber_LedSetzen(201, Blau, 80);
-      LedTreiber_LedSetzen(207, Blau, 80);
-      LedTreiber_LedSetzen(213, Blau, 80);
-      LedTreiber_LedSetzen(221, Blau, 80);
-      LedTreiber_LedSetzen(229, Blau, 80);
-      LedTreiber_LedSetzen(241, Blau, 80);
-
       LedTreiber_LedAnzeigen();
     }
 
@@ -135,7 +125,7 @@ void ShowWinner_Run(void)
   {
     if (!ResultMSGShown)
     {
-      LedTreiber_AllBlack();
+      LedTreiber_ControllsBlack();
       Messages_ZeigeNachricht(SpielerEins, MSG_Lose, &leer2);
       Messages_ZeigeNachricht(SpielerZwei, MSG_Win, &leer2);
       TasterLed_Setzen(SpielerEins, LedEins, Gruen);
@@ -165,16 +155,6 @@ void ShowWinner_Run(void)
       for (uint16_t i = 242; i <= 252; i++) {  // Vierter Kreis Seite Spieler 2
         LedTreiber_LedSetzen(i, Gruen, 80);
       }
-      LedTreiber_LedSetzen(192, Blau, 80);
-      LedTreiber_LedSetzen(193, Blau, 80);
-      LedTreiber_LedSetzen(197, Blau, 80);
-      LedTreiber_LedSetzen(201, Blau, 80);
-      LedTreiber_LedSetzen(207, Blau, 80);
-      LedTreiber_LedSetzen(213, Blau, 80);
-      LedTreiber_LedSetzen(221, Blau, 80);
-      LedTreiber_LedSetzen(229, Blau, 80);
-      LedTreiber_LedSetzen(241, Blau, 80);
-
       LedTreiber_LedAnzeigen();
     }
 
