@@ -99,15 +99,16 @@ void KartenManager_Main(void)
       bool success = RfidTreiber_ReadCard(kartenNrRef);
       if (success)
       {
-        ScanForCard = false;
-        if (kartenNrValue < 80) // Für Buffs
+        if (kartenNrValue > 60 and kartenNrValue < 80) // Für Buffs
         {
+          ScanForCard = false;
           BuffManager_TellBuff(kartenNrValue);
           buffInProgress = true;
         }
 
-        else // für Minigames
+        if (kartenNrValue > 80 and kartenNrValue < 110) // für Minigames
         {
+          ScanForCard = false;
           minigameInProgress = true;
           SF_SetSpielfeldOff();
           switch (kartenNrValue) {

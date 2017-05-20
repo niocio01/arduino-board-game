@@ -33,6 +33,7 @@ bool TasterHandler_Klick(GlobalTypes_Spieler_t spieler, TasterHandler_Tasten_t t
       }
       LastStateP1T1 = newState;
       return false;
+      break;
 
       case TasterZwei:
       newState = TasterTreiber_TasteGedrueckt(SPIELER1_TASTE2);
@@ -46,6 +47,7 @@ bool TasterHandler_Klick(GlobalTypes_Spieler_t spieler, TasterHandler_Tasten_t t
       }
       LastStateP1T2 = newState;
       return false;
+      break;
 
       case TasterDrei:
       newState = TasterTreiber_TasteGedrueckt(SPIELER1_TASTE3);
@@ -59,6 +61,7 @@ bool TasterHandler_Klick(GlobalTypes_Spieler_t spieler, TasterHandler_Tasten_t t
       }
       LastStateP1T3 = newState;
       return false;
+      break;
 
       case TasterVier:
       newState = TasterTreiber_TasteGedrueckt(SPIELER1_TASTE4);
@@ -72,6 +75,7 @@ bool TasterHandler_Klick(GlobalTypes_Spieler_t spieler, TasterHandler_Tasten_t t
       }
       LastStateP1T4 = newState;
       return false;
+      break;
     }
   }
   else // Spieler Zwei
@@ -90,6 +94,7 @@ bool TasterHandler_Klick(GlobalTypes_Spieler_t spieler, TasterHandler_Tasten_t t
       }
       LastStateP2T1 = newState;
       return false;
+      break;
 
       case TasterZwei:
       newState = TasterTreiber_TasteGedrueckt(SPIELER2_TASTE2);
@@ -103,6 +108,7 @@ bool TasterHandler_Klick(GlobalTypes_Spieler_t spieler, TasterHandler_Tasten_t t
       }
       LastStateP2T2 = newState;
       return false;
+      break;
 
       case TasterDrei:
       newState = TasterTreiber_TasteGedrueckt(SPIELER2_TASTE3);
@@ -116,6 +122,7 @@ bool TasterHandler_Klick(GlobalTypes_Spieler_t spieler, TasterHandler_Tasten_t t
       }
       LastStateP2T3 = newState;
       return false;
+      break;
 
       case TasterVier:
       newState = TasterTreiber_TasteGedrueckt(SPIELER2_TASTE4);
@@ -129,6 +136,7 @@ bool TasterHandler_Klick(GlobalTypes_Spieler_t spieler, TasterHandler_Tasten_t t
       }
       LastStateP2T4 = newState;
       return false;
+      break;
     }
   }
 }

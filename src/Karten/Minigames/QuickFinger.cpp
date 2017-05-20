@@ -8,7 +8,7 @@
 #include "Karten/Minigames/MinigameManager.h"
 
 const uint8_t startCountdown = 3;
-const uint8_t gameTime = 5;
+const uint8_t gameTime = 20;
 
 static uint8_t PressesP1;
 static uint8_t PressesP2;

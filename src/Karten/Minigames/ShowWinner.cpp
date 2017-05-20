@@ -20,7 +20,6 @@ void ShowWinner_TellResults(MinigameManager_Winner_t gewinner)
   {
     if (PlayerManager_IsGewinnGarantiertActive(SpielerEins))
     {
-      if (PlayerManager_IsShieldActive(SpielerZwei))
       gewinner = Win_SpielerEins;
       PlayerManager_DeActivateGewinnGarantiert(SpielerEins);
     }

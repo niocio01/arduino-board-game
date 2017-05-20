@@ -90,12 +90,14 @@ void FigurAuswahl_Run(void)
       {
         FigureChosen = true;
         ChosenFigure = FigureEins;
+        LedTreiber_ControllsBlack();
         SF_MovePlayerFigure(spieler,ChosenFigure,zuFahrendeFelder);
       }
       if (TasterHandler_Klick(spieler, TasterVier))// Figur Zwei
       {
         FigureChosen = true;
         ChosenFigure = FigureZwei;
+        LedTreiber_ControllsBlack();
         SF_MovePlayerFigure(spieler,ChosenFigure,zuFahrendeFelder);
       }
     }

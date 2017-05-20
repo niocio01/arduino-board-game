@@ -1,6 +1,7 @@
 #include "Karten/Minigames/MinigameManager.h"
 #include "Treiber/LedTreiber.h"
 #include "Karten/Minigames/QuickFinger.h"
+#include "Karten/Minigames/FastCounter.h"
 #include "Karten/Minigames/EinsatzSetzen.h"
 #include "Karten/Minigames/ShowWinner.h"
 #include "Karten/Minigames/ShowGameName.h"
@@ -125,7 +126,7 @@ void MinigameManager_WinnerShown(GlobalTypes_Spieler_t gewinner)
 {
   showWinner = false;
   figurAuswaehlen = true;
-  
+
   if (gewinner == SpielerEins)
   {
     FigurAuswahl_ReportResults(SpielerEins, einsatzP1);
@@ -179,7 +180,7 @@ void MinigameManager_Run(void)
       break;
 
       case FastCounter:
-      // code
+      FastCounter_RunGame();
       break;
 
       case Timing:
