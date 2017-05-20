@@ -56,6 +56,7 @@ void FigurAuswahl_Run(void)
     {
       LedTreiber_ControllsBlack();
       PlayerManager_DeActivateAussetzen(spieler);
+      MinigameManager_FigurAusgewaehlt();
     }
   }
 

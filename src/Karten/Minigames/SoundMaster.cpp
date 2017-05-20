@@ -37,12 +37,6 @@ static bool PlayerDecided;
 static bool TonePlayed;
 static bool StartMSGBestaetigt;
 
-void SoundMaster_Start(void)
-{
-  Serial.begin(9600);
-  Serial.println("Hello");
-}
-
 void SoundMaster_RunGame(void)
 {
   if (!PlayerDecided)

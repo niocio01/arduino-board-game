@@ -11,7 +11,6 @@
 #include "Treiber/IRTreiber.h"
 #include "Treiber/PotiTreiber.h"
 #include "Treiber/SpielfeldLed.h"
-#include "Karten/Minigames/SoundMaster.h"
 
 
 static bool ledGestartet;
@@ -26,7 +25,6 @@ static bool PotiGestartet;
 
 void Startup_check(void)
 {
-  SoundMaster_Start();
   ledGestartet  = LedTreiber_Startup();
   lcdGestartet  = LcdTreiber_Startup();
   rfidGestartet = RfidTreiber_Startup();

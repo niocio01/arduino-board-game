@@ -13,6 +13,7 @@
 #include "Karten/Minigames/Simon.h"
 #include "Karten/KartenManager.h"
 #include "Karten/Minigames/SoundMaster.h"
+#include "Karten/Buffs/Zeitreise.h"
 
 MinigameManager_GameStatus_t currentGame;
 
@@ -141,6 +142,7 @@ void MinigameManager_WinnerShown(GlobalTypes_Spieler_t gewinner)
 void MinigameManager_FigurAusgewaehlt(void)
 {
   figurAuswaehlen = false;
+  Zeitreise_FillInNewSpielzug();
   PlayerManager_SpielzugBeendet();
   Kartenmanager_MinigameEnded();
 }
