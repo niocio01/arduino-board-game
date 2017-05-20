@@ -15,7 +15,6 @@ static uint8_t PressesP2;
 
 Messages_values leer8;
 Messages_values FC_countdown;
-static bool startMsgShown;
 static bool startDoneP1;
 static bool startDoneP2;
 static bool gameBegun;
@@ -69,9 +68,8 @@ void FastCounter_RunGame()
     }
 
     if (FinshTime_P1  != 0 and FinshTime_P2 != 0)
-    {
-      startMsgShown = false; //reset
-      startDoneP1 = false;
+      {
+      startDoneP1 = false; //reset
       startDoneP2 = false;
       gameBegun = false;
       FC_startCountdownTimeRemaining = startCountdown;

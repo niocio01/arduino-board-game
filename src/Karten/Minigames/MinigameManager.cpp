@@ -12,6 +12,7 @@
 #include "StatusLedSituation.h"
 #include "Karten/Minigames/Simon.h"
 #include "Karten/KartenManager.h"
+#include "Karten/Minigames/SoundMaster.h"
 
 MinigameManager_GameStatus_t currentGame;
 
@@ -172,7 +173,7 @@ void MinigameManager_Run(void)
       break;
 
       case ToneMaster:
-      // code
+      SoundMaster_RunGame();
       break;
 
       case QuickFinger:
