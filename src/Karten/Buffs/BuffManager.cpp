@@ -86,7 +86,7 @@ void BuffManager_Run(void)
 
       case Schild:
       Messages_ZeigeNachricht(spieler, MSG_Buff_Schild, &leer3);
-      PlayerManager_ActivateShield(SpielerEins);
+      PlayerManager_ActivateShield(spieler);
       break;
 
       case Zeitreise:
@@ -117,7 +117,10 @@ void BuffManager_Run(void)
   {
     if (karte == Lucky)
     {
+      randomSeed(analogRead(A3));
       karte = random(65, 74);
+      MGSShown = false;
+      MSGBestaetigt = false;
     }
     else
     {

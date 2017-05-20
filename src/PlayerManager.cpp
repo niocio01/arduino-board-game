@@ -156,11 +156,25 @@ void PlayerManager_ActivateGewinnGarantiert(GlobalTypes_Spieler_t spieler)
 {
   if (spieler == SpielerEins)
   {
-    P1_GewinnGarantiertAktiv = true;
+    if (P2_SchildAktiv)
+    {
+      P2_SchildAktiv = false;
+    }
+    else
+    {
+      P1_GewinnGarantiertAktiv = true;
+    }
   }
-  else
+  else // P2
   {
-    P2_GewinnGarantiertAktiv = true;
+    if (P1_SchildAktiv)
+    {
+      P1_SchildAktiv = false;
+    }
+    else
+    {
+      P2_GewinnGarantiertAktiv = true;
+    }
   }
 }
 void PlayerManager_DeActivateGewinnGarantiert(GlobalTypes_Spieler_t spieler)
@@ -205,11 +219,25 @@ void PlayerManager_ActivateEinsatzSetzen(GlobalTypes_Spieler_t spieler)
 {
   if (spieler == SpielerEins)
   {
-    P1_EinsatzSetzenAktiv = true;
+    if (P2_SchildAktiv)
+    {
+      P2_SchildAktiv = false;
+    }
+    else
+    {
+      P1_EinsatzSetzenAktiv = true;
+    }
   }
-  else
+  else // P2
   {
-    P2_EinsatzSetzenAktiv = true;
+    if (P1_SchildAktiv)
+    {
+      P1_SchildAktiv = false;
+    }
+    else
+    {
+      P2_EinsatzSetzenAktiv = true;
+    }
   }
 }
 void PlayerManager_DeActivateEinsatzSetzen(GlobalTypes_Spieler_t spieler)
@@ -255,11 +283,25 @@ void PlayerManager_ActivateAussetzen(GlobalTypes_Spieler_t spieler)
 {
   if (spieler == SpielerEins)
   {
-    P2_AussetzenAktiv = true;
+    if (P2_SchildAktiv)
+    {
+      P2_SchildAktiv = false;
+    }
+    else
+    {
+      P2_AussetzenAktiv = true;
+    }
   }
   else
   {
-    P1_AussetzenAktiv = true;
+    if (P1_SchildAktiv)
+    {
+      P1_SchildAktiv = false;
+    }
+    else
+    {
+      P1_AussetzenAktiv = true;
+    }
   }
 }
 void PlayerManager_DeActivateAussetzen(GlobalTypes_Spieler_t spieler)
