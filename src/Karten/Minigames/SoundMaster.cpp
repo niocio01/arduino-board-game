@@ -28,8 +28,8 @@ static uint16_t MaxFreq;
 static uint16_t currentPitch;
 static uint16_t ScoreP1;
 static uint16_t ScoreP2;
-static uint16_t ToneStartTime;
-static uint16_t lastUpdateTime;
+static uint32_t ToneStartTime;
+static uint32_t lastUpdateTime;
 
 static bool startMsgShown = false;
 static bool startDone = false;
@@ -42,6 +42,10 @@ void SoundMaster_RunGame(void)
   if (!PlayerDecided)
   {
     PlayerDecided = true;
+    startMsgShown = false;
+    startDone = false;
+    TonePlayed = false;
+    StartMSGBestaetigt = false;
     if (PlayerManager_SpielerEinsAmZug())
     {
       SM_spieler = SpielerEins;
@@ -87,7 +91,7 @@ void SoundMaster_RunGame(void)
     }
     else
     {
-      if (millis() - ToneStartTime >= TonePlayingTime + TonePlayingTime)
+      if (millis()  > ToneStartTime +  2 * TonePlayingTime)
       {
         startDone = true;
         Messages_ZeigeNachricht(SM_spieler, MSG_Frequenz, &leer9);
@@ -109,7 +113,7 @@ void SoundMaster_RunGame(void)
         LedTreiber_ControllsBlack();
         startMsgShown = false;
         startDone = false;
-        TonePlayed =false;
+        TonePlayed = false;
         StartMSGBestaetigt = false;
 
         if (SM_spieler == SpielerEins)
@@ -124,16 +128,16 @@ void SoundMaster_RunGame(void)
         }
       }
 
-      if (ScoreP1 and ScoreP2)
+      if (ScoreP1 != 0 and ScoreP2 != 0)
       {
         PlayerDecided = false;
-        if (ScoreP1 > ScoreP2)
+        if (ScoreP1 < ScoreP2)
         {
           ScoreP1 = 0;
           ScoreP2 = 0;
           MinigameManager_GameEnded(Win_SpielerEins);
         }
-        else if (ScoreP2 > ScoreP1)
+        else if (ScoreP2 < ScoreP1)
         {
           ScoreP1 = 0;
           ScoreP2 = 0;

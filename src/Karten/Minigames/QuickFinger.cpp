@@ -31,6 +31,7 @@ void QuickFinger_RunGame()
   if (!startDone)
   {
     startDone = true;
+    LedTreiber_ControllsBlack();
     TasterLed_Setzen(SpielerZwei, LedVier, Gruen);
     TasterLed_Setzen(SpielerEins, LedVier, Gruen);
   }
@@ -47,8 +48,6 @@ void QuickFinger_RunGame()
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_Schnell_druecken, &leer);
         Messages_ZeigeNachricht(SpielerZwei, MSG_Schnell_druecken, &leer);
-        TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
-        TasterLed_Setzen(SpielerEins, LedEins, Gruen);
         gameBegun = true;
       }
     }

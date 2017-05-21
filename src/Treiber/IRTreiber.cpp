@@ -47,11 +47,6 @@ bool IRTreiber_Startup(void)
 
 void IRTreiber_Main(void)
 {
-  if (AktiveBuffsAnzeigen)
-  {
-    AktiveBuffsAnzeigen_Run();
-  }
-  else
   {
     if (millis() - LastUpdateTime > UpdateIntervall)
     {
@@ -65,37 +60,38 @@ void IRTreiber_Main(void)
         break;
 
         case PressedButton_CH_DOWN:
-        LedTreiber_LedSchalten(77, Rot);
+        SpeakerTreiber_PlayTone(440, 10);
         break;
 
         case PressedButton_CH:
-        LedTreiber_LedSchalten(77, Gruen);
+
         break;
 
         case PressedButton_CH_UP:
-        LedTreiber_LedSchalten(77, Blau);
+
         break;
 
         case PressedButton_PREV:
+        SF_MovePlayerFigure(SpielerEins, FigureEins, 2);
         break;
 
         case PressedButton_NEXT:
+        SF_MovePlayerFigure(SpielerEins, FigureZwei, 2);
         break;
 
         case PressedButton_PLAY:
-        MinigameManager_EinsatzGesetzt(1, 1);
+        MinigameManager_EinsatzGesetzt(0, 0);
         break;
 
         case PressedButton_VOL_DOWN:
-          SF_MovePlayerFigure(SpielerZwei, FigureEins, -2);
+        SF_MovePlayerFigure(SpielerZwei, FigureZwei, 2);
         break;
 
         case PressedButton_VOL_UP:
-        SF_MovePlayerFigure(SpielerZwei, FigureEins, 10);
+        SF_MovePlayerFigure(SpielerZwei, FigureEins, 2);
         break;
 
         case PressedButton_EQ:
-        AktiveBuffsAnzeigen = true;
         break;
 
         case PressedButton_0:
@@ -134,15 +130,15 @@ void IRTreiber_Main(void)
         break;
 
         case PressedButton_7:
-        Zeitreise_DebugSituationErstellen();
+
         break;
 
         case PressedButton_8:
-        LedTreiber_AllBlack();
+        soft_restart();
         break;
 
         case PressedButton_9:
-        soft_restart();
+
         break;
       }
     }

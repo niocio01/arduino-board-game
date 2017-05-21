@@ -16,7 +16,7 @@ const uint8_t maxSequenzLaenge = 20;
 const uint8_t DimHelligkeit = 10; // helligkeit die nicht aktive felder erhalten
 const uint8_t BrightHelligkeit = 100; // helligkeit die aktive felder erhalten
 const uint16_t ZeitZwischenFarben = 400;
-const int32_t AnzeigedauerFarbe = 200;
+const uint16_t AnzeigedauerFarbe = 200;
 const uint16_t ZeitZwischenSequenzen = 1000;
 const uint16_t TonDauer = 300;
 
