@@ -31,11 +31,11 @@ static uint16_t ScoreP2;
 static uint16_t ToneStartTime;
 static uint16_t lastUpdateTime;
 
-static bool startMsgShown;
-static bool startDone;
-static bool PlayerDecided;
-static bool TonePlayed;
-static bool StartMSGBestaetigt;
+static bool startMsgShown = false;
+static bool startDone = false;
+static bool PlayerDecided = false;
+static bool TonePlayed = false;
+static bool StartMSGBestaetigt = false;
 
 void SoundMaster_RunGame(void)
 {
@@ -74,7 +74,7 @@ void SoundMaster_RunGame(void)
     Pitchgoal = random(MinFreq, MaxFreq);
   }
 
-  if (!startDone)
+  if (startDone == false and startMsgShown == true)
   {
     if (!StartMSGBestaetigt)
     {
@@ -96,13 +96,13 @@ void SoundMaster_RunGame(void)
     }
   }
 
-  else
+  if (startDone)
   {
     if (millis() - lastUpdateTime >= updateIntervall)
     {
       lastUpdateTime = millis();
       currentPitch = map(PotiTreiber_Get_Val(SM_spieler), 0, 255, MinFreq, MaxFreq);
-      SpeakerTreiber_PlayTone(currentPitch, updateIntervall + 50);
+      SpeakerTreiber_PlayTone(currentPitch, updateIntervall + 20);
 
       if (TasterHandler_Klick(SM_spieler, TasterEins))
       {

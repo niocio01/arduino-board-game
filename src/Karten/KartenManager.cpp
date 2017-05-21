@@ -13,8 +13,6 @@
 #include "Karten/Buffs/AktiveBuffsAnzeigen.h"
 #include "Treiber/SpielfeldLed.h"
 
-uint8_t freeSteps = 1; // Anzahl schritte welche pro zug gratis gamacht werden können
-
 static bool minigameInProgress = false;
 static bool buffInProgress = false;
 static bool MSGShown = false;
@@ -147,7 +145,7 @@ void KartenManager_Main(void)
           if (TasterHandler_Klick(SpielerEins, TasterEins))
           {
             LedTreiber_ControllsBlack();
-            MinigameManager_EinsatzGesetzt(freeSteps, 0, true);
+            MinigameManager_EinsatzGesetzt(0, 0, true);
             minigameInProgress = true;
           }
         }
@@ -156,7 +154,7 @@ void KartenManager_Main(void)
           if (TasterHandler_Klick(SpielerZwei, TasterEins))
           {
             LedTreiber_ControllsBlack();
-            MinigameManager_EinsatzGesetzt(0, freeSteps, true);
+            MinigameManager_EinsatzGesetzt(0, 0, true);
             minigameInProgress = true;
           }
         }

@@ -67,6 +67,8 @@ static bool playSequence = true;
 static bool sequenzNachmachen = false;
 static bool switchColor = true;
 static bool preNextSequenz;
+static bool P1_Done = false;
+static bool P2_Done = false;
 
 void Simon_InitData(void);
 void Simon_ShowColor_Run(void);
@@ -240,11 +242,13 @@ void Simon_Run(void)
           if (aktiverSpieler == SpielerEins)
           {
             score_P1 = SequenzLaenge;
+            P1_Done = true;
             aktiverSpieler = SpielerZwei;
           }
           else
           {
             score_P2 = SequenzLaenge;
+            P2_Done = true;
             aktiverSpieler = SpielerEins;
           }
 
@@ -268,8 +272,11 @@ void Simon_Run(void)
             sequence[i] = 0;
           }
 
-          if (score_P1 != 0 and score_P2 != 0) // reset the rest and end game
+          if (P1_Done and P2_Done) // reset the rest and end game
           {
+            P1_Done = false;
+            P2_Done = false;
+
             if (score_P1 < score_P2)
             {
               PlayerDecided = false;
@@ -277,7 +284,7 @@ void Simon_Run(void)
               score_P2 = 0;
               MinigameManager_GameEnded(Win_SpielerZwei);
             }
-            else if (score_P1 < score_P2)
+            else if (score_P2 < score_P1)
             {
               PlayerDecided = false;
               score_P1 = 0;

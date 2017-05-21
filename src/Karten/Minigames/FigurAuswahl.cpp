@@ -7,7 +7,9 @@
 #include "PlayerManager.h"
 #include "Karten/Minigames/MinigameManager.h"
 
-const uint8_t SpeedZusaezlicheFelder = 2;
+const uint8_t SpeedZusaezlicheFelder = 3;
+const uint8_t freeSteps = 2;
+
 Messages_values felder;
 
 Messages_values leer7;
@@ -26,6 +28,15 @@ void FigurAuswahl_ReportResults(GlobalTypes_Spieler_t gewinner, uint8_t einsatz)
 {
   spieler = gewinner;
   zuFahrendeFelder = einsatz;
+
+  if (PlayerManager_SpielerEinsAmZug() == true and gewinner == SpielerEins)
+  {
+    zuFahrendeFelder = zuFahrendeFelder + freeSteps;
+  }
+  if (PlayerManager_SpielerEinsAmZug() == false and gewinner == SpielerZwei)
+  {
+    zuFahrendeFelder = zuFahrendeFelder + freeSteps;
+  }
 }
 
 void FigurAuswahl_Run(void)
@@ -56,7 +67,8 @@ void FigurAuswahl_Run(void)
     {
       LedTreiber_ControllsBlack();
       PlayerManager_DeActivateAussetzen(spieler);
-      MinigameManager_FigurAusgewaehlt();
+      PlayerManager_DeActivateSpeed(spieler);
+      MinigameManager_FigurAusgewaehlt();      
     }
   }
 

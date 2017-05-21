@@ -122,15 +122,15 @@ void IRTreiber_Main(void)
         break;
 
         case PressedButton_4:
-        SF_SetSpielfeldOff();
+        SF_SetBranchPlayer (SpielerEins, Branch1, true);
         break;
 
         case PressedButton_5:
-        SpeakerTreiber_PlayTone(150, 400);
+        SF_SetBranchPlayer (SpielerEins, Branch2, true);
         break;
 
         case PressedButton_6:
-        SpeakerTreiber_PlayTone(1500, 800);
+        SF_SetBranchPlayer (SpielerEins, Branch3, true);
         break;
 
         case PressedButton_7:
