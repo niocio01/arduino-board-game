@@ -8,7 +8,7 @@
 #include "Karten/Minigames/MinigameManager.h"
 
 const uint8_t startCountdown = 3;
-const uint8_t gameTime = 20;
+const uint8_t gameTime = 15;
 
 static uint8_t PressesP1;
 static uint8_t PressesP2;
@@ -20,13 +20,20 @@ static bool startDoneP1;
 static bool startDoneP2;
 static bool gameBegun;
 static bool GameOver;
+static bool startDone;
 
 uint8_t startCountdownTimeRemaining = startCountdown;
-uint8_t endCountdownTimeRemaining = startCountdown;
+uint8_t endCountdownTimeRemaining = gameTime;
 uint32_t lastCountTime;
 
 void QuickFinger_RunGame()
 {
+  if (!startDone)
+  {
+    startDone = true;
+    TasterLed_Setzen(SpielerZwei, LedVier, Gruen);
+    TasterLed_Setzen(SpielerEins, LedVier, Gruen);
+  }
   if (!gameBegun)
   {
     if ((millis() - lastCountTime) > 1000)
@@ -48,7 +55,7 @@ void QuickFinger_RunGame()
   }
   if (gameBegun)
   {
-    if (TasterHandler_Klick(SpielerEins, TasterEins))
+    if (TasterHandler_Klick(SpielerEins, TasterVier))
     {
       if (PressesP1 < 62)
       {
@@ -65,7 +72,7 @@ void QuickFinger_RunGame()
       PressesP1 ++ ;
     }
 
-    if (TasterHandler_Klick(SpielerZwei, TasterEins))
+    if (TasterHandler_Klick(SpielerZwei, TasterVier))
     {
       if (PressesP2 < 62)
       {
@@ -103,6 +110,7 @@ void QuickFinger_RunGame()
       startDoneP2 = false;
       gameBegun = false;
       GameOver = false;
+      startDone = false;
       startCountdownTimeRemaining = startCountdown;
       endCountdownTimeRemaining = gameTime;
 

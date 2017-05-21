@@ -18,6 +18,7 @@ Messages_values FC_countdown;
 static bool startDoneP1;
 static bool startDoneP2;
 static bool gameBegun;
+static bool startDone;
 
 uint8_t FC_startCountdownTimeRemaining = startCountdown;
 uint8_t FC_endCountdownTimeRemaining = startCountdown;
@@ -28,6 +29,12 @@ uint32_t FinshTime_P2 = 0;
 
 void FastCounter_RunGame()
 {
+  if (!startDone)
+  {
+    startDone = true;
+    TasterLed_Setzen(SpielerZwei, LedVier, Gruen);
+    TasterLed_Setzen(SpielerEins, LedVier, Gruen);
+  }
   if (!gameBegun)
   {
     if ((millis() - FC_lastCountTime) > 1000)
@@ -41,15 +48,13 @@ void FastCounter_RunGame()
       {
         Messages_ZeigeNachricht(SpielerZwei, MSG_20_schnell_druecken, &leer8);
         Messages_ZeigeNachricht(SpielerZwei, MSG_20_schnell_druecken, &leer8);
-        TasterLed_Setzen(SpielerZwei, LedEins, Gruen);
-        TasterLed_Setzen(SpielerEins, LedEins, Gruen);
         gameBegun = true;
       }
     }
   }
   if (gameBegun)
   {
-    if (TasterHandler_Klick(SpielerEins, TasterEins))
+    if (TasterHandler_Klick(SpielerEins, TasterVier))
     {
       PressesP1 ++ ;
       if (PressesP1 == NoOfPresses)
@@ -58,7 +63,7 @@ void FastCounter_RunGame()
       }
     }
 
-    if (TasterHandler_Klick(SpielerZwei, TasterEins))
+    if (TasterHandler_Klick(SpielerZwei, TasterVier))
     {
       PressesP2 ++ ;
       if (PressesP2 == NoOfPresses)
@@ -75,6 +80,7 @@ void FastCounter_RunGame()
       FC_startCountdownTimeRemaining = startCountdown;
       FinshTime_P1 = 0;
       FinshTime_P2 = 0;
+      startDone = false;
 
       if (PressesP1 == PressesP2)
       {
