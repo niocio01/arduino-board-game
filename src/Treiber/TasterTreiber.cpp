@@ -12,12 +12,15 @@ const uint8_t P2T2Pin = 48;
 const uint8_t P2T3Pin = 50;
 const uint8_t P2T4Pin = 52;
 
-
+const uint16_t CooldownTime = 50;
 const uint32_t debounceDelay = 5;
 static uint8_t bufferAktuell;
 static uint8_t bufferAlt;
 static uint8_t BufferEntprellt;
 static uint8_t bufferPushRelease;
+static uint32_t LastCheckedTime;
+static uint32_t lastDebounceTime;
+
 
 
 bool TasterTreiber_Startup()
@@ -49,8 +52,6 @@ bool TasterTreiber_Startup()
   P2T3State = digitalRead(P2T3Pin);
   P2T4State = digitalRead(P2T4Pin);
 
-
-
   if (!P1T1State and !P1T2State and !P1T3State and !P1T4State and !P2T1State and !P2T2State and !P2T3State and !P2T4State == true)
   {
     return true;
@@ -63,6 +64,8 @@ bool TasterTreiber_Startup()
 
 bool TasterTreiber_TasteGedrueckt (uint8_t tastenNr)
 {
+  LastCheckedTime = millis();
+
   if (BufferEntprellt & tastenNr)
   {
     return true;
@@ -72,49 +75,53 @@ bool TasterTreiber_TasteGedrueckt (uint8_t tastenNr)
 
 void TasterTreiber_Main (void)
 {
-  uint8_t bufferAktuell = 0x00;
-  static uint32_t lastDebounceTime;
-
-  if ((millis() - lastDebounceTime) > debounceDelay)
+  if (millis() < LastCheckedTime + CooldownTime) // degital red abstellen, wenn
+  // gar keine tastendrücke abgefragt werden müssen.
+  // wird aktiviert, sobald die erste abfrage des Puffers erfolgt.
   {
-    if (digitalRead(P1T1Pin) == true)
-    {
-      bufferAktuell |= SPIELER1_TASTE1;
-    }
-    if (digitalRead(P1T2Pin) == true)
-    {
-      bufferAktuell |= SPIELER1_TASTE2;
-    }
-    if (digitalRead(P1T3Pin) == true)
-    {
-      bufferAktuell |= SPIELER1_TASTE3;
-    }
-    if (digitalRead(P1T4Pin) == true)
-    {
-      bufferAktuell |= SPIELER1_TASTE4;
-    }
-    if (digitalRead(P2T1Pin) == true)
-    {
-      bufferAktuell |= SPIELER2_TASTE1;
-    }
-    if (digitalRead(P2T2Pin) == true)
-    {
-      bufferAktuell |= SPIELER2_TASTE2;
-    }
-    if (digitalRead(P2T3Pin) == true)
-    {
-      bufferAktuell |= SPIELER2_TASTE3;
-    }
-    if (digitalRead(P2T4Pin) == true)
-    {
-      bufferAktuell |= SPIELER2_TASTE4;
-    }
+    uint8_t bufferAktuell = 0x00;
 
-    if (bufferAktuell == bufferAlt)
+    if ((millis() - lastDebounceTime) > debounceDelay)
     {
-      BufferEntprellt = bufferAktuell;
+      if (digitalRead(P1T1Pin) == true)
+      {
+        bufferAktuell |= SPIELER1_TASTE1;
+      }
+      if (digitalRead(P1T2Pin) == true)
+      {
+        bufferAktuell |= SPIELER1_TASTE2;
+      }
+      if (digitalRead(P1T3Pin) == true)
+      {
+        bufferAktuell |= SPIELER1_TASTE3;
+      }
+      if (digitalRead(P1T4Pin) == true)
+      {
+        bufferAktuell |= SPIELER1_TASTE4;
+      }
+      if (digitalRead(P2T1Pin) == true)
+      {
+        bufferAktuell |= SPIELER2_TASTE1;
+      }
+      if (digitalRead(P2T2Pin) == true)
+      {
+        bufferAktuell |= SPIELER2_TASTE2;
+      }
+      if (digitalRead(P2T3Pin) == true)
+      {
+        bufferAktuell |= SPIELER2_TASTE3;
+      }
+      if (digitalRead(P2T4Pin) == true)
+      {
+        bufferAktuell |= SPIELER2_TASTE4;
+      }
+
+      if (bufferAktuell == bufferAlt)
+      {
+        BufferEntprellt = bufferAktuell;
+      }
+      bufferAlt = bufferAktuell;
+      lastDebounceTime = millis();
     }
-    bufferAlt = bufferAktuell;
-    lastDebounceTime = millis();
   }
 }

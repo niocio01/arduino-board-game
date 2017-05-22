@@ -8,6 +8,7 @@
 #include "Karten/Buffs/AktiveBuffsAnzeigen.h"
 #include <Wire.h>
 #include "Treiber/SpeakerTreiber.h"
+#include "Pitches.h"
 
 #define I2CAdress 8
 
@@ -39,6 +40,8 @@ uint16_t UpdateIntervall = 500;
 
 static bool AktiveBuffsAnzeigen = false;
 
+void IRTreiber_PlayMelody(void);
+
 bool IRTreiber_Startup(void)
 {
   Wire.begin();        // join i2c bus (address optional for master)
@@ -68,7 +71,7 @@ void IRTreiber_Main(void)
         break;
 
         case PressedButton_CH_UP:
-
+        IRTreiber_PlayMelody();
         break;
 
         case PressedButton_PREV:
@@ -142,5 +145,31 @@ void IRTreiber_Main(void)
         break;
       }
     }
+  }
+}
+
+void IRTreiber_PlayMelody(void)
+{
+  int melody[] = {
+  NOTE_C5, NOTE_G4, NOTE_G4, NOTE_A4, NOTE_G4, 0, NOTE_B4, NOTE_C5
+  };
+  int noteDurations[] = {
+    4, 8, 8, 4, 4, 4, 4, 4
+  };
+
+  for (int thisNote = 0; thisNote < 8; thisNote++)
+  {
+    // to calculate the note duration, take one second
+    // divided by the note type.
+    //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
+    int noteDuration = 1000 / noteDurations[thisNote];
+    SpeakerTreiber_PlayTone(melody[thisNote], noteDuration);
+    //tone(8, melody[thisNote], noteDuration);
+    // to distinguish the notes, set a minimum time between them.
+    // the note's duration + 30% seems to work well:
+    int pauseBetweenNotes = noteDuration * 1.30;
+    delay(pauseBetweenNotes);
+    // stop the tone playing:
+    noTone(8);
   }
 }
