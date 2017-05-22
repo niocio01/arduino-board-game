@@ -5,6 +5,8 @@
 #include "GlobalTypes.h"
 
 
+void LedTreiber_Rainbow(void);
+
 bool LedTreiber_Startup(void);
 
 /* function: LedTreiber_LedSchalten:

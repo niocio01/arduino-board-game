@@ -29,6 +29,79 @@ void LedTreiber_MapBlack(void)
   {
     pixels.setPixelColor(i, 0, 0, 0);
   }
+  pixels.show();
+}
+
+void LedTreiber_Rainbow(void)
+{
+
+  pixels.setPixelColor(50, 0, 255, 0);
+  pixels.show();
+  int farbPos = 1;
+  for (uint16_t i = 2; i < 255; i += 2)
+  {
+    for(uint8_t position = 0; position <= 62 ; position++)
+    {
+      pixels.setPixelColor(position, farbPos, 0, 0);
+      pixels.setPixelColor(position + 61, farbPos, 0, 0);
+      if (farbPos > 0)
+      {
+        farbPos --;
+      }
+    }
+    farbPos = i;
+    pixels.show();
+  }
+  farbPos = 1;
+  for (uint16_t i = 2; i < 255; i += 2)
+  {
+    for(uint8_t position = 0; position <= 62 ; position++)
+    {
+      pixels.setPixelColor(position, 255 - farbPos, farbPos, 0);
+      pixels.setPixelColor(position + 61, 255 - farbPos, farbPos, 0);
+      if (farbPos > 0)
+      {
+        farbPos --;
+      }
+    }
+    farbPos = i;
+    pixels.show();
+  }
+  farbPos = 1;
+  for (uint16_t i = 2; i < 255; i += 2)
+  {
+    for(uint8_t position = 0; position <= 62 ; position++)
+    {
+      pixels.setPixelColor(position, 0, 255 - farbPos, farbPos);
+      pixels.setPixelColor(position + 61, 0, 255 - farbPos, farbPos);
+      if (farbPos > 0)
+      {
+        farbPos --;
+      }
+    }
+    farbPos = i;
+    pixels.show();
+  }
+  farbPos = 1;
+  for (uint16_t i = 2; i < 255; i += 1)
+  {
+    for(uint8_t position = 0; position <= 62 ; position++)
+    {
+      if (farbPos > 0)
+      {
+        farbPos ++;
+      }
+      if (farbPos > 255)
+      {
+        farbPos = 255;
+      }
+      pixels.setPixelColor(position, 0, 0, 255 - farbPos);
+      pixels.setPixelColor(position + 61, 0, 0, 255 - farbPos);
+    }
+    farbPos = i;
+    pixels.show();
+  }
+
 }
 
 void LedTreiber_AllBlack(void)

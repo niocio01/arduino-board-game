@@ -9,6 +9,7 @@
 #include <Wire.h>
 #include "Treiber/SpeakerTreiber.h"
 #include "Pitches.h"
+#include "Treiber/SpielfeldLed.h"
 
 #define I2CAdress 8
 
@@ -67,7 +68,12 @@ void IRTreiber_Main(void)
         break;
 
         case PressedButton_CH:
-
+        SF_SetSpielfeldOff();
+        LedTreiber_MapBlack();
+        LedTreiber_Rainbow();
+        IRTreiber_PlayMelody();
+        delay(1000);
+        SF_SetSpielfeldOn();
         break;
 
         case PressedButton_CH_UP:
