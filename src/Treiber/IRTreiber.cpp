@@ -77,7 +77,7 @@ void IRTreiber_Main(void)
         break;
 
         case PressedButton_CH_UP:
-        IRTreiber_PlayMelody();
+        SF_SetSpielfeldOff();
         break;
 
         case PressedButton_PREV:
